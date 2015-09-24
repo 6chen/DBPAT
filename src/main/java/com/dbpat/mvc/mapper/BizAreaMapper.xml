@@ -4,9 +4,15 @@
 
     <select id="selectAllBizArea" resultType="com.dbpat.mvc.model.BizArea">
         SELECT
-          biz_area_id    AS bizAreaId,
-          biz_area_nm    AS bizAreaNm,
-          biz_area_descr AS bizAreaDescr
+            biz_area_id    AS bizAreaId,
+            biz_area_nm    AS bizAreaNm,
+            biz_area_descr AS bizAreaDescr
         FROM REP_BIZ_AREA
+        ORDER BY biz_area_nm
     </select>
+
+    <insert id="insertBizArea" parameterType="com.dbpat.mvc.model.BizArea">
+        INSERT INTO REP_BIZ_AREA VALUES (#{bizAreaId}, #{bizAreaNm}, #{bizAreaDescr})
+    </insert>
+
 </mapper>
