@@ -10,7 +10,7 @@
 <html>
 <head>
 	<title>Business Area</title>
-	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
 				<div class="panel-heading">
 					Business Name: ${bizArea.bizAreaNm}
 					<div class="pull-right">
-						<a href="/hello1/hello.action" type="button" class="btn btn-info btn-xs">Target</a>
+						<a href="#" type="button" class="btn btn-info btn-xs">Target</a>
 						<a href="#" type="button" class="btn btn-primary btn-xs">Modify</a>
 						<button type="button" class="btn btn-danger btn-xs">Delete</button>
 					</div>
@@ -41,7 +41,6 @@
 	</div>
 </c:forEach>
 
-<br/><br/><br/><br/>
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
