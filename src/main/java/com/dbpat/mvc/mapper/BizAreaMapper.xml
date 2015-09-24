@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.mvc.mapper.BizAreaMapper">
+
+    <select id="selectAllBizArea" resultType="com.dbpat.mvc.model.BizArea">
+        SELECT
+          biz_area_id    AS bizAreaId,
+          biz_area_nm    AS bizAreaNm,
+          biz_area_descr AS bizAreaDescr
+        FROM REP_BIZ_AREA
+    </select>
+</mapper>
