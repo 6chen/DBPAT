@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
 <br>
@@ -17,10 +17,10 @@
         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
                 <ul class="nav nav-pills nav-stacked">
-	                <li><a target="MainRightFrame" href="/biz_area_list.action">Business Area</a></li>
-                    <li><a target="MainRightFrame" href="/pages/HomeRightTest/Page01.jsp">Page01</a></li>
-                    <li><a target="MainRightFrame" href="/pages/HomeRightTest/Page02.jsp">Page02</a></li>
-                    <li><a target="MainRightFrame" href="/pages/HomeRightTest/Page03.jsp">Page03</a></li>
+	                <li><a href="#">Business Area</a></li>
+                    <li><a href="#">Page01</a></li>
+                    <li><a href="#">Page02</a></li>
+                    <li><a href="#">Page03</a></li>
                 </ul>
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
             <div class="panel-body">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a target="MainRightFrame" href="/bizList.action">Business Area</a></li>
+                    <li><a href="#">Business Area</a></li>
                 </ul>
             </div>
         </div>
@@ -52,8 +52,20 @@
         </div>
     </div>
 </div>
-
-<script src="/js/jquery-2.1.4.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $(function(){
+        $(".panel-body > ul > li > a").click(function(){
+	        var page = null;
+			switch ($(this).html()){
+				case "Business Area":
+					page = "biz_area_list.action";
+					break;
+			}
+            $("#RightPart").load(page);
+        });
+    });
+</script>
 </body>
 </html>
