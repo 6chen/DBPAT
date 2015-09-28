@@ -22,4 +22,12 @@ public class BizAreaService {
     public void deleteBizArea(BizArea bizArea){
         bizAreaMapper.deleteBizAreaById(bizArea);
     }
+
+    public BizArea findBizAreaById(BizArea bizArea){
+        return bizAreaMapper.selectBizAreaById(bizArea);
+    }
+
+    public void modifyBizAreaById(BizArea bizArea){
+        bizAreaMapper.updateBizAreaById(bizArea);
+    }
 }

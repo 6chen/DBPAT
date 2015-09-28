@@ -12,4 +12,8 @@ public interface BizAreaMapper {
     void insertBizArea(BizArea bizArea);
 
     void deleteBizAreaById(BizArea bizArea);
+
+    BizArea selectBizAreaById(BizArea bizArea);
+
+    void updateBizAreaById(BizArea bizArea);
 }

@@ -28,7 +28,7 @@
 					Business Name: ${bizArea.bizAreaNm}
 					<div class="pull-right">
 						<a href="#" type="button" class="btn btn-info btn-xs">Target</a>
-						<a href="#" type="button" class="btn btn-primary btn-xs">Modify</a>
+						<a href="#" type="button" class="btn btn-primary btn-xs" id ="${bizArea.bizAreaId}" onclick="findBizById(this)">Modify</a>
 						<a href="#" type="button" class="btn btn-danger btn-xs" id="${bizArea.bizAreaId}" onclick="deleteBiz(this)">Delete</a>
 					</div>
 				</div>
@@ -45,7 +45,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 						aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">New Business Area</h4>
+				<h4 class="modal-title" id="addNewModalLabel">New Business Area</h4>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
@@ -61,7 +61,37 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" id="submitNewBizArea" onclick="summitNewBiz()">Add
+				<button type="button" class="btn btn-primary" id="submitNewBizArea" onclick="addBiz()">Add
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- This modal is used for modify a business area -->
+<div class="modal fade" id="ModifyBizAreaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="modifyModalLabel">Modify Business Area</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="modifyBizAreaName">Business Name</label>
+					<input type="text" class="form-control" id="modifyBizAreaName" placeholder="Business Name"
+					       name="modifyBizAreaName" value="">
+				</div>
+				<div class="form-group">
+					<label for="modifyBizAreaDesc">Business Description</label>
+						<textarea class="form-control" rows="5" id="modifyBizAreaDesc"
+						          placeholder="Business Description" name="modifyBizAreaDesc"></textarea>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="modifyBizArea" onclick="modifyBiz(this)">Modify
 				</button>
 			</div>
 		</div>
@@ -75,17 +105,17 @@
 		$("#newBizAreaModal").modal("show");
 	}
 
-	function summitNewBiz() {
+	function addBiz() {
 		$.ajax({
 			type: 'post',
-			url: 'biz_area_add.action',
+			url: 'addBizArea.action',
 			data: 'newBizAreaName=' + $("#newBizAreaName").val() + '&newBizAreaDesc=' + $("#newBizAreaDesc").val(),
 			success: function (data) {
 				var result = $.parseJSON(data);
 				if (result.success) {
 					$("#newBizAreaModal").modal("hide");
 					$("#newBizAreaModal").on('hidden.bs.modal', function () {
-						$("#RightPart").load("biz_area_list.action");
+						$("#RightPart").load("showBizAreaLst.action");
 					});
 				}
 			}
@@ -95,17 +125,46 @@
 	function deleteBiz(e){
 		$.ajax({
 			type: 'get',
-			url: '/biz_area_delete.action?bizAreaId='+e.id,
+			url: 'deleteBizArea.action?bizAreaId='+e.id,
 			success:function(data){
 				var result = $.parseJSON(data);
 				if(result.success){
 					alert("You deleted a Business Area!");
-					$("#RightPart").load("biz_area_list.action");
+					$("#RightPart").load("showBizAreaLst.action");
 				}
 			}
 		})
 	}
 
+	function findBizById(e){
+		$.ajax({
+			type: 'get',
+			url: 'findBizAreaById.action?bizAreaId='+e.id,
+			success:function(data){
+				$("#modifyBizAreaName").attr("value", data.bizAreaNm);
+				$("#modifyBizAreaDesc").html(data.bizAreaDescr);
+				$("#modifyBizArea").attr("name", data.bizAreaId);
+				$("#ModifyBizAreaModal").modal("show");
+			}
+		})
+	}
+
+	function modifyBiz(){
+		$.ajax({
+			type: 'post',
+			url: 'modifyBizAreaById.action',
+			data: 'bizAreaId=' + $("#modifyBizArea").attr("name") +'&bizAreaNm=' + $("#modifyBizAreaName").val() + '&bizAreaDescr=' + $("#modifyBizAreaDesc").val(),
+			success: function (data) {
+				var result = $.parseJSON(data);
+				if (result.success) {
+					$("#ModifyBizAreaModal").modal("hide");
+					$("#ModifyBizAreaModal").on('hidden.bs.modal', function () {
+						$("#RightPart").load("showBizAreaLst.action");
+					});
+				}
+			}
+		})
+	}
 </script>
 
 </body>

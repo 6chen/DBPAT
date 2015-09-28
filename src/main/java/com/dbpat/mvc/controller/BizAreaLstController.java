@@ -21,7 +21,7 @@ public class BizAreaLstController {
     @Autowired
     BizArea bizArea;
 
-    @RequestMapping(value = "/biz_area_list.action", method = RequestMethod.GET)
+    @RequestMapping(value = "/showBizAreaLst.action", method = RequestMethod.GET)
     public String showBizAreaLst(ModelMap modelMap) {
 
         List<BizArea> bizAreas = bizAreaService.findAllBizArea();
@@ -29,21 +29,35 @@ public class BizAreaLstController {
         return "biz_area/biz_area_lst";
     }
 
-    @RequestMapping(value = "/biz_area_add.action", method = RequestMethod.POST)
+    @RequestMapping(value = "/addBizArea.action", method = RequestMethod.POST)
     public
     @ResponseBody
     String addBizArea(HttpServletRequest request) {
         bizArea.setBizAreaId("BIZ0002");
         bizArea.setBizAreaNm(request.getParameter("newBizAreaName"));
         bizArea.setBizAreaDescr(request.getParameter("newBizAreaDesc"));
-        System.out.println(bizArea);
         bizAreaService.addBizArea(bizArea);
         return "{\"success\":true}";
     }
 
-    @RequestMapping(value = "/biz_area_delete.action", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteBizArea.action", method = RequestMethod.GET)
     public @ResponseBody String deleteBizArea(BizArea bizArea){
         bizAreaService.deleteBizArea(bizArea);
+        return "{\"success\":true}";
+    }
+
+    @RequestMapping(value = "/findBizAreaById.action", method = RequestMethod.GET)
+    public @ResponseBody BizArea findBizAreaById(BizArea bizArea){
+
+        BizArea returnBizArea = bizAreaService.findBizAreaById(bizArea);
+
+        System.out.println(returnBizArea);
+        return returnBizArea;
+    }
+
+    @RequestMapping(value = "/modifyBizAreaById.action", method = RequestMethod.POST)
+    public @ResponseBody String modifyBizAreaById(BizArea bizArea){
+        bizAreaService.modifyBizAreaById(bizArea);
         return "{\"success\":true}";
     }
 

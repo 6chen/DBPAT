@@ -60,7 +60,7 @@
 	        var page = null;
 			switch ($(this).html()){
 				case "Business Area":
-					page = "biz_area_list.action";
+					page = "showBizAreaLst.action";
 					break;
 			}
             $("#RightPart").load(page);
