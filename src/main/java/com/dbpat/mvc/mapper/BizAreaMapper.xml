@@ -15,4 +15,7 @@
         INSERT INTO REP_BIZ_AREA VALUES (#{bizAreaId}, #{bizAreaNm}, #{bizAreaDescr})
     </insert>
 
+    <delete id="deleteBizAreaById" parameterType="com.dbpat.mvc.model.BizArea">
+        DELETE REP_BIZ_AREA WHERE BIZ_AREA_ID = #{bizAreaId}
+    </delete>
 </mapper>

@@ -29,7 +29,7 @@
 					<div class="pull-right">
 						<a href="#" type="button" class="btn btn-info btn-xs">Target</a>
 						<a href="#" type="button" class="btn btn-primary btn-xs">Modify</a>
-						<button type="button" class="btn btn-danger btn-xs">Delete</button>
+						<a href="#" type="button" class="btn btn-danger btn-xs" id="${bizArea.bizAreaId}" onclick="deleteBiz(this)">Delete</a>
 					</div>
 				</div>
 				<div class="panel-body">${bizArea.bizAreaDescr}</div>
@@ -89,8 +89,23 @@
 					});
 				}
 			}
-		});
+		})
 	}
+
+	function deleteBiz(e){
+		$.ajax({
+			type: 'get',
+			url: '/biz_area_delete.action?bizAreaId='+e.id,
+			success:function(data){
+				var result = $.parseJSON(data);
+				if(result.success){
+					alert("You deleted a Business Area!");
+					$("#RightPart").load("biz_area_list.action");
+				}
+			}
+		})
+	}
+
 </script>
 
 </body>

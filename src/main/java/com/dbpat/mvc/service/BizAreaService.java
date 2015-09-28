@@ -18,4 +18,8 @@ public class BizAreaService {
     }
 
     public void addBizArea(BizArea bizArea){bizAreaMapper.insertBizArea(bizArea);}
+
+    public void deleteBizArea(BizArea bizArea){
+        bizAreaMapper.deleteBizAreaById(bizArea);
+    }
 }

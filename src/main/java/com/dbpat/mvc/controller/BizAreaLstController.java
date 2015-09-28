@@ -41,4 +41,10 @@ public class BizAreaLstController {
         return "{\"success\":true}";
     }
 
+    @RequestMapping(value = "/biz_area_delete.action", method = RequestMethod.GET)
+    public @ResponseBody String deleteBizArea(BizArea bizArea){
+        bizAreaService.deleteBizArea(bizArea);
+        return "{\"success\":true}";
+    }
+
 }

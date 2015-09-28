@@ -10,4 +10,6 @@ public interface BizAreaMapper {
     List<BizArea> selectAllBizArea();
 
     void insertBizArea(BizArea bizArea);
+
+    void deleteBizAreaById(BizArea bizArea);
 }
