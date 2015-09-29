@@ -123,17 +123,21 @@
 	}
 
 	function deleteBiz(e){
-		$.ajax({
-			type: 'get',
-			url: 'deleteBizArea.action?bizAreaId='+e.id,
-			success:function(data){
-				var result = $.parseJSON(data);
-				if(result.success){
-					alert("You deleted a Business Area!");
-					$("#RightPart").load("showBizAreaLst.action");
-				}
-			}
-		})
+//		$.ajax({
+//			type: 'get',
+//			url: 'deleteBizArea.action?bizAreaId='+e.id,
+//			success:function(data){
+//				var result = $.parseJSON(data);
+//				if(result.success){
+//					alert("You deleted a Business Area!");
+//					$("#RightPart").load("showBizAreaLst.action");
+//				}
+//			}
+//		})
+		$("#RightPart").load("deleteBizArea.action",{"bizAreaId":e.id},function(){
+			alert("You deleted a Business Area!");
+		});
+
 	}
 
 	function findBizById(e){

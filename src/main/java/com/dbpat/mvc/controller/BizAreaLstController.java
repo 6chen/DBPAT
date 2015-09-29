@@ -5,6 +5,7 @@ import com.dbpat.mvc.service.BizAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,10 +41,10 @@ public class BizAreaLstController {
         return "{\"success\":true}";
     }
 
-    @RequestMapping(value = "/deleteBizArea.action", method = RequestMethod.GET)
-    public @ResponseBody String deleteBizArea(BizArea bizArea){
+    @RequestMapping(value = "/deleteBizArea.action", method = RequestMethod.POST)
+    public String deleteBizArea(BizArea bizArea){
         bizAreaService.deleteBizArea(bizArea);
-        return "{\"success\":true}";
+        return "redirect:showBizAreaLst.action";
     }
 
     @RequestMapping(value = "/findBizAreaById.action", method = RequestMethod.GET)
