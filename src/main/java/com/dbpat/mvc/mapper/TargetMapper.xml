@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.mvc.mapper.TargetMapper">
+
+    <insert id="insertTarget" parameterType="hashmap">
+        INSERT INTO TRGT (biz_area_id, trgt_id, trgt_nm, trgt_typ, ip, prt, usr_id, pw, serv, schm, dbms_typ_id) VALUES
+            (#{bizAreaId}, 'TRGT0005', #{trgtNm}, #{trgtTyp},#{ip}, #{prt}, #{usrId}, #{pw},#{serv}, #{schm},#{dbmsTypId})
+    </insert>
+</mapper>

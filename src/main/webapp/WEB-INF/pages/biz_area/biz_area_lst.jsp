@@ -27,7 +27,7 @@
 				<div class="panel-heading">
 					Business Name: ${bizArea.bizAreaNm}
 					<div class="pull-right">
-						<a href="#" type="button" class="btn btn-info btn-xs">Target</a>
+						<a href="#" type="button" class="btn btn-info btn-xs" id ="${bizArea.bizAreaId}" onclick="toTargetLst(this)">Target</a>
 						<a href="#" type="button" class="btn btn-primary btn-xs" id ="${bizArea.bizAreaId}" onclick="findBizById(this)">Modify</a>
 						<a href="#" type="button" class="btn btn-danger btn-xs" id="${bizArea.bizAreaId}" onclick="deleteBiz(this)">Delete</a>
 					</div>
@@ -168,6 +168,10 @@
 				}
 			}
 		})
+	}
+
+	function toTargetLst(e){
+		$("#RightPart").load("showTargetLst.action?bizAreaId="+e.id);
 	}
 </script>
 

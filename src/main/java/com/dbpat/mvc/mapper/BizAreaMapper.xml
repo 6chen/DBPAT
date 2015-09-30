@@ -7,27 +7,27 @@
             biz_area_id    AS bizAreaId,
             biz_area_nm    AS bizAreaNm,
             biz_area_descr AS bizAreaDescr
-        FROM REP_BIZ_AREA
-        ORDER BY biz_area_nm
+        FROM BIZ_AREA
+        ORDER BY biz_area_id DESC
     </select>
     <select id="selectBizAreaById" parameterType="com.dbpat.mvc.model.BizArea" resultType="com.dbpat.mvc.model.BizArea">
         SELECT
             biz_area_id    AS bizAreaId,
             biz_area_nm    AS bizAreaNm,
             biz_area_descr AS bizAreaDescr
-        FROM REP_BIZ_AREA
+        FROM BIZ_AREA
         WHERE biz_area_id = #{bizAreaId}
     </select>
 
     <insert id="insertBizArea" parameterType="com.dbpat.mvc.model.BizArea">
-        INSERT INTO REP_BIZ_AREA VALUES (#{bizAreaId}, #{bizAreaNm}, #{bizAreaDescr})
+        INSERT INTO BIZ_AREA VALUES ('BIZ'||LPAD(BIZ_AREA_SEQ.nextval, 4, '0'), #{bizAreaNm}, #{bizAreaDescr})
     </insert>
 
     <delete id="deleteBizAreaById" parameterType="com.dbpat.mvc.model.BizArea">
-        DELETE REP_BIZ_AREA WHERE BIZ_AREA_ID = #{bizAreaId}
+        DELETE BIZ_AREA WHERE BIZ_AREA_ID = #{bizAreaId}
     </delete>
 
     <update id="updateBizAreaById" parameterType="com.dbpat.mvc.model.BizArea">
-        UPDATE REP_BIZ_AREA SET BIZ_AREA_NM = #{bizAreaNm}, BIZ_AREA_DESCR = #{bizAreaDescr}  WHERE BIZ_AREA_ID = #{bizAreaId}
+        UPDATE BIZ_AREA SET BIZ_AREA_NM = #{bizAreaNm}, BIZ_AREA_DESCR = #{bizAreaDescr}  WHERE BIZ_AREA_ID = #{bizAreaId}
     </update>
 </mapper>

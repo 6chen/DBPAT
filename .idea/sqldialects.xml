@@ -2,6 +2,10 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/BizAreaMapper.xml" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/BizTargetDBMSMapper.xml" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/DbmsTypeMapper.xml" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/TargetMapper.xml" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/TargetVoMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/resources/RepositoryInitial/RepositoryCreation.sql" dialect="Oracle" />
   </component>
 </project>
