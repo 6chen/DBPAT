@@ -27,4 +27,13 @@ public class TargetService {
     public void insertTarget(Map<String, Object> prmtMap){
         targetMapper.insertTarget(prmtMap);
     }
+
+    public void removeTarget(Map<String, Object> prmtMap){
+        targetMapper.deleteTarget(prmtMap);
+    }
+
+    public TargetVo findTargeVoByBizTrgtId(Map<String, Object> prmtMap){
+        return targetVoMapper.selectTargetVoById(prmtMap);
+    }
+
 }

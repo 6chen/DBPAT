@@ -72,8 +72,8 @@ public class TargetLstController {
         return "biz_area/target_lst";
     }
 
-    @RequestMapping(value = "/addDbmsTarget.action", method = RequestMethod.POST)
-    public @ResponseBody String addDbmsTarget(String bizAreaId, Target target, String dbmsTypId){
+    @RequestMapping(value = "/addDbTarget.action", method = RequestMethod.POST)
+    public @ResponseBody String addDbTarget(String bizAreaId, Target target, String dbmsTypId){
         Map<String, Object> prmtMap = new HashMap<String, Object>();
         prmtMap.put("bizAreaId", bizAreaId);
         prmtMap.put("trgtNm", target.getTrgtNm());
@@ -89,4 +89,24 @@ public class TargetLstController {
 
         return "{\"success\":true,\"bizAreaId\":\"" + bizAreaId + "\"}";
     }
+
+    @RequestMapping(value = "/removeDbTarget.action", method = RequestMethod.POST)
+    public @ResponseBody String removeDbTarget(String bizAreaId, String trgtId){
+        Map<String, Object> prmtMap = new HashMap<String, Object>();
+        prmtMap.put("bizAreaId", bizAreaId);
+        prmtMap.put("trgtId", trgtId);
+        targetService.removeTarget(prmtMap);
+
+        return "{\"success\":true,\"bizAreaId\":\"" + bizAreaId + "\"}";
+    }
+
+    @RequestMapping(value = "/findTargetById.action", method = RequestMethod.POST)
+    public @ResponseBody Target findTargetById(String bizAreaId, String trgtId){
+        Map<String, Object> prmtMap = new HashMap<String, Object>();
+        prmtMap.put("bizAreaId", bizAreaId);
+        prmtMap.put("trgtId", trgtId);
+        TargetVo target = targetService.findTargeVoByBizTrgtId(prmtMap);
+        return target;
+    }
+
 }

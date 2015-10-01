@@ -4,6 +4,12 @@
 
     <insert id="insertTarget" parameterType="hashmap">
         INSERT INTO TRGT (biz_area_id, trgt_id, trgt_nm, trgt_typ, ip, prt, usr_id, pw, serv, schm, dbms_typ_id) VALUES
-            (#{bizAreaId}, 'TRGT0005', #{trgtNm}, #{trgtTyp},#{ip}, #{prt}, #{usrId}, #{pw},#{serv}, #{schm},#{dbmsTypId})
+            (#{bizAreaId}, 'TRGT'||LPAD(TARGET_SEQ.nextval, 4, '0'), #{trgtNm}, #{trgtTyp},#{ip}, #{prt}, #{usrId}, #{pw},#{serv}, #{schm},#{dbmsTypId})
     </insert>
+    <update id="updateTarget">
+
+    </update>
+    <delete id="deleteTarget" parameterType="hashmap">
+        DELETE TRGT WHERE biz_area_id = #{bizAreaId} AND trgt_id = #{trgtId}
+    </delete>
 </mapper>

@@ -9,14 +9,17 @@
 
 <div class="container-fluid">
 	<!--page head-->
-	<h1>Business Area
+	<h2><b>Business Area</b>
 		<button id="addBizAreaShow" type="button" class="btn btn-default pull-right" data-toggle="modal"
 		        onclick="showNewBizAreaModal()">
-			Add New
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 		</button>
-	</h1>
+	</h2>
+	<ul class="breadcrumb">
+		<li class="active"><a href="home.action">Home</a></li>
+		<li class="active">Business Area</li>
+	</ul>
 </div>
-<hr/>
 
 <c:forEach varStatus="i" var="bizArea" items="${bizAreas}">
 	<div class="container-fluid">
@@ -26,10 +29,16 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Business Name: ${bizArea.bizAreaNm}
-					<div class="pull-right">
-						<a href="#" type="button" class="btn btn-info btn-xs" id ="${bizArea.bizAreaId}" onclick="toTargetLst(this)">Target</a>
-						<a href="#" type="button" class="btn btn-primary btn-xs" id ="${bizArea.bizAreaId}" onclick="findBizById(this)">Modify</a>
-						<a href="#" type="button" class="btn btn-danger btn-xs" id="${bizArea.bizAreaId}" onclick="deleteBiz(this)">Delete</a>
+					<div class="btn-group pull-right">
+						<a href="#" type="button" class="btn btn-info btn-sm" id ="${bizArea.bizAreaId}" onclick="toTargetLst(this)">
+							<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
+						</a>
+						<a href="#" type="button" class="btn btn-primary btn-sm" id ="${bizArea.bizAreaId}" onclick="findBizById(this)">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						</a>
+						<a href="#" type="button" class="btn btn-danger btn-sm" id="${bizArea.bizAreaId}" onclick="deleteBiz(this)">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</a>
 					</div>
 				</div>
 				<div class="panel-body">${bizArea.bizAreaDescr}</div>

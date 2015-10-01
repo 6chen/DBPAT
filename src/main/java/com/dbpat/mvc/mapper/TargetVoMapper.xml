@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dbpat.mvc.mapper.TargetVoMapper">
+    <resultMap id="TargetVoResult" type="com.dbpat.mvc.model.TargetVo" autoMapping="true">
+        <id column="trgtId" property="trgtId"></id>
+        <association property="bizArea" javaType="com.dbpat.mvc.model.BizArea" autoMapping="true">
+        </association>
+        <association property="dbmsType" javaType="com.dbpat.mvc.model.DbmsType" autoMapping="true">
+        </association>
+    </resultMap>
+
     <select id="selectAllTrgtVo" parameterType="com.dbpat.mvc.model.BizArea" resultMap="TargetVoResult">
         SELECT
             X.BIZ_AREA_ID    AS bizAreaId,
@@ -26,29 +34,32 @@
               AND X.BIZ_AREA_ID = #{bizAreaId}
     </select>
 
-    <resultMap id="TargetVoResult" type="com.dbpat.mvc.model.TargetVo" autoMapping="true">
-        <id column="trgtId" property="trgtId"></id>
-        <!--<result property="trgtId" column="trgtId"></result>-->
-        <!--<result property="trgtNm" column="trgtNm"></result>-->
-        <!--<result property="trgtTyp" column="trgtTyp"></result>-->
-        <!--<result property="ip" column="ip"></result>-->
-        <!--<result property="prt" column="prt"></result>-->
-        <!--<result property="usrId" column="usrId"></result>-->
-        <!--<result property="pw" column="pw"></result>-->
-        <!--<result property="serv" column="serv"></result>-->
-        <!--<result property="schm" column="schm"></result>-->
-        <!--<result property="path" column="path"></result>-->
-        <!--<result property="clctCycl" column="clctCycl"></result>-->
-        <association property="bizArea" javaType="com.dbpat.mvc.model.BizArea" autoMapping="true">
-            <!--<result property="bizAreaId" column="bizAreaId"></result>-->
-            <!--<result property="bizAreaNm" column="bizAreaNm"></result>-->
-            <!--<result property="bizAreaDescr" column="bizAreaDescr"></result>-->
-        </association>
-        <association property="dbmsType" javaType="com.dbpat.mvc.model.DbmsType" autoMapping="true">
-            <!--<result property="dbmsTypId" column="dbmsTypId"></result>-->
-            <!--<result property="dbmsTypNm" column="dbmsTypNm"></result>-->
-            <!--<result property="dbmsVer" column="dbmsVer"></result>-->
-        </association>
-    </resultMap>
+    <select id="selectTargetVoById" parameterType="hashmap" resultMap="TargetVoResult">
+        SELECT
+            X.BIZ_AREA_ID    AS bizAreaId,
+            X.BIZ_AREA_NM    AS bizAreaNm,
+            X.BIZ_AREA_DESCR AS bizAreaDescr,
+            Y.TRGT_ID        AS trgtId,
+            Y.TRGT_NM        AS trgtNm,
+            Y.TRGT_TYP       AS trgtTyp,
+            Y.IP             AS ip,
+            Y.PRT            AS prt,
+            Y.USR_ID         AS usrId,
+            Y.PW             AS pw,
+            Y.SERV           AS serv,
+            Y.SCHM           AS schm,
+            Y.PTH            AS path,
+            Y.CLCT_CYCL      AS clctCycl,
+            Z.DBMS_TYP_ID    AS dbmsTypId,
+            Z.DBMS_TYP_NM    AS dbmsTypNm,
+            Z.DBMS_VER       AS dbmsVer
+        FROM BIZ_AREA X, TRGT Y, DBMS_TYP Z
+        WHERE X.BIZ_AREA_ID = Y.BIZ_AREA_ID
+              AND Y.DBMS_TYP_ID = Z.DBMS_TYP_ID
+              AND X.BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+    </select>
+
+
 
 </mapper>

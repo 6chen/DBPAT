@@ -19,12 +19,12 @@
 <body>
 <div class="container-fluid">
 	<!--page head-->
-	<h1>Target</h1>
-	<hr/>
-	<div class="well well-sm">
-		Business Area : <span id="bizAreaId"
-		                      class="label label-default" name="${bizArea.bizAreaId}"> ${bizArea.bizAreaNm}</span> ${bizArea.bizAreaDescr}
-	</div>
+	<h2><b>Target</b></h2>
+	<ul class="breadcrumb">
+		<li class="active"><a href="home.action">Home</a></li>
+		<li><a href="#" onclick="goBackToBiz()">Business Area</a></li>
+		<li class="active"><span id="bizAreaId" name="${bizArea.bizAreaId}"> ${bizArea.bizAreaNm}</span></li>
+	</ul>
 </div>
 
 
@@ -59,7 +59,7 @@
 					</thead>
 					<tbody>
 					<c:forEach varStatus="i" var="dbmsTargetVo" items="${dbmsTargetVos}">
-						<tr>
+						<tr name="${dbmsTargetVo.trgtId}">
 							<td>${i.index+1}</td>
 							<td>${dbmsTargetVo.trgtNm}</td>
 							<td>${dbmsTargetVo.trgtTyp}</td>
@@ -70,15 +70,25 @@
 							<td>${dbmsTargetVo.serv}</td>
 							<td>${dbmsTargetVo.schm}</td>
 							<td>${dbmsTargetVo.dbmsType.dbmsTypNm} ${dbmsTargetVo.dbmsType.dbmsVer}</td>
+							<td>
+								<div class="btn-group">
+									<button type='button' class='btn btn-primary btn-xs' name="${dbmsTargetVo.trgtId}"
+									        onclick="modifyDbTarget(this)">
+										Mdf
+									</button>
+									<button type='button' class='btn btn-danger btn-xs' name="${dbmsTargetVo.trgtId}"
+									        onclick="removeDbTarget(this)">
+										Del
+									</button>
+								</div>
+							</td>
 						</tr>
+
 					</c:forEach>
 					</tbody>
 				</table>
 				<c:if test="${dbmsTargetVos.size() == 0}">
-					<div class="alert alert-dismissible alert-warning">
-						<button type="button" class="close" data-dismiss="alert">×</button>
-						<p class="text-center"> Not Found </p>
-					</div>
+					<p class="text-center"> Not Found </p>
 				</c:if>
 			</div>
 		</div>
@@ -157,7 +167,8 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" onclick="addDbmsTarget()">Add</button>
+				<button type="button" class="btn btn-primary" onclick="addDbTarget()" id="dbTrgtModifySummit">Summit
+				</button>
 			</div>
 		</div>
 	</div>
@@ -205,10 +216,7 @@
 					</tbody>
 				</table>
 				<c:if test="${wasTargetVos.size() == 0}">
-					<div class="alert alert-dismissible alert-warning">
-						<button type="button" class="close" data-dismiss="alert">×</button>
-						<p class="text-center"> Not Found </p>
-					</div>
+					<p class="text-center"> Not Found </p>
 				</c:if>
 			</div>
 		</div>
@@ -322,10 +330,7 @@
 					</tbody>
 				</table>
 				<c:if test="${srcFIleTargetVos.size() == 0}">
-					<div class="alert alert-dismissible alert-warning">
-						<button type="button" class="close" data-dismiss="alert">×</button>
-						<p class="text-center"> Not Found </p>
-					</div>
+					<p class="text-center"> Not Found </p>
 				</c:if>
 			</div>
 		</div>
@@ -334,6 +339,11 @@
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script>
+	$(function () {
+		$("#dbTargetTab tbody tr td:last-child").hide()
+	})
+
+
 	function addDBTargetModal() {
 		$("#dbTargetModal").modal("show");
 	}
@@ -341,23 +351,24 @@
 		$("#wasTargetModal").modal("show");
 	}
 	function editDBTarget() {
-		var editTr = "<td><button type='button' class='btn btn-primary btn-xs'>Mdf</button> <button type='button' class='btn btn-danger btn-xs'>Del</button></td>"
-		$("#dbTargetTab > tbody > tr").append(editTr);
+		$("#dbTargetTab tbody tr td:last-child").toggle(100);
 	}
-	function addDbmsTarget() {
+	function addDbTarget() {
 		$.ajax({
 			type: 'post',
-			url: '/addDbmsTarget.action',
-			data: { bizAreaId : $("#bizAreaId").attr("name"),
-					trgtNm : $("#dbTargetName").val(),
-					trgtTyp : $("#dbTargetType").val(),
-					ip : $("#dbTargetIP").val(),
-					prt : $("#dbTargetPt").val(),
-					usrId : $("#dbUserNm").val(),
-					pw : $("#dbPw").val(),
-					serv : $("#dbSID").val(),
-					schm : $("#dbSchemaNm").val(),
-					dbmsTypId : $("#dbmsType").val()},
+			url: '/addDbTarget.action',
+			data: {
+				bizAreaId: $("#bizAreaId").attr("name"),
+				trgtNm: $("#dbTargetName").val(),
+				trgtTyp: $("#dbTargetType").val(),
+				ip: $("#dbTargetIP").val(),
+				prt: $("#dbTargetPt").val(),
+				usrId: $("#dbUserNm").val(),
+				pw: $("#dbPw").val(),
+				serv: $("#dbSID").val(),
+				schm: $("#dbSchemaNm").val(),
+				dbmsTypId: $("#dbmsType").val()
+			},
 			success: function (data) {
 				var result = $.parseJSON(data);
 				if (result.success) {
@@ -366,6 +377,48 @@
 						$("#RightPart").load("showTargetLst.action?bizAreaId=" + result.bizAreaId);
 					});
 				}
+			}
+		})
+	}
+	function removeDbTarget(e) {
+		$.ajax({
+			type: 'post',
+			url: '/removeDbTarget.action',
+			data: {
+				bizAreaId: $("#bizAreaId").attr("name"),
+				trgtId: e.name
+			},
+			success: function (data) {
+				var result = $.parseJSON(data);
+				if (result.success) {
+					$("#RightPart").load("showTargetLst.action?bizAreaId=" + result.bizAreaId);
+				}
+			}
+		})
+	}
+	function goBackToBiz() {
+		$("#RightPart").load("showBizAreaLst.action");
+	}
+	function modifyDbTarget(e) {
+		$.ajax({
+			type: 'post',
+			url: '/findTargetById.action',
+			data: {
+				bizAreaId: $("#bizAreaId").attr("name"),
+				trgtId: e.name
+			},
+			success: function (data) {
+				$("#dbTrgtModifySummit").attr("name", data.trgtId);
+				$("#dbTargetName").attr("value", data.trgtNm);
+				$("#dbTargetType").attr("value", data.trgtTyp);
+				$("#dbTargetIP").attr("value", data.ip);
+				$("#dbTargetPt").attr("value", data.prt);
+				$("#dbUserNm").attr("value", data.usrId);
+				$("#dbPw").attr("value", data.pw);
+				$("#dbSID").attr("value", data.serv);
+				$("#dbSchemaNm").attr("value", data.schm);
+				$("#dbmsType").val(data.dbmsType.dbmsTypId);
+				$("#dbTargetModal").modal("show");
 			}
 		})
 	}
