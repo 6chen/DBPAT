@@ -73,7 +73,7 @@
 							<td>
 								<div class="btn-group">
 									<button type='button' class='btn btn-primary btn-xs' name="${dbmsTargetVo.trgtId}"
-									        onclick="modifyDbTarget(this)">
+									        onclick="selectDbTargetForModify(this)">
 										Mdf
 									</button>
 									<button type='button' class='btn btn-danger btn-xs' name="${dbmsTargetVo.trgtId}"
@@ -167,7 +167,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" onclick="addDbTarget()" id="dbTrgtModifySummit">Summit
+				<button type="button" class="btn btn-primary" onclick="addDbTarget()" id="dbTrgtSummit">Summit
 				</button>
 			</div>
 		</div>
@@ -345,6 +345,7 @@
 
 
 	function addDBTargetModal() {
+		$("#dbTrgtSummit").attr("onclick","addDbTarget()");
 		$("#dbTargetModal").modal("show");
 	}
 	function addWASTargetModal() {
@@ -399,7 +400,7 @@
 	function goBackToBiz() {
 		$("#RightPart").load("showBizAreaLst.action");
 	}
-	function modifyDbTarget(e) {
+	function selectDbTargetForModify(e) {
 		$.ajax({
 			type: 'post',
 			url: '/findTargetById.action',
@@ -408,7 +409,7 @@
 				trgtId: e.name
 			},
 			success: function (data) {
-				$("#dbTrgtModifySummit").attr("name", data.trgtId);
+				$("#dbTrgtSummit").attr("name", data.trgtId);
 				$("#dbTargetName").attr("value", data.trgtNm);
 				$("#dbTargetType").attr("value", data.trgtTyp);
 				$("#dbTargetIP").attr("value", data.ip);
@@ -418,7 +419,38 @@
 				$("#dbSID").attr("value", data.serv);
 				$("#dbSchemaNm").attr("value", data.schm);
 				$("#dbmsType").val(data.dbmsType.dbmsTypId);
+
+				$("#dbTrgtSummit").attr("onclick","modifyDbTarget()");
+
 				$("#dbTargetModal").modal("show");
+			}
+		})
+	}
+	function modifyDbTarget(){
+		$.ajax({
+			type: 'post',
+			url: '/modifyTargetById.action',
+			data: {
+				bizAreaId: $("#bizAreaId").attr("name"),
+				trgtId: $("#dbTrgtSummit").attr("name"),
+				trgtNm: $("#dbTargetName").val(),
+				trgtTyp: $("#dbTargetType").val(),
+				ip: $("#dbTargetIP").val(),
+				prt: $("#dbTargetPt").val(),
+				usrId: $("#dbUserNm").val(),
+				pw: $("#dbPw").val(),
+				serv: $("#dbSID").val(),
+				schm: $("#dbSchemaNm").val(),
+				dbmsTypId: $("#dbmsType").val()
+			},
+			success: function (data) {
+				var result = $.parseJSON(data);
+				if (result.success) {
+					$("#dbTargetModal").modal("hide");
+					$("#dbTargetModal").on('hidden.bs.modal', function () {
+						$("#RightPart").load("showTargetLst.action?bizAreaId=" + result.bizAreaId);
+					});
+				}
 			}
 		})
 	}

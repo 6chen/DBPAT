@@ -109,4 +109,23 @@ public class TargetLstController {
         return target;
     }
 
+    @RequestMapping(value = "/modifyTargetById.action", method = RequestMethod.POST)
+    public @ResponseBody String modifyTargetById(String bizAreaId, Target target, String dbmsTypId){
+        Map<String, Object> prmtMap = new HashMap<String, Object>();
+        prmtMap.put("bizAreaId", bizAreaId);prmtMap.put("bizAreaId", bizAreaId);
+        prmtMap.put("trgtId", target.getTrgtId());
+        prmtMap.put("trgtNm", target.getTrgtNm());
+        prmtMap.put("trgtTyp", target.getTrgtTyp());
+        prmtMap.put("ip", target.getIp());
+        prmtMap.put("prt", target.getPrt());
+        prmtMap.put("usrId", target.getUsrId());
+        prmtMap.put("pw", target.getPw());
+        prmtMap.put("serv", target.getServ());
+        prmtMap.put("schm", target.getSchm());
+        prmtMap.put("dbmsTypId", dbmsTypId);
+        targetService.modifyTarget(prmtMap);
+
+        return "{\"success\":true,\"bizAreaId\":\"" + bizAreaId + "\"}";
+    }
+
 }

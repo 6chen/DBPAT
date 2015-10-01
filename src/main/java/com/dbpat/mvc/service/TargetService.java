@@ -36,4 +36,8 @@ public class TargetService {
         return targetVoMapper.selectTargetVoById(prmtMap);
     }
 
+    public void modifyTarget(Map<String, Object> prmtMap){
+        targetMapper.updateTarget(prmtMap);
+    }
+
 }
