@@ -27,7 +27,6 @@
 	</ul>
 </div>
 
-
 <%--DBMS Target--%>
 <div class="container-fluid">
 	<!-- Panel Group -->
@@ -36,9 +35,13 @@
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				DBMS Target
-				<div class="pull-right">
-					<a href="#" type="button" class="btn btn-default btn-xs" onclick="addDBTargetModal()">Add</a>
-					<a href="#" type="button" class="btn btn-danger btn-xs" onclick="editDBTarget()">Edit</a>
+				<div class="btn-group btn-group-sm pull-right" role="group">
+					<a href="#" type="button" class="btn btn-default" onclick="addDBTargetModal()">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					</a>
+					<a href="#" type="button" class="btn btn-default" onclick="editDBTarget()">
+						<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+					</a>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -71,14 +74,14 @@
 							<td>${dbmsTargetVo.schm}</td>
 							<td>${dbmsTargetVo.dbmsType.dbmsTypNm} ${dbmsTargetVo.dbmsType.dbmsVer}</td>
 							<td>
-								<div class="btn-group">
-									<button type='button' class='btn btn-primary btn-xs' name="${dbmsTargetVo.trgtId}"
+								<div class="btn-group btn-group-sm">
+									<button type='button' class='btn btn-info' name="${dbmsTargetVo.trgtId}"
 									        onclick="selectDbTargetForModify(this)">
-										Mdf
+										<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 									</button>
-									<button type='button' class='btn btn-danger btn-xs' name="${dbmsTargetVo.trgtId}"
+									<button type='button' class='btn btn-danger' name="${dbmsTargetVo.trgtId}"
 									        onclick="removeDbTarget(this)">
-										Del
+										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 									</button>
 								</div>
 							</td>
@@ -183,9 +186,13 @@
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				WAS Target
-				<div class="pull-right">
-					<a href="#" type="button" class="btn btn-default btn-xs" onclick="addWASTargetModal()">Add</a>
-					<a href="#" type="button" class="btn btn-danger btn-xs">Edit</a>
+				<div class="btn-group btn-group-sm pull-right" role="group">
+					<a href="#" type="button" class="btn btn-default" onclick="addWASTargetModal()">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"> </span>
+					</a>
+					<a href="#" type="button" class="btn btn-default">
+						<span class="glyphicon glyphicon-cog" aria-hidden="true"> </span>
+					</a>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -299,9 +306,13 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				Source File Target
-				<div class="pull-right">
-					<a href="#" type="button" class="btn btn-default btn-xs">Add</a>
-					<a href="#" type="button" class="btn btn-danger btn-xs">Edit</a>
+				<div class="btn-group btn-group-sm pull-right">
+					<a href="#" type="button" class="btn btn-default">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					</a>
+					<a href="#" type="button" class="btn btn-default">
+						<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+					</a>
 				</div>
 			</div>
 			<div class="panel-body">

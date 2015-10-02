@@ -29,14 +29,14 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Business Name: ${bizArea.bizAreaNm}
-					<div class="btn-group pull-right">
-						<a href="#" type="button" class="btn btn-info btn-sm" id ="${bizArea.bizAreaId}" onclick="toTargetLst(this)">
+					<div class="btn-group btn-group-sm pull-right" role="group">
+						<a href="#" type="button" class="btn btn-success" id ="${bizArea.bizAreaId}" onclick="toTargetLst(this)">
 							<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 						</a>
-						<a href="#" type="button" class="btn btn-primary btn-sm" id ="${bizArea.bizAreaId}" onclick="findBizById(this)">
+						<a href="#" type="button" class="btn btn-info" id ="${bizArea.bizAreaId}" onclick="findBizById(this)">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 						</a>
-						<a href="#" type="button" class="btn btn-danger btn-sm" id="${bizArea.bizAreaId}" onclick="deleteBiz(this)">
+						<a href="#" type="button" class="btn btn-danger" id="${bizArea.bizAreaId}" onclick="deleteBiz(this)">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						</a>
 					</div>
