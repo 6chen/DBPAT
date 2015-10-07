@@ -31,6 +31,16 @@
         <url-pattern>*.png</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.gif</url-pattern>
+    </servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.eot</url-pattern>
@@ -55,6 +65,13 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.woff2</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.less</url-pattern>
+    </servlet-mapping>
+
+
 
 
 	<!-- ContextLoaderListener -->

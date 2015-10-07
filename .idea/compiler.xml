@@ -25,7 +25,7 @@
         <module name="DBPAT" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="DBPAT" target="1.6" />
     </bytecodeTargetLevel>
   </component>
