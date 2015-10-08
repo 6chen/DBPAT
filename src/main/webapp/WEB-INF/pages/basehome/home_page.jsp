@@ -37,11 +37,11 @@
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-green sidebar-mini">
 <div class="wrapper">
 	<header class="main-header">
 		<!-- Logo -->
-		<a href="index2.html" class="logo">
+		<a href="home.action" class="logo">
 			<!-- mini logo for sidebar mini 50x50 pixels -->
 			<span class="logo-mini"><b>DBEC</b></span>
 			<!-- logo for regular state and mobile devices -->
@@ -88,7 +88,7 @@
 				<li class="header">DEFINITION</li>
 				<!-- Optionally, you can add icons to the links -->
 				<%--<li class="active"><a href="#"><span>Link</span></a><</li>--%>
-				<li><a href="#">Business Area</a></li>
+				<li><a href="#"><span>Business Area</span></a></li>
 				<li class="treeview">
 					<a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
@@ -96,7 +96,14 @@
 						<li><a href="#">Link in level 2</a></li>
 					</ul>
 				</li>
-				<li class="header">HEADER2</li>
+				<li class="header">JOB MANAGEMENT</li>
+				<li class="treeview">
+					<a href="#"><span>Collection Job</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<li><a href="#">Schema Collection</a></li>
+						<li><a href="#">SQL Collection</a></li>
+					</ul>
+				</li>
 			</ul>
 			<!-- /.sidebar-menu -->
 
@@ -119,7 +126,7 @@
 	$(function () {
 		$("#RightPart").load("home_right_main.action");
 
-		$(".sidebar-menu > li > a").click(function(){
+		$(".sidebar-menu > li > a > span").click(function(){
 			var page = null;
 			switch ($(this).html()){
 				case "Business Area":
