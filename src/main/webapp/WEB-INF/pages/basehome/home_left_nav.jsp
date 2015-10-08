@@ -18,7 +18,6 @@
             <div class="panel-body">
                 <ul class="nav nav-pills nav-stacked">
 	                <li><a href="#">Business Area</a></li>
-                    <li><a href="#">Auditing Rule</a></li>
                     <li><a href="#">Auditing Rule Set</a></li>
                     <li><a href="#">Auditing Index</a></li>
                 </ul>
@@ -28,13 +27,15 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="button" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
             <h4 class="panel-title">
-                Reporting
+                JobManagement
             </h4>
         </div>
         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
             <div class="panel-body">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Schema Collection</a></li>
+                    <li><a href="#">SQL Collection</a></li>
+                    <li><a href="#">Inspection</a></li>
                 </ul>
             </div>
         </div>
@@ -62,6 +63,9 @@
 				case "Business Area":
 					page = "showBizAreaLst.action";
 					break;
+                case "Schema Collection":
+                    page = "showSchemaLst.action";
+                    break;
 			}
             $("#RightPart").load(page);
         });
