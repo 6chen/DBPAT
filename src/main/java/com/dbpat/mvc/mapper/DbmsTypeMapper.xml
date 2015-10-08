@@ -5,7 +5,8 @@
         SELECT
             DBMS_TYP_ID AS dbmsTypId,
             DBMS_TYP_NM AS dbmsTypNm,
-            DBMS_VER AS dbmsVer
+            DBMS_VER AS dbmsVer,
+            DBMS_DRV AS dbmsDrv
         FROM DBMS_TYP
     </select>
 </mapper>

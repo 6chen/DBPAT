@@ -27,7 +27,8 @@
             Y.CLCT_CYCL      AS clctCycl,
             Z.DBMS_TYP_ID    AS dbmsTypId,
             Z.DBMS_TYP_NM    AS dbmsTypNm,
-            Z.DBMS_VER       AS dbmsVer
+            Z.DBMS_VER       AS dbmsVer,
+            Z.DBMS_DRV       AS dbmsDrv
         FROM BIZ_AREA X, TRGT Y, DBMS_TYP Z
         WHERE X.BIZ_AREA_ID = Y.BIZ_AREA_ID
               AND Y.DBMS_TYP_ID = Z.DBMS_TYP_ID
@@ -52,14 +53,12 @@
             Y.CLCT_CYCL      AS clctCycl,
             Z.DBMS_TYP_ID    AS dbmsTypId,
             Z.DBMS_TYP_NM    AS dbmsTypNm,
-            Z.DBMS_VER       AS dbmsVer
+            Z.DBMS_VER       AS dbmsVer,
+            Z.DBMS_DRV       AS dbmsDrv
         FROM BIZ_AREA X, TRGT Y, DBMS_TYP Z
         WHERE X.BIZ_AREA_ID = Y.BIZ_AREA_ID
               AND Y.DBMS_TYP_ID = Z.DBMS_TYP_ID
               AND X.BIZ_AREA_ID = #{bizAreaId}
               AND TRGT_ID = #{trgtId}
     </select>
-
-
-
 </mapper>
