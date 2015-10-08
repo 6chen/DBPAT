@@ -135,6 +135,16 @@
 			}
 			$("#RightPart").load(page);
 		});
+
+		$(".sidebar-menu > li > ul > li > a").click(function(){
+			var page = null;
+			switch ($(this).html()){
+				case "Schema Collection":
+					page = "showSchemaLst.action";
+					break;
+			}
+			$("#RightPart").load(page);
+		});
 	});
 </script>
 <!-- jQuery UI 1.11.4 -->
