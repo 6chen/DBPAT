@@ -202,20 +202,39 @@
     </div>
 </div>
 
-
 <!-- ThiL modal is used for add a new Business List -->
 
-<div class="modal fade" id="newAddListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bs-example-modal-lg" id="newAddListModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="addNewModalLabel2">New Business Area</h4>
             </div>
-
-            <button type="button" class="btn btn-primary" id="submitNewBizArea2" onclick="addBiz()">Add</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="modal-body">
+                <form id="demoform" action="#" method="post">
+                    <select multiple="multiple" size="10" name="duallistbox_demo1[]">
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3" selected="selected">Option 3</option>
+                        <option value="option4">Option 4</option>
+                        <option value="option5">Option 5</option>
+                        <option value="option6" selected="selected">Option 6</option>
+                        <option value="option7">Option 7</option>
+                        <option value="option8">Option 8</option>
+                        <option value="option9">Option 9</option>
+                        <option value="option0">Option 10</option>
+                    </select>
+                    <br>
+                    <button type="submit" class="btn btn-default btn-block">Submit data</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="submitNewBizArea2" onclick="addBiz()">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
@@ -233,6 +252,11 @@
         $("#newAddListModal").modal("show");
     }
 
+    var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
+    $("#demoform").submit(function () {
+        alert($('[name="duallistbox_demo1[]"]').val());
+        return false;
+    });
 
 </script>
 
