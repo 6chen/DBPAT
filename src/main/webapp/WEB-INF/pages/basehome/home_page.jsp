@@ -86,10 +86,10 @@
 
 			<!-- Sidebar Menu -->
 			<ul class="sidebar-menu">
-				<li class="header">DEFINITION</li>
+				<li class="header"><b>DEFINITION</b></li>
 				<!-- Optionally, you can add icons to the links -->
-				<%--<li class="active"><a href="#"><span>Link</span></a><</li>--%>
 				<li><a href="#"><span>Business Area</span></a></li>
+				<li><a href="#"><span>Audit Rule</span></a></li>
 				<li class="treeview">
 					<a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
@@ -97,7 +97,7 @@
 						<li><a href="#">Link in level 2</a></li>
 					</ul>
 				</li>
-				<li class="header">JOB MANAGEMENT</li>
+				<li class="header"><b>JOB MANAGEMENT</b></li>
 				<li class="treeview">
 					<a href="#"><span>Collection Job</span> <i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
@@ -107,17 +107,13 @@
 				</li>
 			</ul>
 			<!-- /.sidebar-menu -->
-
 		</div>
 		<!-- /.sidebar -->
 	</aside>
 	<!-- /.main-sidebar -->
 
 	<div id="RightPart" class="content-wrapper" style="min-height: 916px;">
-		<!-- Content Header (Page header) -->
-		<%--<div id="RightPart" class="col-md-10">--%>
-		<%--</div>--%>
-		<!-- /.content -->
+
 	</div>
 </div>
 
@@ -127,19 +123,22 @@
 	$(function () {
 		$("#RightPart").load("home_right_main.action");
 
-		$(".sidebar-menu > li > a > span").click(function(){
+		$(".sidebar-menu > li[class != 'treeview']").click(function () {
 			var page = null;
-			switch ($(this).html()){
+			switch ($(this).find("span").html()) {
 				case "Business Area":
 					page = "showBizAreaLst.action";
+					break;
+				case "Audit Rule":
+					page = "showAuditRuleLst.action";
 					break;
 			}
 			$("#RightPart").load(page);
 		});
 
-		$(".sidebar-menu > li > ul > li > a").click(function(){
+		$(".sidebar-menu > li > ul > li > a").click(function () {
 			var page = null;
-			switch ($(this).html()){
+			switch ($(this).html()) {
 				case "Schema Collection":
 					page = "showSchemaLst.action";
 					break;

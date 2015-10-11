@@ -101,3 +101,28 @@ CREATE TABLE REP_TAB_COLS
   BCKT_QTY	 NUMBER(8)  NOT NULL ,
   SAMP_SZ	 NUMBER(10)  NOT NULL
 );
+
+
+CREATE TABLE RL_SET
+(
+  rl_set_id	 VARCHAR2(10)  NOT NULL ,
+  rl_set_nm	 VARCHAR2(50)  NOT NULL ,
+  rl_set_descr	 VARCHAR2(100)  NOT NULL
+);
+
+CREATE SEQUENCE RL_SET_SEQ
+INCREMENT BY 1
+START WITH 1
+MAXVALUE 9999;
+
+INSERT INTO RL_SET_SEQ VALUES ('RLSET'||LPAD(BIZ_AREA_SEQ.nextval, 4, '0'), #{bizAreaNm}, #{bizAreaDescr});
+
+insert into RL_SET values ('RLSET0001', 'QUERY PROCESS', 'This rule set inlucde all of the query process rules!');
+
+insert into RL_SET values ('RLSET0002', 'PARSING PROCESS', 'This rule set inlucde all of the query process rules!');
+
+insert into RL_SET values ('RLSET0003', 'TEST1', 'This rule set inlucde all of the query process rules!');
+
+insert into RL_SET values ('RLSET0004', 'TEST2', 'This rule set inlucde all of the query process rules!');
+
+

@@ -13,30 +13,52 @@
 </section>
 
 <section class="content">
-	<c:forEach varStatus="i" var="bizArea" items="${bizAreas}">
-		<div class="container-fluid">
-			<div class="box box-solid box-default">
-				<div class="box-header">
-					<h3 class="box-title"> NAME: <b>${bizArea.bizAreaNm}</b></h3>
-					<div class="btn-group btn-group-sm pull-right" role="group">
-						<a href="#" type="button" class="btn btn-success" id="${bizArea.bizAreaId}"
-						   onclick="toTargetLst(this)">
-							<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-						</a>
-						<a href="#" type="button" class="btn btn-info" id="${bizArea.bizAreaId}"
-						   onclick="findBizById(this)">
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-						</a>
-						<a href="#" type="button" class="btn btn-danger" id="${bizArea.bizAreaId}"
-						   onclick="deleteBiz(this)">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-						</a>
-					</div>
-				</div>
-				<div class="box-body">${bizArea.bizAreaDescr}</div>
+	<div class="box">
+		<div class="box-header with-border">
+			<h3 class="box-title">Business Area List</h3>
+			<div class="box-tools pull-right">
+				<button class="btn btn-default btn-sm" onclick="showNewBizAreaModal()">
+					<i class="fa fa-plus"></i>
+				</button>
 			</div>
 		</div>
-	</c:forEach>
+
+		<!-- /.box-header -->
+		<div class="box-body">
+			<ul class="products-list product-list-in-box">
+				<c:forEach varStatus="i" var="bizArea" items="${bizAreas}">
+					<li class="item">
+						<div class="product-img">
+							<img src="dist/img/default-50x50.gif" alt="Product Image">
+						</div>
+						<div class="product-info">
+							<span class="product-title"><b>${bizArea.bizAreaNm}</b></span>
+
+							<div class="btn-group btn-group-sm pull-right" role="group">
+								<a href="#" type="button" class="btn btn-success" id="${bizArea.bizAreaId}"
+								   onclick="toTargetLst(this)">
+									<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
+								</a>
+								<a href="#" type="button" class="btn btn-info" id="${bizArea.bizAreaId}"
+								   onclick="findBizById(this)">
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</a>
+								<a href="#" type="button" class="btn btn-danger" id="${bizArea.bizAreaId}"
+								   onclick="deleteBiz(this)">
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								</a>
+							</div>
+                        <span class="product-description">
+		                        ${bizArea.bizAreaDescr}
+                        </span>
+						</div>
+					</li>
+					<!-- /.item -->
+				</c:forEach>
+			</ul>
+		</div>
+		<!-- /.box-body -->
+	</div>
 </section>
 
 <!-- This modal is used for add a new business area -->
@@ -124,17 +146,6 @@
 	}
 
 	function deleteBiz(e) {
-//		$.ajax({
-//			type: 'get',
-//			url: 'deleteBizArea.action?bizAreaId='+e.id,
-//			success:function(data){
-//				var result = $.parseJSON(data);
-//				if(result.success){
-//					alert("You deleted a Business Area!");
-//					$("#RightPart").load("showBizAreaLst.action");
-//				}
-//			}
-//		})
 		$("#RightPart").load("deleteBizArea.action", {"bizAreaId": e.id}, function () {
 			alert("You deleted a Business Area!");
 		});

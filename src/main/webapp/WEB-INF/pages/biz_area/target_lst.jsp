@@ -8,20 +8,10 @@
 	}
 
 	td {
-		font-size: 12px;
+		font-size: 14px;
 		text-align: center;
 	}
 </style>
-
-<%--<div class="container-fluid">--%>
-	<%--<!--page head-->--%>
-	<%--<h2><b>Target</b></h2>--%>
-	<%--<ul class="breadcrumb">--%>
-		<%--<li class="active"><a href="home.action">Home</a></li>--%>
-		<%--<li><a href="#" onclick="goBackToBiz()">Business Area</a></li>--%>
-		<%--<li class="active"><span id="bizAreaId" name="${bizArea.bizAreaId}"> ${bizArea.bizAreaNm}</span></li>--%>
-	<%--</ul>--%>
-<%--</div>--%>
 
 <section class="content-header">
 	<h1>
@@ -30,7 +20,7 @@
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="home.action"><i class="fa fa-dashboard"></i> Home</a></li>
-		<li><a href="#"  onclick="goBackToBiz()">Business Area</a></li>
+		<li><a href="#" onclick="goBackToBiz()">Business Area</a></li>
 		<li class="active"><span id="bizAreaId" name="${bizArea.bizAreaId}"> ${bizArea.bizAreaNm}</span></li>
 	</ol>
 </section>
@@ -44,11 +34,12 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					DBMS Target
-					<div class="btn-group btn-group-sm pull-right" role="group">
-						<a href="#" type="button" class="btn btn-default" onclick="addDBTargetModal()">
+					<div class="pull-right">
+						<a href="#" type="button" class="btn btn-default btn-sm" onclick="addDBTargetModal()">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
-						<a href="#" type="button" class="btn btn-default" onclick="editDBTarget()">
+						<a href="#" type="button" class="btn btn-default btn-sm" onclick="showEditDBTarget()"
+						   id="dbmsTargetToggleBtn">
 							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 						</a>
 					</div>
@@ -82,7 +73,7 @@
 								<td>${dbmsTargetVo.serv}</td>
 								<td>${dbmsTargetVo.schm}</td>
 								<td>${dbmsTargetVo.dbmsType.dbmsTypNm} ${dbmsTargetVo.dbmsType.dbmsVer}</td>
-								<td>
+								<td style="display: none">
 									<div class="btn-group btn-group-sm">
 										<button type='button' class='btn btn-info' name="${dbmsTargetVo.trgtId}"
 										        onclick="selectDbTargetForModify(this)">
@@ -197,11 +188,11 @@
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					WAS Target
-					<div class="btn-group btn-group-sm pull-right" role="group">
-						<a href="#" type="button" class="btn btn-default" onclick="addWASTargetModal()">
+					<div class="pull-right">
+						<a href="#" type="button" class="btn btn-default btn-sm" onclick="addWASTargetModal()">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"> </span>
 						</a>
-						<a href="#" type="button" class="btn btn-default">
+						<a href="#" type="button" class="btn btn-default btn-sm">
 							<span class="glyphicon glyphicon-cog" aria-hidden="true"> </span>
 						</a>
 					</div>
@@ -318,11 +309,11 @@
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					Source File Target
-					<div class="btn-group btn-group-sm pull-right">
-						<a href="#" type="button" class="btn btn-default">
+					<div class="pull-right">
+						<a href="#" type="button" class="btn btn-default btn-sm">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
-						<a href="#" type="button" class="btn btn-default">
+						<a href="#" type="button" class="btn btn-default btn-sm">
 							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 						</a>
 					</div>
@@ -363,11 +354,6 @@
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script>
-	$(function () {
-		$("#dbTargetTab tbody tr td:last-child").hide()
-	})
-
-
 	function addDBTargetModal() {
 		$("#dbTrgtSummit").attr("onclick", "addDbTarget()");
 		$("#dbTargetModal").modal("show");
@@ -375,9 +361,16 @@
 	function addWASTargetModal() {
 		$("#wasTargetModal").modal("show");
 	}
-	function editDBTarget() {
-		$("#dbTargetTab tbody tr td:last-child").toggle(100);
+	function showEditDBTarget() {
+		$("#dbTargetTab tbody tr td:last-child").css("display", "block");
+		$("#dbmsTargetToggleBtn").attr("onclick", "hideEditDBTarget()");
 	}
+
+	function hideEditDBTarget() {
+		$("#dbTargetTab tbody tr td:last-child").css("display", "none");
+		$("#dbmsTargetToggleBtn").attr("onclick", "showEditDBTarget()");
+	}
+
 	function addDbTarget() {
 		$.ajax({
 			type: 'post',
