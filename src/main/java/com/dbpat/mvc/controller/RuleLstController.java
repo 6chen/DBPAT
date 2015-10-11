@@ -1,6 +1,8 @@
 package com.dbpat.mvc.controller;
 
+import com.dbpat.mvc.model.Rule;
 import com.dbpat.mvc.model.RuleSet;
+import com.dbpat.mvc.service.RuleService;
 import com.dbpat.mvc.service.RuleSetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,9 @@ public class RuleLstController {
 
     @Autowired
     RuleSetService ruleSetService;
+
+    @Autowired
+    RuleService ruleService;
 
     @RequestMapping(value = "/showAuditRuleLst", method = RequestMethod.GET)
     public String showAuditRuleLst() {
@@ -56,5 +61,11 @@ public class RuleLstController {
         return "{\"success\":true}";
     }
 
+    @RequestMapping(value = "/showRuleLstById", method = RequestMethod.GET)
+    public String showRuleLstById(String rlSetId, ModelMap modelMap){
+        List<Rule> rules =  ruleService.findRuleByRuleSetIdy(rlSetId);
+        modelMap.put("rules", rules);
+        return "rule/rule_lst";
+    }
 
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.mvc.mapper.RuleMapper">
+    <select id="selectRuleByRuleSetIdy" resultType="com.dbpat.mvc.model.Rule">
+        SELECT
+            RL_ID    AS rlId,
+            RL_NM    AS rlNm,
+            RL_CLS   AS rlCls,
+            RL_DESCR AS rlDescr
+        FROM RL
+        WHERE RL_SET_ID = #{rlSetId}
+    </select>
+</mapper>

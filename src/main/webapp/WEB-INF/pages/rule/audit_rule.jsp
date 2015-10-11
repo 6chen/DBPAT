@@ -1,15 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<style>
-	th {
-		font-size: 14px;
-	}
 
-	td {
-		font-size: 14px;
-	}
-</style>
 
 <section class="content-header">
 	<h1>
@@ -28,13 +20,11 @@
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<h3 class="box-title">Rule Set List</h3>
-
 					<div class="box-tools pull-right">
 						<button class="btn btn-default btn-sm" onclick="showAddRuleSetModal()">
 							<i class="fa fa-plus"></i>
 						</button>
 					</div>
-
 				</div>
 				<div class="box-body">
 					<div id="ruleSetLst">
@@ -46,7 +36,7 @@
 		<div class="col-lg-8 col-md-8" id="ruleLstRight">
 			<div class="box box-warning">
 				<div class="box-header with-border">
-					<h3 class="box-title">Rule List</h3>
+					<h3 class="box-title" id="ruleListHead">Rule List</h3>
 
 					<div class="box-tools pull-right">
 						<button class="btn btn-default btn-sm">
@@ -55,38 +45,14 @@
 					</div>
 				</div>
 
-				<div class="box-body">
-					<table class="table table-hover">
-						<thead>
-						<tr>
-							<th>Rule Name</th>
-							<th>Rule Description</th>
-							<th>Example</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>183</td>
-							<td>John Doe</td>
-							<td>11-7-2014</td>
-						</tr>
-						<tr>
-							<td>219</td>
-							<td>Alexander Pierce</td>
-							<td>11-7-2014</td>
-						</tr>
-						<tr>
-							<td>657</td>
-							<td>Bob Doe</td>
-							<td>11-7-2014</td>
-						</tr>
-						<tr>
-							<td>175</td>
-							<td>Mike Doe</td>
-							<td>11-7-2014</td>
-						</tr>
-						</tbody>
-					</table>
+				<div class="box-body no-padding" id="ruleLst">
+					<div class="container-fluid">
+						<br>
+						<div class="callout callout-info">
+							<h4>Tip!</h4>
+							<p>Please Choice a Rule Set First !</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -130,6 +96,10 @@
 		$("#ruleSetLst").load("shwoRuleSetLst.action");
 	}
 
+	function loadRuleLstById(ruleSetId) {
+		$("#ruleLst").load("showRuleLstById.action?rlSetId=" + ruleSetId);
+	}
+
 	function showAddRuleSetModal() {
 		$("#addRuleSetModal").modal("show");
 	}
@@ -152,6 +122,11 @@
 				}
 			}
 		})
+	}
+
+	function changeRlLstParent(e) {
+		$("#ruleListHead").html("Rule List of  <b class='text-yellow'> " + $(e).attr("name") + "</b>");
+		loadRuleLstById($(e).attr("id"));
 	}
 
 </script>

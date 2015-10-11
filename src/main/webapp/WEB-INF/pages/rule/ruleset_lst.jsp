@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 	<c:forEach varStatus="i" var="ruleSet" items="${ruleSets}">
 		<div class="panel panel-default">
@@ -9,7 +11,7 @@
 					<a data-toggle="collapse" href="#collapse${i.index+1}" data-parent="#accordion" aria-expanded="true"
 					   aria-controls="collapseOne">${ruleSet.rlSetNm}</a>
 					<small data-toggle="tooltip" data-original-title="View Rules"
-					       class="label bg-green pull-right"><a href="#">3 Rules</a></small>
+					       class="label bg-green pull-right"><a href="#" onclick="changeRlLstParent(this)" name="${ruleSet.rlSetNm}" id="${ruleSet.rlSetId}">3 Rules</a></small>
 				</h4>
 			</div>
 			<div id="collapse${i.index+1}" class="panel-collapse collapse">

@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/BizTargetDBMSMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/DbmsTypeMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/DbmsTypePerClctTabMapper.xml" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/RuleMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/RuleSetMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/TargetMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/TargetVoMapper.xml" dialect="Oracle" />
