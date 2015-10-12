@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-
 <section class="content-header">
 	<h1>
 		Audit Rule
@@ -16,41 +15,80 @@
 
 <section class="content">
 	<div class="row">
-		<div class="col-lg-4 col-md-4" id="ruleLstLeft">
-			<div class="box box-primary">
+		<div class="col-lg-6 col-md-6" id="ruleLstLeft">
+			<div class="box box-primary" style="height: 50%">
 				<div class="box-header with-border">
 					<h3 class="box-title">Rule Set List</h3>
-					<div class="box-tools pull-right">
-						<button class="btn btn-default btn-sm" onclick="showAddRuleSetModal()">
-							<i class="fa fa-plus"></i>
-						</button>
-					</div>
+					<%--<div class="box-tools pull-right">--%>
+					<%--<button class="btn btn-default btn-sm" onclick="showAddRuleSetModal()">--%>
+					<%--<i class="fa fa-plus"></i>--%>
+					<%--</button>--%>
+					<%--</div>--%>
 				</div>
-				<div class="box-body">
+				<div class="box-body" style="overflow-y: scroll; width: auto; height: 80%">
 					<div id="ruleSetLst">
 						<jsp:include page="/shwoRuleSetLst.action"></jsp:include>
 					</div>
 				</div>
+				<div class="box-footer">
+					<button type="button" class="btn btn-primary btn-sm pull-right" onclick="showAddRuleSetModal()">
+						Add
+					</button>
+				</div>
 			</div>
 		</div>
-		<div class="col-lg-8 col-md-8" id="ruleLstRight">
-			<div class="box box-warning">
+		<div class="col-lg-6 col-md-6" id="ruleLstRight">
+			<div class="box box-warning" style="height: 50%">
 				<div class="box-header with-border">
 					<h3 class="box-title" id="ruleListHead">Rule List</h3>
 
-					<div class="box-tools pull-right">
-						<button class="btn btn-default btn-sm">
-							<i class="fa fa-plus"></i>
-						</button>
-					</div>
+					<%--<div class="box-tools pull-right">--%>
+					<%--<button class="btn btn-default btn-sm">--%>
+					<%--<i class="fa fa-plus"></i>--%>
+					<%--</button>--%>
+					<%--</div>--%>
 				</div>
 
-				<div class="box-body no-padding" id="ruleLst">
+				<div class="box-body no-padding" id="ruleLst" style="overflow-y: scroll; width: auto; height: 80%">
 					<div class="container-fluid">
 						<br>
+
 						<div class="callout callout-info">
 							<h4>Tip!</h4>
+
 							<p>Please Choice a Rule Set First !</p>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="button" class="btn btn-warning btn-sm pull-right" id="showAddRuleBtn"
+					        onclick="ruleDetailAdd(this)">Add
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box box-success">
+				<div class="box-header with-border">
+					<h3 class="box-title">Rule Detail Information</h3>
+					<%--<div class="box-tools pull-right">--%>
+					<%--<button class="btn btn-default btn-sm" onclick="showAddRuleSetModal()">--%>
+					<%--<i class="fa fa-plus"></i>--%>
+					<%--</button>--%>
+					<%--</div>--%>
+				</div>
+				<div id="ruleDetail">
+					<div class="container-fluid">
+						<br>
+
+						<div class="callout callout-info">
+							<h4>Tip!</h4>
+
+							<p>Please Choice a Rule Set And Rule First !</p>
 						</div>
 					</div>
 				</div>
@@ -100,6 +138,14 @@
 		$("#ruleLst").load("showRuleLstById.action?rlSetId=" + ruleSetId);
 	}
 
+	function loadRuleDetailAdd(){
+		$("#ruleDetail").load("showRuleDetailAdd.action");
+	}
+
+	function loadRuleDetailModify(e){
+		$("#ruleDetail").load("showRuleDetailModify.action?rlId="+$(e).attr("name"));
+	}
+
 	function showAddRuleSetModal() {
 		$("#addRuleSetModal").modal("show");
 	}
@@ -126,7 +172,20 @@
 
 	function changeRlLstParent(e) {
 		$("#ruleListHead").html("Rule List of  <b class='text-yellow'> " + $(e).attr("name") + "</b>");
+		$("#showAddRuleBtn").attr("name", $(e).attr("id"));
 		loadRuleLstById($(e).attr("id"));
+	}
+
+	function ruleDetailAdd(e) {
+		if ($(e).attr("name") == null) {
+			alert("Please select rule set!");
+		} else {
+			loadRuleDetailAdd();
+		}
+	}
+
+	function addRule() {
+
 	}
 
 </script>

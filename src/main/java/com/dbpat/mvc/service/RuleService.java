@@ -15,5 +15,21 @@ public class RuleService {
 
     public List<Rule> findRuleByRuleSetIdy(String rlSetId){
         return ruleMapper.selectRuleByRuleSetIdy(rlSetId);
-    };
+    }
+
+    public Rule findRuleByRuleId(String rlId){
+        return ruleMapper.selectRuleByRuleId(rlId);
+    }
+
+    public void addRule(Rule rule){
+        ruleMapper.insertRule(rule);
+    }
+
+    public void removeRuleByRuleId(String rlId){
+        ruleMapper.deleteRuleByRuleId(rlId);
+    }
+
+    public void modifyRuleByRuleId(Rule rule){
+        ruleMapper.updateRuleByRuleId(rule);
+    }
 }

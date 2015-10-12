@@ -68,4 +68,35 @@ public class RuleLstController {
         return "rule/rule_lst";
     }
 
+    @RequestMapping(value = "/showRuleDetailAdd", method = RequestMethod.GET)
+    public String showRuleDetailAdd(){
+        return "rule/rule_detail_add";
+    }
+
+    @RequestMapping(value = "/showRuleDetailModify", method = RequestMethod.GET)
+    public String showRuleDetailModify(String rlId, ModelMap modelMap){
+        Rule rule = ruleService.findRuleByRuleId(rlId);
+        modelMap.put("rule",rule);
+        return "rule/rule_detail_modify";
+    }
+
+    @RequestMapping(value = "/addRule", method = RequestMethod.POST)
+    public @ResponseBody String addRule(Rule rule){
+        ruleService.addRule(rule);
+        return "{\"success\":true}";
+    }
+
+    @RequestMapping(value = "/deleteRule", method = RequestMethod.GET)
+    public @ResponseBody String deleteRule(String rlId){
+        ruleService.removeRuleByRuleId(rlId);
+        return "{\"success\":true}";
+    }
+
+    @RequestMapping(value = "/modifyRule", method = RequestMethod.POST)
+    public @ResponseBody String modifyRule(Rule rule){
+        System.out.println(rule);
+        ruleService.modifyRuleByRuleId(rule);
+        return "{\"success\":true}";
+    }
+
 }

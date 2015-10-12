@@ -79,22 +79,6 @@ public class SchemaCollectService {
             System.out.println(dbmsTypePerClctTab.getImportSql());
             System.out.println("------");
         }
-
-//        PreparedStatement srcstmt = sourceConn.prepareStatement("select * from emp");
-//        ResultSet rs = srcstmt.executeQuery();
-//        while (rs.next()){
-//            System.out.println(rs.getString("empno"));
-//        }
-
-
-
-//        BizAreaMapper bizAreaMapper = curSqlSession.getMapper(BizAreaMapper.class);
-//
-//        List<BizArea> bizAreas = bizAreaMapper.selectAllBizArea();
-//
-//        for (BizArea bizArea:bizAreas){
-//            System.out.println(bizArea);
-//        }
     }
 
     public void exeCollect() throws SQLException {

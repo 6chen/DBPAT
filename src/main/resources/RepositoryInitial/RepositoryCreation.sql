@@ -115,7 +115,7 @@ INCREMENT BY 1
 START WITH 1
 MAXVALUE 9999;
 
-INSERT INTO RL_SET_SEQ VALUES ('RLSET'||LPAD(BIZ_AREA_SEQ.nextval, 4, '0'), #{bizAreaNm}, #{bizAreaDescr});
+INSERT INTO RL_SET VALUES ('RLSET'||LPAD(RL_SET_SEQ.nextval, 4, '0'), #{bizAreaNm}, #{bizAreaDescr});
 
 insert into RL_SET values ('RLSET0001', 'QUERY PROCESS', 'This rule set inlucde all of the query process rules!');
 
@@ -149,3 +149,9 @@ INSERT INTO RL VALUES ('RL0004', 'CHECK LOB COLUMN3', 'ruleLobColCheck', 'THIS R
 INSERT INTO RL VALUES ('RL0005', 'CHECK LOB COLUMN4', 'ruleLobColCheck', 'THIS RULE IS USED TO CHECK IF THERE ARE LOB COLUMNS IN THE TABLE', 'RLSET0001');
 
 
+CREATE SEQUENCE RL_SEQ
+INCREMENT BY 1
+START WITH 1
+MAXVALUE 9999;
+
+INSERT INTO RL VALUES ('RL'||LPAD(RL_SEQ.nextval, 4, '0'), #{rlNm}, #{rlCls}, #{rlDescr}, #{rlSetId});

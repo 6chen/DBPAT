@@ -8,4 +8,12 @@ import java.util.List;
 @Repository
 public interface RuleMapper {
     List<Rule> selectRuleByRuleSetIdy(String rlSetId);
+
+    Rule selectRuleByRuleId(String rlId);
+
+    void insertRule(Rule rule);
+
+    void deleteRuleByRuleId(String rlId);
+
+    void updateRuleByRuleId(Rule rule);
 }
