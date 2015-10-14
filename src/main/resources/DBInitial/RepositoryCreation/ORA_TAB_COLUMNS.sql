@@ -1,0 +1,20 @@
+CREATE TABLE ORA_TAB_COLUMNS
+ (
+   BIZ_AREA_ID          VARCHAR2(10),
+   TRGT_ID              VARCHAR2(10),
+   TABLE_NAME           VARCHAR2(30) NOT NULL,
+   COLUMN_NAME          VARCHAR2(30) NOT NULL,
+   DATA_LENGTH          NUMBER NOT NULL,
+   DATA_PRECISION       NUMBER,
+   DATA_SCALE           NUMBER,
+   NULLABLE             VARCHAR2(1),
+   COLUMN_ID            NUMBER,
+   DATA_DEFAULT         LONG,
+   NUM_DISTINCT         NUMBER,
+   LOW_VALUE            RAW(32),
+   HIGH_VALUE           RAW(32),
+   DENSITY              NUMBER,
+   NUM_NULLS            NUMBER,
+   NUM_BUCKETS          NUMBER,
+   SAMPLE_SIZE          NUMBER
+ );

@@ -58,27 +58,27 @@ public class SchemaCollectService {
         //Set Collect Schema
         collectParm.put("schema", targetVo.getSchm());
 
-        System.out.println(targetVo.getDbmsType().getDbmsTypNm());
-        System.out.println(targetVo.getDbmsType().getDbmsDrv());
-        System.out.println(targetVo.getIp());
-        System.out.println(targetVo.getPrt());
-        System.out.println(targetVo.getServ());
-        System.out.println(targetVo.getUsrId());
-        System.out.println(targetVo.getPw());
-        System.out.println(url);
+//        System.out.println(targetVo.getDbmsType().getDbmsTypNm());
+//        System.out.println(targetVo.getDbmsType().getDbmsDrv());
+//        System.out.println(targetVo.getIp());
+//        System.out.println(targetVo.getPrt());
+//        System.out.println(targetVo.getServ());
+//        System.out.println(targetVo.getUsrId());
+//        System.out.println(targetVo.getPw());
+//        System.out.println(url);
 
         List<DbmsTypePerClctTab> dbmsTypePerClctTabs =  dbmsTypePerClctTabMapper.selectAllClctTabById(targetVo.getDbmsType().getDbmsTypId());
         collectParm.put("dbmsTypePerClctTabs", dbmsTypePerClctTabs);
 
 
-        for (DbmsTypePerClctTab dbmsTypePerClctTab : dbmsTypePerClctTabs){
-            System.out.println(dbmsTypePerClctTab.getDbmsTypId());
-            System.out.println(dbmsTypePerClctTab.getSeq());
-            System.out.println(dbmsTypePerClctTab.getClctTabNm());
-            System.out.println(dbmsTypePerClctTab.getExportSql());
-            System.out.println(dbmsTypePerClctTab.getImportSql());
-            System.out.println("------");
-        }
+//        for (DbmsTypePerClctTab dbmsTypePerClctTab : dbmsTypePerClctTabs){
+//            System.out.println(dbmsTypePerClctTab.getDbmsTypId());
+//            System.out.println(dbmsTypePerClctTab.getSeq());
+//            System.out.println(dbmsTypePerClctTab.getClctTabNm());
+//            System.out.println(dbmsTypePerClctTab.getExportSql());
+//            System.out.println(dbmsTypePerClctTab.getImportSql());
+//            System.out.println("------");
+//        }
     }
 
     public void exeCollect() throws SQLException {

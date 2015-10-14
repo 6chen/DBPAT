@@ -44,11 +44,13 @@ public class SchemaCollector {
 
             importStmt.executeBatch();
             targetConn.commit();
+
+            System.out.println("--> No."+dbmsTypePerClctTab.getSeq()+": '"+ dbmsTypePerClctTab.getClctTabNm()+"' Successfully Imported!");
         }
 
         targetConn.close();
         sourceConn.close();
-        System.out.println("=====Complelete=====");
+        System.out.println("=====All Complelete=====");
     }
 
 }

@@ -1,0 +1,13 @@
+CREATE TABLE ORA_SEQUENCES
+ (
+   BIZ_AREA_ID            VARCHAR2(10),
+   TRGT_ID                VARCHAR2(10),
+   SEQUENCE_NAME          VARCHAR2(30) NOT NULL,
+   MIN_VALUE              NUMBER,
+   MAX_VALUE              NUMBER,
+   INCREMENT_BY           NUMBER NOT NULL,
+   CYCLE_FLAG             VARCHAR2(1),
+   ORDER_FLAG             VARCHAR2(1),
+   CACHE_SIZE             NUMBER NOT NULL,
+   LAST_NUMBER            NUMBER NOT NULL
+ );

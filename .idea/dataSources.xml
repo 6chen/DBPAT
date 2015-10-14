@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2407660873">
+  <component name="DataSourceManagerImpl" format="xml" hash="4026208970">
     <data-source source="LOCAL" name="Oracle - dbec11g@210.110.136.106" uuid="de7cab9e-d76c-47bc-a449-3b1c1d507429">
       <driver-ref>oracle</driver-ref>
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>

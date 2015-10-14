@@ -9,6 +9,6 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/RuleSetMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/TargetMapper.xml" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/dbpat/mvc/mapper/TargetVoMapper.xml" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/RepositoryInitial/RepositoryCreation.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/DBInitial/RepositoryCreation.sql" dialect="Oracle" />
   </component>
 </project>
