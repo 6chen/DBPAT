@@ -59,6 +59,7 @@
 					var deleteSuccessPage = '<div class="container-fluid">'+'<br><div class="callout callout-success">'+'<h4>Tip!</h4> <p>Successful to deleted a rule!</p> </div> </div>';
 					$("#ruleDetail").html(deleteSuccessPage);
 					loadRuleLstById($("#showAddRuleBtn").attr("name"));
+					loadRuleSetLst();
 				}
 			}
 		})

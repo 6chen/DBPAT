@@ -2,6 +2,8 @@ package com.dbpat.mvc.controller;
 
 import com.dbpat.mvc.model.Rule;
 import com.dbpat.mvc.model.RuleSet;
+import com.dbpat.mvc.model.RuleSetRuleCntVo;
+import com.dbpat.mvc.model.RuleSetVo;
 import com.dbpat.mvc.service.RuleService;
 import com.dbpat.mvc.service.RuleSetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,16 @@ public class RuleLstController {
 
     @RequestMapping(value = "/showAuditRuleLst", method = RequestMethod.GET)
     public String showAuditRuleLst() {
-
         return "rule/audit_rule";
     }
 
     @RequestMapping(value = "/shwoRuleSetLst", method = RequestMethod.GET)
     public String shwoRuleSetLst(ModelMap modelMap) {
-        List<RuleSet> ruleSets = ruleSetService.findAllRuleSet();
-        modelMap.put("ruleSets", ruleSets);
+
+        List<RuleSetRuleCntVo> ruleSetRuleCntVos = ruleSetService.findAllRuleSetRuleCntVo();
+
+//        List<RuleSet> ruleSets = ruleSetService.findAllRuleSet();
+        modelMap.put("ruleSetRuleCntVos", ruleSetRuleCntVos);
         return "rule/ruleset_lst";
     }
 

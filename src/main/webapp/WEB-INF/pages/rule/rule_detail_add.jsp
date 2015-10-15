@@ -61,6 +61,7 @@
 					var addSuccessPage = '<div class="container-fluid">'+'<br><div class="callout callout-success">'+'<h4>Tip!</h4> <p>Successful to added a new rule!</p> </div> </div>';
 					$("#ruleDetail").html(addSuccessPage);
 					loadRuleLstById($("#showAddRuleBtn").attr("name"));
+					loadRuleSetLst();
 				}
 			}
 		})

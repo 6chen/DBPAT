@@ -4,23 +4,37 @@
 
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-	<c:forEach varStatus="i" var="ruleSet" items="${ruleSets}">
+	<c:forEach varStatus="i" var="ruleSetRuleCntVo" items="${ruleSetRuleCntVos}">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a data-toggle="collapse" href="#collapse${i.index+1}" data-parent="#accordion" aria-expanded="true"
-					   aria-controls="collapseOne">${ruleSet.rlSetNm}</a>
-					<small data-toggle="tooltip" data-original-title="View Rules"
-					       class="label bg-green pull-right"><a href="#" onclick="changeRlLstParent(this)" name="${ruleSet.rlSetNm}" id="${ruleSet.rlSetId}">3 Rules</a></small>
+					   aria-controls="collapseOne">${ruleSetRuleCntVo.rlSetNm}</a>
+
+					<c:if test="${ruleSetRuleCntVo.rlSetRlCnt > 0}">
+						<small data-toggle="tooltip" data-original-title="View Rules"
+						       class="label bg-green pull-right"><a href="#" onclick="changeRlLstParent(this)"
+						                                            name="${ruleSetRuleCntVo.rlSetNm}"
+						                                            id="${ruleSetRuleCntVo.rlSetId}">${ruleSetRuleCntVo.rlSetRlCnt}
+							Rules</a></small>
+					</c:if>
+					<c:if test="${ruleSetRuleCntVo.rlSetRlCnt == 0}">
+						<small data-toggle="tooltip" data-original-title="View Rules"
+						       class="label bg-orange pull-right"><a href="#" onclick="changeRlLstParent(this)"
+						                                            name="${ruleSetRuleCntVo.rlSetNm}"
+						                                            id="${ruleSetRuleCntVo.rlSetId}">${ruleSetRuleCntVo.rlSetRlCnt}
+							Rules</a></small>
+					</c:if>
+
 				</h4>
 			</div>
 			<div id="collapse${i.index+1}" class="panel-collapse collapse">
-				<div class="panel-body">${ruleSet.rlSetDescr}</div>
+				<div class="panel-body">${ruleSetRuleCntVo.rlSetDescr}</div>
 				<div class="panel-footer">
 					<button type="button" class="btn btn-sm btn-info" onclick="showRuleSetModifyModal(this)"
-					        name="${ruleSet.rlSetId}">Modify
+					        name="${ruleSetRuleCntVo.rlSetId}">Modify
 					</button>
-					<button type="button" class="btn btn-sm btn-danger pull-right" onclick="deleteRuleSet(this)" name="${ruleSet.rlSetId}">Delete
+					<button type="button" class="btn btn-sm btn-danger pull-right" onclick="deleteRuleSet(this)" name="${ruleSetRuleCntVo.rlSetId}">Delete
 					</button>
 				</div>
 			</div>
