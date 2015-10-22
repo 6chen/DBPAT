@@ -19,7 +19,7 @@
         WHERE biz_area_id = #{bizAreaId}
     </select>
 
-    <insert id="insertBizArea" parameterType="com.dbpat.mvc.model.BizArea">
+        <insert id="insertBizArea" parameterType="com.dbpat.mvc.model.BizArea">
         INSERT INTO BIZ_AREA VALUES ('BIZ'||LPAD(BIZ_AREA_SEQ.nextval, 4, '0'), #{bizAreaNm}, #{bizAreaDescr})
     </insert>
 

@@ -28,67 +28,52 @@
                                 <button id="addSchemajobShow" class="btn btn-default" data-toggle="modal"
                                         onclick="showNewSchemajobModal()">
                                     <i class="glyphicon glyphicon-plus"></i></button>
-                                <button class="btn btn-default"><i class="glyphicon glyphicon-cog"></i></button>
+                                <button class="btn btn-default" onclick="editDBTarget()"><i
+                                        class="glyphicon glyphicon-cog" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <th>NAME</th>
-                            <th>User</th>
+                    <table id="dbschematab" class="table table-hover">
+                        <thead>
+                        <tr name="${job.jobId}">
+                            <th>Name</th>
                             <th>Date</th>
+                            <th>TYPE</th>
                             <th>CYCLE</th>
                         </tr>
-                        <tr>
-                            <td>183</td>
-                            <td>John Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-success">Approved</span></td>
-                            <th class="pull-right">
-                                <button id="addBusinessLstShow" type="button" class="btn btn-default"
-                                        data-toggle="modal"
-                                        onclick="showAddBusinessListModal()">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                </button>
-                                <button class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></button>
-                                <button class="btn btn-default"><i class="glyphicon glyphicon-remove"></i></button>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>219</td>
-                            <td>Alexander Pierce</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td>657</td>
-                            <td>Bob Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-primary">Approved</span></td>
-                        </tr>
-                        <tr>
-                            <td>175</td>
-                            <td>Mike Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-danger">Denied</span></td>
-                        </tr>
-                        <tr>
-                            <td>175</td>
-                            <td>Mike Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-danger">Denied</span></td>
-                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach varStatus="i" var="job" items="${jobs}">
+                            <tr>
+                                <td>${job.jobNm}</td>
+                                <td>${job.jobstartDt}</td>
+                                <td>${job.jobType}</td>
+                                <td><span class="label label-success">${job.jobCycle}</span></td>
+                                <td>
+                                    <button class="btn btn-default" id="${job.jobId}" onclick="targetBizLst(this)"><i
+                                            class="glyphicon glyphicon-screenshot"> </i></button>
+                                    <button id="addBusinessLstShow" type="button" class="btn btn-default"
+                                            data-toggle="modal"
+                                            onclick="showAddBusinessListModal()">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-default" id="${job.jobId}" onclick="findJobById(this)"><i
+                                            class="glyphicon glyphicon-edit"></i></button>
+                                    <button class="btn btn-default" id="${job.jobId}" onclick="deletejob(this)"><i
+                                            class="glyphicon glyphicon-remove"></i></button>
+                                </td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
                 <!-- /.box-body -->
             </div>
         </div>
-        <div class="col-lg-6">
+        <div id="schemaTrgtLst" class="col-lg-6">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Business List</h3>
@@ -104,31 +89,21 @@
                 <!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
-                        <tbody>
+
+
+                        <thead>
                         <tr>
                             <th>NAME</th>
                             <th>Descript</th>
                         </tr>
-                        <tr>
-                            <td>183</td>
-                            <td>John Doe</td>
-                        </tr>
-                        <tr>
-                            <td>219</td>
-                            <td>Alexander Pierce</td>
-                        </tr>
-                        <tr>
-                            <td>657</td>
-                            <td>Bob Doe</td>
-                        </tr>
-                        <tr>
-                            <td>175</td>
-                            <td>Mike Doe</td>
-                        </tr>
-                        <tr>
-                            <td>175</td>
-                            <td>Mike Doe</td>
-                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach varStatus="i" var="jobTrgtVo" items="${jobTrgtVos}">
+                            <tr>
+                                <td>${jobTrgtVo.target.trgtNm}</td>
+                                <td>John Doe</td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -163,19 +138,20 @@
                     <div class="form-group">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="btn-group" role="group">
-                                <button id="btn-once" type="button" class="btn btn-primary">한번</button>
+                                <button id="btn-once" type="button" value="once" class="btn btn-primary">한번</button>
                             </div>
                             <div class="btn-group" role="group">
-                                <button id="btn-min" type="button" class="btn btn-default">Min</button>
+                                <button id="btn-min" type="button" value="min" class="btn btn-default">Min</button>
                             </div>
                             <div class="btn-group" role="group">
-                                <button id="btn-hour" type="button" class="btn btn-default">Hour</button>
+                                <button id="btn-hour" type="button" value="hour" class="btn btn-default">Hour</button>
                             </div>
                             <div class="btn-group" role="group">
-                                <button id="btn-week" type="button" class="btn btn-default">Week</button>
+                                <button id="btn-week" type="button" value="week" class="btn btn-default">Week</button>
                             </div>
                             <div class="btn-group" role="group">
-                                <button id="btn-month" type="button" class="btn btn-default">Month</button>
+                                <button id="btn-month" type="button" value="month" class="btn btn-default">Month
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -192,7 +168,78 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="submitNewBizArea" onclick="addBiz()">Add
+                        <button type="button" class="btn btn-primary" id="submitNewSchema" onclick="addSchemaLst()">Add
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- This modal is used for modify job List -->
+<div class="modal fade" id="ModifySchemaJobModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ModifyModalLabel">Modfiy Schema Collection</h4>
+            </div>
+            <div class="modal-body">
+                <div role="form">
+                    <div class="form-group">
+                        <label for="ModifySchemajobName">Schema Name</label>
+                        <input type="text" class="form-control" id="ModifySchemajobName" name="ModifySchemajobName"
+                               value="" placeholder="SchemaJob Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="ModifySchemaDesc">SchemaJob Description</label>
+						<textarea class="form-control" rows="5" id="ModifySchemaDesc"
+                                  placeholder="Schema Description" name="ModifySchemaDesc"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-toolbar" role="toolbar">
+                            <div class="btn-group" role="group">
+                                <button id="Modifybtn-once" type="button" value="once" class="btn btn-primary">한번
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button id="Modifybtn-min" type="button" value="min" class="btn btn-default">Min
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button id="Modifybtn-hour" type="button" value="hour" class="btn btn-default">Hour
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button id="Modifybtn-week" type="button" value="week" class="btn btn-default">Week
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button id="Modifybtn-month" type="button" value="month" class="btn btn-default">Month
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modifyJobScadule">Job Scadule</label>
+
+                        <div class="input-group">
+                            <input id="modifyJobScadule" name="modifyJobScadule" value="" class="form-control"
+                                   type="text" placeholder="date">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="submitModifySchema" onclick="modifyShema()">
+                            Modify
                         </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
@@ -232,18 +279,27 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="submitNewBizArea2" onclick="addBiz()">Add</button>
+                <button type="submit" class="btn btn-primary" id="submitNewBizArea2" onclick="addBiz()">Add</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script>
+
+    $(function () {
+        $("#dbschematab tbody tr td:last-child").hide()
+    });
+
+    function editDBTarget() {
+        $("#dbschematab tbody tr td:last-child").toggle(100);
+    }
+
+
     function showNewSchemajobModal() {
         $("#newSchemaJobModal").modal("show");
     }
@@ -257,6 +313,64 @@
         alert($('[name="duallistbox_demo1[]"]').val());
         return false;
     });
+
+    function addSchemaLst() {
+        $.ajax({
+            type: 'post',
+            url: 'addJoblst.action',
+            data: 'newSchemaName=' + $("#newSchemajobName").val() + '&newScadule=' + $("#JobScadule").val(),
+            success: function (data) {
+                var result = $.parseJSON(data);
+                if (result.success) {
+                    $("#newSchemaJobModal").modal("hide");
+                    $("#newSchemaJobModal").on('hidden.bs.modal', function () {
+                        $("#RightPart").load("showSchemaLst.action");
+                    });
+                }
+            }
+        })
+    }
+
+    function deletejob(e) {
+        $("#RightPart").load("deletejob.action", {"jobid": e.id}, function () {
+            alert("You deleted a Schema List!");
+        });
+    }
+
+    function findJobById(e) {
+        $.ajax({
+            type: 'get',
+            url: 'findSchemaById.action?jobId=' + e.id,
+            success: function (data) {
+                $("#ModifySchemajobName").attr("value", data.jobNm);
+                $("#modifyJobScadule").attr("value", data.jobstartDt);
+                $("#submitModifySchema").attr("name", data.jobId);
+                $("#ModifySchemaJobModal").modal("show");
+            }
+        })
+    }
+
+    function modifyShema() {
+        $.ajax({
+            type: 'post',
+            url: 'modifySchemaById.action',
+            data: 'jobId=' + $("#submitModifySchema").attr("name") + '&jobNm=' + $("#ModifySchemajobName").val() + '&jobstartDt=' + $("#modifyJobScadule").val(),
+            success: function (data) {
+                var result = $.parseJSON(data);
+                if (result.success) {
+                    $("#ModifySchemaJobModal").modal("hide");
+                    $("#ModifySchemaJobModal").on('hidden.bs.modal', function () {
+                        $("#RightPart").load("showSchemaLst.action");
+                    });
+                }
+            }
+        })
+    }
+
+    function targetBizLst(e) {
+        $("#RightPart").load("showTargetBizLst.action?jobId=" + e.id);
+
+    }
 
 </script>
 
