@@ -1,15 +1,69 @@
 package com.dbpat.util;
 
+import com.dbpat.mvc.mapper.DbmsTypePerClctTabMapper;
+import com.dbpat.mvc.mapper.TargetVoMapper;
 import com.dbpat.mvc.model.DbmsTypePerClctTab;
+import com.dbpat.mvc.model.TargetVo;
+import com.dbpat.mvc.service.SchemaJobService;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class SchemaCollector {
-    public void schemaCollect(Map<String, Object> collectParm) throws SQLException {
+
+    @Autowired
+    SqlSessionFactory sqlSessionFactory;
+
+    @Autowired
+    TargetVoMapper targetVoMapper;
+
+    @Autowired
+    DbmsTypePerClctTabMapper dbmsTypePerClctTabMapper;
+
+    @Autowired
+    SchemaJobService schemaJobService;
+
+    private Map<String, Object> collectParm = new HashMap<String, Object>();
+
+
+    public void setCollector(Map<String, Object> collectorParamMap) throws ClassNotFoundException, SQLException {
+
+        //Set Biz&Target value
+        collectParm.put("bizAreaId", collectorParamMap.get("bizAreaId"));
+        collectParm.put("trgtId", collectorParamMap.get("trgtId"));
+
+        //Get current/target DB connection
+        SqlSession curSqlSession = sqlSessionFactory.openSession();
+        Connection targetConn = curSqlSession.getConnection();
+        collectParm.put("targetConn", targetConn);
+
+        //Get targetVo information
+        TargetVo targetVo = targetVoMapper.selectTargetVoById(collectorParamMap);
+
+        //Get source DB connection
+        String url = "";
+        if ("ORACLE".equals(targetVo.getDbmsType().getDbmsTypNm())){
+            url = "jdbc:oracle:thin:@" + targetVo.getIp() + ":" + targetVo.getPrt() + ":" + targetVo.getServ();
+        }
+        Class.forName(targetVo.getDbmsType().getDbmsDrv());
+        Connection sourceConn = DriverManager.getConnection(url, targetVo.getUsrId(), targetVo.getPw());
+        collectParm.put("sourceConn", sourceConn);
+
+        //Set Collect Schema
+        collectParm.put("schema", targetVo.getSchm());
+
+        List<DbmsTypePerClctTab> dbmsTypePerClctTabs =  dbmsTypePerClctTabMapper.selectAllClctTabById(targetVo.getDbmsType().getDbmsTypId());
+        collectParm.put("dbmsTypePerClctTabs", dbmsTypePerClctTabs);
+    }
+
+    public void doCollect() throws SQLException {
         String bizAreaId = (String) collectParm.get("bizAreaId");
         String trgtId = (String) collectParm.get("trgtId");
         Connection sourceConn = (Connection) collectParm.get("sourceConn");
@@ -52,5 +106,4 @@ public class SchemaCollector {
         sourceConn.close();
         System.out.println("=====All Complelete=====");
     }
-
 }
