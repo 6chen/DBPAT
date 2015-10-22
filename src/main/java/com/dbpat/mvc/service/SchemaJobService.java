@@ -2,6 +2,7 @@ package com.dbpat.mvc.service;
 
 import com.dbpat.mvc.mapper.BizAreaMapper;
 import com.dbpat.mvc.mapper.JobMapper;
+import com.dbpat.mvc.mapper.JobTrgtMapper;
 import com.dbpat.mvc.mapper.JobTrgtVoMapper;
 import com.dbpat.mvc.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class SchemaJobService {
 
     @Autowired
     private JobTrgtVoMapper jobTrgtVoMapper;
+
+    @Autowired
+    private JobTrgtMapper jobTrgtMapper;
 
     public List<Job> findAllJobLst() {
         return jobMapper.selectAllSchemaJob();
@@ -42,5 +46,9 @@ public class SchemaJobService {
 
     public  List<JobTrgtVo> selectAllTrgtLst(Job job){
         return jobTrgtVoMapper.selectAllTargetLst(job);
+    }
+
+    public List<JobTrgt> findAllJobTrgts(String jobId){
+        return jobTrgtMapper.selectAllJobTrgtByJobId(jobId);
     }
 }

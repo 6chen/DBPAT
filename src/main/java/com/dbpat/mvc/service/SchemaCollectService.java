@@ -3,6 +3,8 @@ package com.dbpat.mvc.service;
 import com.dbpat.mvc.mapper.DbmsTypePerClctTabMapper;
 import com.dbpat.mvc.mapper.TargetVoMapper;
 import com.dbpat.mvc.model.DbmsTypePerClctTab;
+import com.dbpat.mvc.model.Job;
+import com.dbpat.mvc.model.JobTrgt;
 import com.dbpat.mvc.model.TargetVo;
 import com.dbpat.util.SchemaCollector;
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +33,12 @@ public class SchemaCollectService {
     @Autowired
     SchemaCollector schemaCollector;
 
+    @Autowired
+    SchemaJobService schemaJobService;
+
     private Map<String, Object> collectParm = new HashMap<String, Object>();
+
+//    private List<JobTrgt> jobTrgtList = new LinkedList<JobTrgt>();
 
     public void setCollectParm(Map<String, Object> parmMap) throws ClassNotFoundException, SQLException {
 
@@ -81,7 +89,12 @@ public class SchemaCollectService {
 //        }
     }
 
+//    public void setTargetList(Job job) {
+//        jobTrgtList = schemaJobService.findAllJobTrgts(job.getJobId());
+//    }
+
     public void exeCollect() throws SQLException {
         schemaCollector.schemaCollect(collectParm);
+        collectParm.clear();
     }
 }

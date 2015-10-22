@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.mvc.mapper.JobTrgtMapper">
+    <select id="selectAllJobTrgtByJobId" resultType="com.dbpat.mvc.model.JobTrgt">
+        SELECT
+            jb_id,
+            jb_seq,
+            biz_area_id,
+            trgt_id
+        FROM job_trgt
+        WHERE jb_id = #{jobId}
+        ORDER BY jb_seq
+    </select>
+</mapper>
