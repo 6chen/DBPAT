@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.mvc.mapper.JobMapper">
+
+    <select id="selectAllSchemaJob" resultType="com.dbpat.mvc.model.Job">
+        SELECT
+        jb_id    AS jobId,
+        jb_nm    AS jobNm,
+        jb_strt_dt  AS jobstartDt,
+        jb_typ    AS jobType,
+        jb_cycl  AS jobCycle
+        FROM JOB
+        ORDER BY jobId DESC
+    </select>
+
+    <insert id="insertJob" parameterType="com.dbpat.mvc.model.Job">
+        INSERT INTO JOB  VALUES
+        ('SCHM'||LPAD(JOB_SEQ.nextval, 4, '0'), #{jobNm}, #{jobstartDt},'01', '01')
+    </insert>
+
+    <delete id="deleteSchemaById" parameterType="com.dbpat.mvc.model.Job">
+        DELETE JOB WHERE jb_id = #{jobId}
+    </delete>
+
+    <select id="selectBySchemaId" parameterType="com.dbpat.mvc.model.Job" resultType="com.dbpat.mvc.model.Job">
+        SELECT
+         jb_id    AS jobId,
+        jb_nm    AS jobNm,
+        jb_strt_dt  AS jobstartDt,
+        jb_typ    AS jobType,
+        jb_cycl  AS jobCycle
+        FROM JOB
+        WHERE jb_id = #{jobId}
+    </select>
+
+    <update id="updateSchemaById" parameterType="com.dbpat.mvc.model.Job">
+        UPDATE JOB SET jb_nm = #{jobNm}, jb_strt_dt = #{jobstartDt}  WHERE jb_id = #{jobId}
+    </update>
+
+
+</mapper>
+
