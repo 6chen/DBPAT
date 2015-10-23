@@ -41,10 +41,6 @@ public class SchemaCollector {
 
         collectParm = collectorParamMap;
 
-//        //Set Biz&Target value
-//        collectParm.put("bizAreaId", collectorParamMap.get("bizAreaId"));
-//        collectParm.put("trgtId", collectorParamMap.get("trgtId"));
-
         //Get current/target DB connection
         SqlSession curSqlSession = sqlSessionFactory.openSession();
         Connection targetConn = curSqlSession.getConnection();
@@ -86,11 +82,10 @@ public class SchemaCollector {
 
                 //Job Target History Start Time
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String jbStrtTm =format.format(new Date());
+                String jbStrtTm = format.format(new Date());
                 collectParm.put("jbStrtTm", jbStrtTm);
 
                 System.out.println(jbStrtTm);
-//                jobTrgtHistMapper.insertSchmColctJobTrgtHist(collectParm);
 
                 String exportSql = dbmsTypePerClctTab.getExportSql();
                 String importSql = dbmsTypePerClctTab.getImportSql();
@@ -124,13 +119,13 @@ public class SchemaCollector {
 
                 System.out.println("--> No." + dbmsTypePerClctTab.getSeq() + ": '" + dbmsTypePerClctTab.getClctTabNm() + "' Successfully Imported!");
 
-//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String jbEdTm =format.format(new Date());
+                //Job Target History End Time
+                String jbEdTm = format.format(new Date());
                 collectParm.put("jbEdTm", jbEdTm);
 
                 System.out.println(jbEdTm);
 
-                //Job Target History End Logging
+                //Job Target History Logging
                 jobTrgtHistMapper.insertSchmColctJobTrgtHist(collectParm);
 
             }

@@ -19,23 +19,23 @@ public class JobExecSelector {
     @Autowired
     SchemaCollectJob schemaCollectJob;
 
-    public JobExec getJobExecutor(Job job){
+    public JobExec getJobExecutor(Job job) {
 
         Map<String, Object> jobParamMap = new HashMap<String, Object>();
 
-        jobParamMap.put("job",job);
+        jobParamMap.put("job", job);
 
         List<JobTrgt> jobTrgtList = jobTrgtMapper.selectAllJobTrgtByJobId(job.getJobId());
-        jobParamMap.put("jobTrgtList",jobTrgtList);
+        jobParamMap.put("jobTrgtList", jobTrgtList);
 
         JobExec jobExec = null;
 
-        if(job.getJobType().equals("01")){
+        if (job.getJobType().equals("01")) {
             schemaCollectJob.setJob(jobParamMap);
             jobExec = schemaCollectJob;
-        }else if(job.getJobType().equals("02")){
+        } else if (job.getJobType().equals("02")) {
 
-        }else if(job.getJobType().equals("03")){
+        } else if (job.getJobType().equals("03")) {
 
         }
 

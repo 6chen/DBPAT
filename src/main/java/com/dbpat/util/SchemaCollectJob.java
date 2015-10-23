@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class SchemaCollectJob implements JobExec{
+public class SchemaCollectJob implements JobExec {
 
     Job job;
 
@@ -30,7 +30,7 @@ public class SchemaCollectJob implements JobExec{
     public void doJob() {
         System.out.println("Job Id : " + job.getJobId() + "'s Collection Job is Start!");
 
-        for(JobTrgt jobTrgt : jobTrgtList){
+        for (JobTrgt jobTrgt : jobTrgtList) {
             System.out.println("-> BizAreaId : " + jobTrgt.getBizAreaId() + " & TrgtId : " + jobTrgt.getTrgtId() + " begin...");
             Map<String, Object> collectorParamMap = new HashMap<String, Object>();
             collectorParamMap.put("job", job);
@@ -44,7 +44,7 @@ public class SchemaCollectJob implements JobExec{
                 e.printStackTrace();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 collectorParamMap.clear();
             }
 
