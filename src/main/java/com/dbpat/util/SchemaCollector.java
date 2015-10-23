@@ -1,6 +1,7 @@
 package com.dbpat.util;
 
 import com.dbpat.mvc.mapper.DbmsTypePerClctTabMapper;
+import com.dbpat.mvc.mapper.JobTrgtHistMapper;
 import com.dbpat.mvc.mapper.TargetVoMapper;
 import com.dbpat.mvc.model.DbmsTypePerClctTab;
 import com.dbpat.mvc.model.TargetVo;
@@ -11,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
 @Component
 public class SchemaCollector {
@@ -30,14 +31,19 @@ public class SchemaCollector {
     @Autowired
     SchemaJobService schemaJobService;
 
+    @Autowired
+    JobTrgtHistMapper jobTrgtHistMapper;
+
     private Map<String, Object> collectParm = new HashMap<String, Object>();
 
 
     public void setCollector(Map<String, Object> collectorParamMap) throws ClassNotFoundException, SQLException {
 
-        //Set Biz&Target value
-        collectParm.put("bizAreaId", collectorParamMap.get("bizAreaId"));
-        collectParm.put("trgtId", collectorParamMap.get("trgtId"));
+        collectParm = collectorParamMap;
+
+//        //Set Biz&Target value
+//        collectParm.put("bizAreaId", collectorParamMap.get("bizAreaId"));
+//        collectParm.put("trgtId", collectorParamMap.get("trgtId"));
 
         //Get current/target DB connection
         SqlSession curSqlSession = sqlSessionFactory.openSession();
@@ -49,7 +55,7 @@ public class SchemaCollector {
 
         //Get source DB connection
         String url = "";
-        if ("ORACLE".equals(targetVo.getDbmsType().getDbmsTypNm())){
+        if ("ORACLE".equals(targetVo.getDbmsType().getDbmsTypNm())) {
             url = "jdbc:oracle:thin:@" + targetVo.getIp() + ":" + targetVo.getPrt() + ":" + targetVo.getServ();
         }
         Class.forName(targetVo.getDbmsType().getDbmsDrv());
@@ -59,51 +65,82 @@ public class SchemaCollector {
         //Set Collect Schema
         collectParm.put("schema", targetVo.getSchm());
 
-        List<DbmsTypePerClctTab> dbmsTypePerClctTabs =  dbmsTypePerClctTabMapper.selectAllClctTabById(targetVo.getDbmsType().getDbmsTypId());
+        List<DbmsTypePerClctTab> dbmsTypePerClctTabs = dbmsTypePerClctTabMapper.selectAllClctTabById(targetVo.getDbmsType().getDbmsTypId());
         collectParm.put("dbmsTypePerClctTabs", dbmsTypePerClctTabs);
     }
 
-    public void doCollect() throws SQLException {
+    public void doCollect() {
+        String jobId = (String) collectParm.get("jbId");
         String bizAreaId = (String) collectParm.get("bizAreaId");
         String trgtId = (String) collectParm.get("trgtId");
+        String jbSeq = (String) collectParm.get("jbSeq");
         Connection sourceConn = (Connection) collectParm.get("sourceConn");
         Connection targetConn = (Connection) collectParm.get("targetConn");
         String schema = (String) collectParm.get("schema");
+
         List<DbmsTypePerClctTab> dbmsTypePerClctTabs = (List<DbmsTypePerClctTab>) collectParm.get("dbmsTypePerClctTabs");
+        try {
+            for (DbmsTypePerClctTab dbmsTypePerClctTab : dbmsTypePerClctTabs) {
+                collectParm.put("dbmsTypId", dbmsTypePerClctTab.getDbmsTypId());
+                collectParm.put("seq", dbmsTypePerClctTab.getSeq());
 
-        for (DbmsTypePerClctTab dbmsTypePerClctTab : dbmsTypePerClctTabs){
-            String exportSql = dbmsTypePerClctTab.getExportSql();
-            String importSql = dbmsTypePerClctTab.getImportSql();
+                //Job Target History Start Time
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String jbStrtTm =format.format(new Date());
+                collectParm.put("jbStrtTm", jbStrtTm);
 
-            PreparedStatement exportStmt = sourceConn.prepareStatement(exportSql);
-            PreparedStatement importStmt = targetConn.prepareStatement(importSql);
+                System.out.println(jbStrtTm);
+//                jobTrgtHistMapper.insertSchmColctJobTrgtHist(collectParm);
 
-            exportStmt.setObject(1, schema);
+                String exportSql = dbmsTypePerClctTab.getExportSql();
+                String importSql = dbmsTypePerClctTab.getImportSql();
 
-            ResultSet resultSet = exportStmt.executeQuery();
+                PreparedStatement exportStmt = null;
 
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            int columnCount = resultSetMetaData.getColumnCount();
+                exportStmt = sourceConn.prepareStatement(exportSql);
 
-            while(resultSet.next()){
-                importStmt.setObject(1, bizAreaId);
-                importStmt.setObject(2, trgtId);
+                PreparedStatement importStmt = targetConn.prepareStatement(importSql);
 
-                for (int j = 0; j < columnCount; j++) {
-                    importStmt.setObject(j+3, resultSet.getObject(j+1));
+                exportStmt.setObject(1, schema);
+
+                ResultSet resultSet = exportStmt.executeQuery();
+
+                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                int columnCount = resultSetMetaData.getColumnCount();
+
+                while (resultSet.next()) {
+                    importStmt.setObject(1, bizAreaId);
+                    importStmt.setObject(2, trgtId);
+
+                    for (int j = 0; j < columnCount; j++) {
+                        importStmt.setObject(j + 3, resultSet.getObject(j + 1));
+                    }
+
+                    importStmt.addBatch();
                 }
 
-                importStmt.addBatch();
+                importStmt.executeBatch();
+                targetConn.commit();
+
+                System.out.println("--> No." + dbmsTypePerClctTab.getSeq() + ": '" + dbmsTypePerClctTab.getClctTabNm() + "' Successfully Imported!");
+
+//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String jbEdTm =format.format(new Date());
+                collectParm.put("jbEdTm", jbEdTm);
+
+                System.out.println(jbEdTm);
+
+                //Job Target History End Logging
+                jobTrgtHistMapper.insertSchmColctJobTrgtHist(collectParm);
+
             }
 
-            importStmt.executeBatch();
-            targetConn.commit();
+            targetConn.close();
+            sourceConn.close();
 
-            System.out.println("--> No."+dbmsTypePerClctTab.getSeq()+": '"+ dbmsTypePerClctTab.getClctTabNm()+"' Successfully Imported!");
+            System.out.println("=====All Complelete=====");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        targetConn.close();
-        sourceConn.close();
-        System.out.println("=====All Complelete=====");
     }
 }

@@ -2,10 +2,6 @@ package com.dbpat.mvc.model;
 
 import org.springframework.stereotype.Component;
 
-/**
- * Created by mtkim on 2015-10-20.
- */
-
 @Component
 public class JobTrgt {
     @Override
@@ -18,10 +14,10 @@ public class JobTrgt {
                 '}';
     }
 
-    private String jobId;
-    private String bizAreaId;
-    protected Integer jbSeq;
-    private String trgtId;
+    protected String jobId;
+    protected String bizAreaId;
+    protected String jbSeq;
+    protected String trgtId;
 
     public String getJobId() {
         return jobId;
@@ -39,11 +35,11 @@ public class JobTrgt {
         this.bizAreaId = bizAreaId;
     }
 
-    public Integer getJbSeq() {
+    public String getJbSeq() {
         return jbSeq;
     }
 
-    public void setJbSeq(Integer jbSeq) {
+    public void setJbSeq(String jbSeq) {
         this.jbSeq = jbSeq;
     }
 

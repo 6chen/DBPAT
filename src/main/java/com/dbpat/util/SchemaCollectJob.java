@@ -33,8 +33,10 @@ public class SchemaCollectJob implements JobExec{
         for(JobTrgt jobTrgt : jobTrgtList){
             System.out.println("-> BizAreaId : " + jobTrgt.getBizAreaId() + " & TrgtId : " + jobTrgt.getTrgtId() + " begin...");
             Map<String, Object> collectorParamMap = new HashMap<String, Object>();
+            collectorParamMap.put("job", job);
             collectorParamMap.put("bizAreaId", jobTrgt.getBizAreaId());
             collectorParamMap.put("trgtId", jobTrgt.getTrgtId());
+            collectorParamMap.put("jbSeq", jobTrgt.getJbSeq());
             try {
                 schemaCollector.setCollector(collectorParamMap);
                 schemaCollector.doCollect();
