@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.springmvc.mapper.BizAreaMpr">
+    <update id="updateBizAreaEndTmById">
+        UPDATE BIZ_AREA
+        SET biz_area_ed_tm = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        WHERE biz_area_id = #{bizAreaId}
+    </update>
+    <select id="selectAllBizArea" resultType="com.dbpat.springmvc.model.BizAreaPo">
+        SELECT
+            BIZ_AREA_ID    AS BizAreaId,
+            BIZ_AREA_ST_TM AS BizAreaStTm,
+            BIZ_AREA_ED_TM AS BizAreaEdTm,
+            BIZ_AREA_NM    AS BizAreaNm,
+            BIZ_AREA_DESCR AS BizAreaDescr
+        FROM BIZ_AREA
+        WHERE BIZ_AREA_ED_TM = '99991231235959'
+    </select>
+    <select id="selectBizAreaById" resultType="com.dbpat.springmvc.model.BizAreaPo">
+        SELECT
+            BIZ_AREA_ID    AS BizAreaId,
+            BIZ_AREA_ST_TM AS BizAreaStTm,
+            BIZ_AREA_ED_TM AS BizAreaEdTm,
+            BIZ_AREA_NM    AS BizAreaNm,
+            BIZ_AREA_DESCR AS BizAreaDescr
+        FROM BIZ_AREA
+        WHERE BIZ_AREA_ED_TM = '99991231235959'
+              AND BIZ_AREA_ID = #{bizAreaId}
+    </select>
+    <insert id="insertBizArea">
+        INSERT INTO BIZ_AREA
+        VALUES (sys_guid(), TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), TO_CHAR('99991231235959'), #{BizAreaNm}, #{BizAreaDescr})
+    </insert>
+    <insert id="insertModifiedBizArea">
+        INSERT INTO BIZ_AREA
+        VALUES (#{BizAreaId}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), TO_CHAR('99991231235959'), #{BizAreaNm}, #{BizAreaDescr})
+    </insert>
+</mapper>

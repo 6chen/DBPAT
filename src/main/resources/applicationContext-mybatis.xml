@@ -25,10 +25,11 @@
 
     <!-- In order to Scan mapper class and mapper xml, Configurate MapperScannerConfigurer-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.dbpat.mvc.mapper"/>
+        <property name="basePackage" value="com.dbpat.springmvc.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
-    <context:component-scan base-package="com.dbpat.mvc"/>
-    <context:component-scan base-package="com.dbpat.util"/>
+    <!--<context:component-scan base-package="com.dbpat.mvc"/>-->
+    <context:component-scan base-package="com.dbpat.springmvc"/>
+    <!--<context:component-scan base-package="com.dbpat.util"/>-->
 </beans>

@@ -6,7 +6,7 @@
 		<h3 class="box-title"><b>Targets</b></h3>
 
 		<div class="box-tools pull-right">
-			<a href="#" class="btn btn-sm btn-info btn-flat pull-left">Add New Target</a>
+			<a href="#" class="btn btn-sm btn-success btn-flat pull-left">감리 대상 추가</a>
 		</div>
 	</div>
 
