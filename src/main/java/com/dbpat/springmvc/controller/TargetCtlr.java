@@ -57,6 +57,13 @@ public class TargetCtlr {
         return "{\"success\":true}";
     }
 
+    @RequestMapping(value = "/remove_biz", method = RequestMethod.POST)
+    public @ResponseBody String removeBizArea(BizAreaPo bizAreaPo) {
+        bizAreaSrv.removeBizArea(bizAreaPo);
+        return "{\"success\":true}";
+    }
+
+
     // 검사 대상에 관련된 부분
 
     @RequestMapping(value = "/show_target_trgt_part", method = RequestMethod.GET)

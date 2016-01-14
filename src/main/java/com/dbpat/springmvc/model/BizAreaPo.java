@@ -7,59 +7,60 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BizAreaPo {
-    private String BizAreaId;
-    private String BizAreaStTm;
-    private String BizAreaEdTm;
-    private String BizAreaNm;
-    private String BizAreaDescr;
+    private String bizAreaId;
+    private String bizAreaNm;
+    private String bizAreaDescr;
+    private String bizAreaStTm;
+    private String bizAreaUptTm;
 
     public String getBizAreaId() {
-        return BizAreaId;
+        return bizAreaId;
     }
 
     public void setBizAreaId(String bizAreaId) {
-        BizAreaId = bizAreaId;
+        this.bizAreaId = bizAreaId;
     }
 
     public String getBizAreaStTm() {
-        return BizAreaStTm;
+        return bizAreaStTm;
     }
 
     public void setBizAreaStTm(String bizAreaStTm) {
-        BizAreaStTm = bizAreaStTm;
-    }
-
-    public String getBizAreaEdTm() {
-        return BizAreaEdTm;
-    }
-    public void setBizAreaEdTm(String bizAreaEdTm) {
-        BizAreaEdTm = bizAreaEdTm;
+        this.bizAreaStTm = bizAreaStTm;
     }
 
     public String getBizAreaNm() {
-        return BizAreaNm;
+        return bizAreaNm;
     }
 
     public void setBizAreaNm(String bizAreaNm) {
-        BizAreaNm = bizAreaNm;
+        this.bizAreaNm = bizAreaNm;
     }
 
     public String getBizAreaDescr() {
-        return BizAreaDescr;
+        return bizAreaDescr;
     }
 
     public void setBizAreaDescr(String bizAreaDescr) {
-        BizAreaDescr = bizAreaDescr;
+        this.bizAreaDescr = bizAreaDescr;
+    }
+
+    public String getBizAreaUptTm() {
+        return bizAreaUptTm;
+    }
+
+    public void setBizAreaUptTm(String bizAreaUptTm) {
+        this.bizAreaUptTm = bizAreaUptTm;
     }
 
     @Override
     public String toString() {
         return "BizAreaPo{" +
-                "BizAreaId='" + BizAreaId + '\'' +
-                ", BizAreaStTm='" + BizAreaStTm + '\'' +
-                ", BizAreaEdTm='" + BizAreaEdTm + '\'' +
-                ", BizAreaNm='" + BizAreaNm + '\'' +
-                ", BizAreaDescr='" + BizAreaDescr + '\'' +
+                "bizAreaId='" + bizAreaId + '\'' +
+                ", bizAreaNm='" + bizAreaNm + '\'' +
+                ", bizAreaDescr='" + bizAreaDescr + '\'' +
+                ", bizAreaStTm='" + bizAreaStTm + '\'' +
+                ", bizAreaUptTm='" + bizAreaUptTm + '\'' +
                 '}';
     }
 }

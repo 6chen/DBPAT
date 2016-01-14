@@ -19,7 +19,7 @@
 		<thead>
 		<tr>
 			<th style="width: 10px">#</th>
-			<th>업무 영역 명칭</th>
+			<th style="width: 200px">업무 영역 명칭</th>
 			<th>업무 영역 설명</th>
 			<th></th>
 		</tr>
@@ -27,13 +27,13 @@
 		<tbody>
 		<c:forEach varStatus="i" var="bizAreaPo" items="${bizAreaPoList}">
 			<tr>
-				<td>${i.index+1}</td>
-				<td><a href="#" id="${bizAreaPo.bizAreaId}" data-toggle="tooltip"
+				<td style="width: 10px">${i.index+1}</td>
+				<td style="width: 30px"><a href="#" id="${bizAreaPo.bizAreaId}" data-toggle="tooltip"
 				       data-original-title="Show Targets">${bizAreaPo.bizAreaNm}</a></td>
 				<td>${bizAreaPo.bizAreaDescr}</td>
 				<td style="width: 10px;">
 					<button name="${bizAreaPo.bizAreaId}" type="button" class="btn btn-block btn-warning btn-xs"
-					        onclick="showModifyBizAreaModal(this)">수정
+					        onclick="showModifyBizAreaModal(this)">변경
 					</button>
 				</td>
 			</tr>
@@ -53,7 +53,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 						aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="addNewModalLabel">업무 영역 수정</h4>
+				<h4 class="modal-title" id="addNewModalLabel">업무 영역 변경</h4>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
@@ -68,9 +68,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn btn-danger pull-left" id="removeNewBizArea" onclick="removeBiz()">삭제</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-				<button type="button" class="btn btn-warning" id="submitNewBizArea" onclick="modifyBiz()">수정
-				</button>
+				<button type="button" class="btn btn-warning" id="modifyNewBizArea" onclick="modifyBiz()">변경</button>
 			</div>
 		</div>
 	</div>
@@ -82,7 +82,8 @@
 			type: 'post',
 			url: 'find_biz_area_by_id.action?bizAreaId=' + $(e).attr("name"),
 			success: function (data) {
-				$("#submitNewBizArea").attr("name", data.bizAreaId);
+				$("#modifyNewBizArea").attr("name", data.bizAreaId);
+				$("#removeNewBizArea").attr("name", data.bizAreaId);
 				$("#oldBizAreaName").val(data.bizAreaNm);
 				$("#oldBizAreaDesc").val(data.bizAreaDescr);
 				$("#modifyBizAreaModal").modal("show");
@@ -95,7 +96,28 @@
 			type: 'post',
 			url: 'modify_biz.action',
 			data: {
-				bizAreaId: $("#submitNewBizArea").attr("name"),
+				bizAreaId: $("#modifyNewBizArea").attr("name"),
+				bizAreaNm: $("#oldBizAreaName").val(),
+				bizAreaDescr: $("#oldBizAreaDesc").val()
+			},
+			success: function (data) {
+				var result = $.parseJSON(data);
+				if (result.success) {
+					$("#modifyBizAreaModal").modal("hide");
+					$("#modifyBizAreaModal").on('hidden.bs.modal', function () {
+						$("#bizList").load("show_target_biz_list.action");
+					});
+				}
+			}
+		})
+	}
+
+	function removeBiz() {
+		$.ajax({
+			type: 'post',
+			url: 'remove_biz.action',
+			data: {
+				bizAreaId: $("#removeNewBizArea").attr("name"),
 				bizAreaNm: $("#oldBizAreaName").val(),
 				bizAreaDescr: $("#oldBizAreaDesc").val()
 			},

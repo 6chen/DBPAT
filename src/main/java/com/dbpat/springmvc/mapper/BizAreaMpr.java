@@ -16,7 +16,7 @@ public interface BizAreaMpr {
 
     void insertBizArea(BizAreaPo bizAreaPo);
 
-    void updateBizAreaEndTmById(String bizAreaId);
+    void updateBizArea(BizAreaPo bizAreaPo);
 
-    void insertModifiedBizArea(BizAreaPo bizAreaPo);
+    void deleteBizArea(BizAreaPo bizAreaPo);
 }

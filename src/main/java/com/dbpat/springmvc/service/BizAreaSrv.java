@@ -29,7 +29,10 @@ public class BizAreaSrv {
     }
 
     public void modifyBizArea(BizAreaPo bizAreaPo){
-        bizAreaMpr.updateBizAreaEndTmById(bizAreaPo.getBizAreaId());
-        bizAreaMpr.insertModifiedBizArea(bizAreaPo);
+        bizAreaMpr.updateBizArea(bizAreaPo);
+    }
+
+    public void removeBizArea(BizAreaPo bizAreaPo){
+        bizAreaMpr.deleteBizArea(bizAreaPo);
     }
 }
