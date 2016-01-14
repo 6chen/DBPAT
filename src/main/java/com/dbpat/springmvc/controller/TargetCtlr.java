@@ -1,7 +1,11 @@
 package com.dbpat.springmvc.controller;
 
 import com.dbpat.springmvc.model.BizAreaPo;
+import com.dbpat.springmvc.model.DbmsTypePo;
+import com.dbpat.springmvc.model.TargetPo;
 import com.dbpat.springmvc.service.BizAreaSrv;
+import com.dbpat.springmvc.service.DbmsTypeSrv;
+import com.dbpat.springmvc.service.TargetSrv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +24,12 @@ public class TargetCtlr {
 
     @Autowired
     private BizAreaSrv bizAreaSrv;
+
+    @Autowired
+    private TargetSrv targetSrv;
+
+    @Autowired
+    private DbmsTypeSrv dbmsTypeSrv;
 
     @RequestMapping(value = "/show_target_main", method = RequestMethod.GET)
     public String showHomeRightMain() {
@@ -67,15 +77,47 @@ public class TargetCtlr {
     // 검사 대상에 관련된 부분
 
     @RequestMapping(value = "/show_target_trgt_part", method = RequestMethod.GET)
-    public String showTgrtTrgtPart() {
+    public String showTgrtTrgtPart(ModelMap modelMap) {
+        List<DbmsTypePo> dbmsTypePoList = dbmsTypeSrv.findAllDbmsType();
+        modelMap.put("dbmsTypePoList", dbmsTypePoList);
         return "definition/target/target_trgt_part";
     }
 
     @RequestMapping(value = "/show_target_trgt_list", method = RequestMethod.GET)
-    public String showTgrtTrgtList() {
+    public String showTgrtTrgtList(String bizAreaId, ModelMap modelMap) {
+        if (bizAreaId != null){
+            List<TargetPo> targetPoList = targetSrv.findAllTrgtByBizAreaId(bizAreaId);
+            modelMap.put("targetPoList", targetPoList);
+            List<DbmsTypePo> dbmsTypePoList = dbmsTypeSrv.findAllDbmsType();
+            modelMap.put("dbmsTypePoList", dbmsTypePoList);
+        }
         return "definition/target/target_trgt_list";
     }
 
+    @RequestMapping(value = "/add_new_target", method = RequestMethod.POST)
+    public @ResponseBody String addNewTarget(TargetPo targetPo) {
+        targetSrv.addTrgtPo(targetPo);
+        return "{\"success\":true}";
+    }
+
+    @RequestMapping(value = "/find_one_target", method = RequestMethod.POST)
+    public @ResponseBody TargetPo findOneTarget(String bizAreaId, String trgtId) {
+        return targetSrv.findOneTrgt(bizAreaId, trgtId);
+    }
+
+    @RequestMapping(value = "/modify_target", method = RequestMethod.POST)
+    public @ResponseBody String modifyTarget(TargetPo targetPo) {
+        targetSrv.modifyTrgtPo(targetPo);
+        return "{\"success\":true}";
+    }
+
+    @RequestMapping(value = "/remove_target", method = RequestMethod.POST)
+    public @ResponseBody String removeTarget(String bizAreaId, String trgtId) {
+        targetSrv.removeTrgtPo(bizAreaId, trgtId);
+        return "{\"success\":true}";
+    }
+
+    // DBMS 유형에 관련된 부분
 
 
 }

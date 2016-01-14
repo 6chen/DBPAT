@@ -14,22 +14,26 @@
 	}
 </style>
 
+<%--만약 등록된 업무영역이 있으면 테이블 형태로 나타남--%>
 <c:if test="${bizAreaPoList != null && fn:length(bizAreaPoList) > 0}">
 	<table class="table table-hover">
 		<thead>
 		<tr>
 			<th style="width: 10px">#</th>
-			<th style="width: 200px">업무 영역 명칭</th>
-			<th>업무 영역 설명</th>
+			<th style="width: 200px">업무영역 명칭</th>
+			<th>업무영역 설명</th>
 			<th></th>
 		</tr>
 		</thead>
 		<tbody>
+		<%--등록된 모든 업무영역을 반복 출력하는 부분--%>
 		<c:forEach varStatus="i" var="bizAreaPo" items="${bizAreaPoList}">
 			<tr>
 				<td style="width: 10px">${i.index+1}</td>
-				<td style="width: 30px"><a href="#" id="${bizAreaPo.bizAreaId}" data-toggle="tooltip"
-				       data-original-title="Show Targets">${bizAreaPo.bizAreaNm}</a></td>
+				<td style="width: 30px"><a href="#" onclick="showTargetOfThisBizArea(this);return false;"
+				                           name="${bizAreaPo.bizAreaId}" data-toggle="tooltip"
+				                           data-original-title="Show Targets"
+						>${bizAreaPo.bizAreaNm}</a></td>
 				<td>${bizAreaPo.bizAreaDescr}</td>
 				<td style="width: 10px;">
 					<button name="${bizAreaPo.bizAreaId}" type="button" class="btn btn-block btn-warning btn-xs"
@@ -42,6 +46,7 @@
 	</table>
 </c:if>
 
+<%--만약 등록된 업무영역이 없으면 아래와 같은 메시지를 출력--%>
 <c:if test="${bizAreaPoList == null || fn:length(bizAreaPoList) == 0}">
 	<b>등록된 업무 영역이 없습니다.</b>
 </c:if>
@@ -68,7 +73,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger pull-left" id="removeNewBizArea" onclick="removeBiz()">삭제</button>
+				<button type="button" class="btn btn-danger pull-left" id="removeOldBizArea" onclick="removeBiz()">삭제
+				</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 				<button type="button" class="btn btn-warning" id="modifyNewBizArea" onclick="modifyBiz()">변경</button>
 			</div>
@@ -77,13 +83,15 @@
 </div>
 
 <script>
+//	수정하려고 각 업무영역 레코드 맨 뒤에 있는 변경 버튼을 클릭할 때 변경을 위한 모달 창을 나타난다.
+//	나타나기 전에 해당 업무영역 아이디 값을 통해서 최신 정보를 가져와서 모달 창의 해당 위치에 출력함.
 	function showModifyBizAreaModal(e) {
 		$.ajax({
 			type: 'post',
 			url: 'find_biz_area_by_id.action?bizAreaId=' + $(e).attr("name"),
 			success: function (data) {
 				$("#modifyNewBizArea").attr("name", data.bizAreaId);
-				$("#removeNewBizArea").attr("name", data.bizAreaId);
+				$("#removeOldBizArea").attr("name", data.bizAreaId);
 				$("#oldBizAreaName").val(data.bizAreaNm);
 				$("#oldBizAreaDesc").val(data.bizAreaDescr);
 				$("#modifyBizAreaModal").modal("show");
@@ -91,6 +99,7 @@
 		})
 	}
 
+//수정을 위한 모달 창에 있는 변경 버튼을 통해서 실제 업무영역의 내용을 변경하기 위함 부분
 	function modifyBiz() {
 		$.ajax({
 			type: 'post',
@@ -103,6 +112,7 @@
 			success: function (data) {
 				var result = $.parseJSON(data);
 				if (result.success) {
+//					업데이트가 성공적으로 이루어진 후에 모달 창을 닫은 후에 업무영역 리스트 부분만을 갱신함
 					$("#modifyBizAreaModal").modal("hide");
 					$("#modifyBizAreaModal").on('hidden.bs.modal', function () {
 						$("#bizList").load("show_target_biz_list.action");
@@ -112,12 +122,13 @@
 		})
 	}
 
+//  업무영역을 삭제하는 부분
 	function removeBiz() {
 		$.ajax({
 			type: 'post',
 			url: 'remove_biz.action',
 			data: {
-				bizAreaId: $("#removeNewBizArea").attr("name"),
+				bizAreaId: $("#removeOldBizArea").attr("name"),
 				bizAreaNm: $("#oldBizAreaName").val(),
 				bizAreaDescr: $("#oldBizAreaDesc").val()
 			},
@@ -132,4 +143,13 @@
 			}
 		})
 	}
+
+//  업무영역 리스트에서 업무영역 명칭을 클릭한 후에 전체 화면 아래에 있는 감리대상 리스트를 나타나게 하는 부분
+//  업무영역의 아이디를 통해서 업무영역별 등록된 감리 대상 리스트를 출력하는 방식이라서 감리 대상을 조회할 때 해당 업무영역 아이디를 적용함
+	function showTargetOfThisBizArea(e) {
+		$("#targetListHeader").html("<b>Targets</b>  <span class=\"badge bg-green\">in</span>&nbsp;<b>" + $(e).text() + "</b>");
+		$("#targetListHeader").attr("name", $(e).attr("name"));
+		$("#targetList").load("show_target_trgt_list.action?bizAreaId=" + $(e).attr("name"));
+	}
+
 </script>

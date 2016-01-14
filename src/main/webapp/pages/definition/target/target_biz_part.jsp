@@ -2,7 +2,7 @@
 <div class="box box-warning">
 
 	<!-- box-header -->
-	<div class="box-header">
+	<div class="box-header with-border">
 		<h3 class="box-title"><b>Business Areas</b></h3>
 
 		<div class="box-tools">
@@ -11,7 +11,8 @@
 	</div>
 
 	<!-- box-body -->
-	<div class="box-body" style="overflow-y: scroll; width: auto; height: 40%">
+	<%--업무영역을 리스트 나타나는 부분--%>
+	<div class="box-body" style="overflow-y: scroll; width: auto; height: auto">
 		<div id="bizList">
 			<jsp:include page="/show_target_biz_list.action"></jsp:include>
 		</div>
@@ -19,7 +20,7 @@
 
 </div>
 
-<!-- This modal is used for add a new business area -->
+<!-- 새로운 업무영역을 추가할 때 나타나는 모달 창  -->
 <div class="modal fade" id="newBizAreaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -50,13 +51,16 @@
 </div>
 
 
+
 <script>
+//	신규 업무영역 추가하는 모달 창 중에 있는 값을 초기화하여 나타나게, 초기화 안 하면 전에 추가하는 내용을 그대로 존재
 	function showNewBizAreaModal() {
 		$("#newBizAreaName").val("")
 		$("#newBizAreaDesc").val("")
 		$("#newBizAreaModal").modal("show");
 	}
 
+// 신규 업무영역 추가 모달 창 안에 있는 추가 버튼을 눌러 실제 데이터를 삽입하기 위한 부분. 삽입 + 부분 화면 갱신
 	function addBiz() {
 		$.ajax({
 			type: 'post',
@@ -68,6 +72,7 @@
 			success: function (data) {
 				var result = $.parseJSON(data);
 				if (result.success) {
+					// 삽입 성공한 후에 신규 추가 모달 차 닫는다 닫자마자 업무 영역 리스트 부분을 갱신함. 방금 추가한 것 나옴
 					$("#newBizAreaModal").modal("hide");
 					$("#newBizAreaModal").on('hidden.bs.modal', function () {
 						$("#bizList").load("show_target_biz_list.action");

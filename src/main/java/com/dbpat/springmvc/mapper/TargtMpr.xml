@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.springmvc.mapper.TargtMpr">
+    <insert id="insertTrgtPo">
+        INSERT INTO TRGT (BIZ_AREA_ID, TRGT_ID, TRGT_NM, TRGT_TYP, IP, PRT, DBMS_TYP_ID, USR_ID, PW, SID, SCHM, TRGT_ST_TM)
+        VALUES (#{bizAreaId}, SYS_GUID(), #{trgtNm},
+                #{trgtTyp},
+                #{ip}, #{prt}, #{dbmsTypId}, #{usrId}, #{pw}, #{sid}, #{schm},
+                TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'))
+    </insert>
+    <update id="updateTrgtPo">
+        UPDATE TRGT
+        SET
+            TRGT_NM     = #{trgtNm},
+            TRGT_TYP    = #{trgtTyp},
+            IP          = #{ip},
+            PRT         = #{prt},
+            DBMS_TYP_ID = #{dbmsTypId},
+            USR_ID      = #{usrId},
+            PW          = #{pw},
+            SID         = #{sid},
+            SCHM        = #{schm},
+            TRGT_UPT_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        WHERE BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+    </update>
+    <delete id="deleteTrgtPo">
+        DELETE TRGT
+        WHERE BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+    </delete>
+    <select id="selectAllTrgtByBizAreaId" resultType="com.dbpat.springmvc.model.TargetPo">
+        SELECT
+            BIZ_AREA_ID AS bizAreaId,
+            TRGT_ID     AS trgtId,
+            TRGT_NM     AS trgtNm,
+            TRGT_TYP    AS trgtTyp,
+            IP          AS ip,
+            PRT         AS prt,
+            DBMS_TYP_ID AS dbmsTypId,
+            USR_ID      AS usrId,
+            PW          AS pw,
+            SID         AS sid,
+            SCHM        AS schm,
+            TRGT_ST_TM  AS trgtStTm,
+            TRGT_UPT_TM AS trgtUptTm
+        FROM TRGT
+        WHERE BIZ_AREA_ID = #{bizAreaId}
+    </select>
+    <select id="selectOneTrgt" resultType="com.dbpat.springmvc.model.TargetPo">
+        SELECT
+            BIZ_AREA_ID AS bizAreaId,
+            TRGT_ID     AS trgtId,
+            TRGT_NM     AS trgtNm,
+            TRGT_TYP    AS trgtTyp,
+            IP          AS ip,
+            PRT         AS prt,
+            DBMS_TYP_ID AS dbmsTypId,
+            USR_ID      AS usrId,
+            PW          AS pw,
+            SID         AS sid,
+            SCHM        AS schm,
+            TRGT_ST_TM  AS trgtStTm,
+            TRGT_UPT_TM AS trgtUptTm
+        FROM TRGT
+        WHERE BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+    </select>
+</mapper>

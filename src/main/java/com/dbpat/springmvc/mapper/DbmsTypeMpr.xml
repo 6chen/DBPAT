@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.springmvc.mapper.DbmsTypeMpr">
+    <select id="selectAllDbmsType" resultType="com.dbpat.springmvc.model.DbmsTypePo">
+        SELECT
+            DBMS_TYP_ID AS dbmsTypId,
+            DBMS_TYP_NM AS dbmsTypNm,
+            DBMS_VER    AS dbmsVer,
+            DBMS_DRIVER AS dbmsDrv
+        FROM DBMS_TYP
+    </select>
+</mapper>
