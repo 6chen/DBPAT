@@ -6,7 +6,7 @@
 		<h3 class="box-title"><b>Audit Rule</b></h3>
 
 		<div class="box-tools">
-			<a href="#" class="btn btn-sm btn-success btn-flat pull-left">Add New Audit Rule</a>
+			<a href="#" class="btn btn-sm btn-success btn-flat pull-left">추가</a>
 		</div>
 	</div>
 

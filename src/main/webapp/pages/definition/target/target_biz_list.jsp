@@ -48,7 +48,9 @@
 
 <%--만약 등록된 업무영역이 없으면 아래와 같은 메시지를 출력--%>
 <c:if test="${bizAreaPoList == null || fn:length(bizAreaPoList) == 0}">
-	<b>등록된 업무 영역이 없습니다.</b>
+	<div class="row" style="text-align: center">
+		<b>업무 영역이 없습니다.</b>
+	</div>
 </c:if>
 
 <!-- This modal is used for modify a business area -->

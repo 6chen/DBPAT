@@ -1,81 +1,54 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<table class="table">
-  <tbody>
-  <tr>
-    <th style="width: 10px">#</th>
-    <th>Task</th>
-    <th>Progress</th>
-    <th style="width: 40px">Label</th>
-  </tr>
-  <tr>
-    <td>1.</td>
-    <td>Update software</td>
-    <td>
-      <div class="progress progress-xs">
-        <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-      </div>
-    </td>
-    <td><span class="badge bg-red">55%</span></td>
-  </tr>
-  <tr>
-    <td>2.</td>
-    <td>Clean database</td>
-    <td>
-      <div class="progress progress-xs">
-        <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-      </div>
-    </td>
-    <td><span class="badge bg-yellow">70%</span></td>
-  </tr>
-  <tr>
-    <td>3.</td>
-    <td>Cron job running</td>
-    <td>
-      <div class="progress progress-xs progress-striped active">
-        <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-      </div>
-    </td>
-    <td><span class="badge bg-light-blue">30%</span></td>
-  </tr>
-  <tr>
-    <td>4.</td>
-    <td>Fix and squish bugs</td>
-    <td>
-      <div class="progress progress-xs progress-striped active">
-        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-      </div>
-    </td>
-    <td><span class="badge bg-green">90%</span></td>
-  </tr>
-  <tr>
-    <td>4.</td>
-    <td>Fix and squish bugs</td>
-    <td>
-      <div class="progress progress-xs progress-striped active">
-        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-      </div>
-    </td>
-    <td><span class="badge bg-green">90%</span></td>
-  </tr>
-  <tr>
-    <td>4.</td>
-    <td>Fix and squish bugs</td>
-    <td>
-      <div class="progress progress-xs progress-striped active">
-        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-      </div>
-    </td>
-    <td><span class="badge bg-green">90%</span></td>
-  </tr>
-  <tr>
-    <td>4.</td>
-    <td>Fix and squish bugs</td>
-    <td>
-      <div class="progress progress-xs progress-striped active">
-        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-      </div>
-    </td>
-    <td><span class="badge bg-green">90%</span></td>
-  </tr>
-  </tbody>
-</table>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+
+<%--규칙 집합을 등록되어 있을 때 나타나는 화면--%>
+<c:if test="${ruleSetPoList != null && fn:length(ruleSetPoList) > 0}">
+	<!-- Split button -->
+	<div class="row">
+		<div class="form-group col-lg-3">
+			<label><b>규칙 집합 명칭 :</b></label>
+			<select class="form-control" onchange="showRuleSetDescr()" id="ruleSetTagSelect">
+				<c:forEach varStatus="i" var="ruleSetPo" items="${ruleSetPoList}">
+					<option value="${ruleSetPo.rlSetId}" name="${ruleSetPo.rlSetDescr}"> ${ruleSetPo.rlSetNm}</option>
+				</c:forEach>
+			</select>
+		</div>
+
+		<%--<c:forEach varStatus="i" var="ruleSetPo" items="${ruleSetPoList}">--%>
+		<div class="form-group col-lg-9" >
+			<p><b>규칙 집합 명칭 :</b></p>
+
+			<p id="ruleSetDescriptionTagP">${ruleSetPoList[0].rlSetDescr}</p>
+		</div>
+		<%--</c:forEach>--%>
+	</div>
+</c:if>
+
+
+<%--규칙 집합을 등록되어 있지 않을 때 나타나는 화면--%>
+<c:if test="${ruleSetPoList == null || fn:length(ruleSetPoList) == 0}">
+	<div class="row">
+		<div class="form-group col-lg-3">
+			<label><b>규칙 집합 명칭 :</b></label>
+			<select class="form-control">
+				<option>없음</option>
+			</select>
+		</div>
+
+		<div class="form-group col-lg-9">
+			<p><b>규칙 집합 명칭 :</b></p>
+
+			<p>없음</p>
+		</div>
+	</div>
+</c:if>
+
+<script>
+	function showRuleSetDescr(){
+		$("#ruleSetDescriptionTagP").text($("#ruleSetTagSelect option:selected").attr("name"));
+	}
+</script>
+
+

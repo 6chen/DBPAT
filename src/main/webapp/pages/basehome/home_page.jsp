@@ -121,11 +121,20 @@
 
 
 
-	<div id="RightPart" class="content-wrapper" style="min-height: 916px;">
+	<div class="content-wrapper"> <%--style="min-height: 916px;"--%>
+		<div id="RightPart" >
 
+		</div>
+
+		<%--<div id="refHomeBottom" style=""></div>--%>
 	</div>
 
-
+	<footer class="main-footer">
+		<div class="pull-right hidden-xs">
+			by <b>DBSIN</b>
+		</div>
+		<strong><a href="http://www.pknu.ac.kr" target="_blank"> Pukyoung International University</a> Database and Ecommerce Lab.</strong>
+	</footer>
 
 </div>
 

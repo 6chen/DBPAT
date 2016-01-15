@@ -56,7 +56,9 @@
 </c:if>
 
 <c:if test="${targetPoList == null || fn:length(targetPoList) == 0}">
-	<b>대상이 없습니다.</b>
+	<div class="row" style="text-align: center">
+		<b>감리 대상이 없습니다.</b>
+	</div>
 </c:if>
 
 <!-- 대상 수정 모달 창 -->
