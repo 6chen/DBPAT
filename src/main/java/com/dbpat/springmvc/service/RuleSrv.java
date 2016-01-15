@@ -1,6 +1,7 @@
 package com.dbpat.springmvc.service;
 
 import com.dbpat.springmvc.mapper.RuleMpr;
+import com.dbpat.springmvc.model.RulePo;
 import com.dbpat.springmvc.model.RuleSetPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,4 +35,28 @@ public class RuleSrv {
     }
 
     // 규칙 집합에 관련된 부분
+
+    public List<RulePo> findAllRule(){
+        return ruleMpr.selectAllRule();
+    }
+
+    public List<RulePo> findAllRuleByRuleSetId(String ruleSetId){
+        return ruleMpr.selectAllRuleByRuleSetId(ruleSetId);
+    }
+
+    public RulePo findRuleByRuleId(String ruleId){
+        return ruleMpr.selectRuleByRuleId(ruleId);
+    }
+
+    public void addRule(RulePo rulePo){
+        ruleMpr.insertRule(rulePo);
+    }
+
+    public void modifyRule(RulePo rulePo){
+        ruleMpr.updateRule(rulePo);
+    }
+
+    public void removeRule(String ruleId){
+        ruleMpr.deleteRule(ruleId);
+    }
 }

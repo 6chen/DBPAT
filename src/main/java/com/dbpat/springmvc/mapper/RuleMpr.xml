@@ -5,6 +5,10 @@
         INSERT INTO RL_SET
         VALUES (SYS_GUID(), #{rlSetNm}, #{rlSetDescr}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
     </insert>
+    <insert id="insertRule">
+        INSERT INTO RL
+        VALUES (SYS_GUID(), #{rlNm}, #{rlCls}, #{rlDescr}, #{rlSetId}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
+    </insert>
     <update id="updateRuleSet">
         UPDATE RL_SET
         SET RL_SET_NM     = #{rlSetNm},
@@ -12,8 +16,22 @@
             RL_SET_UPT_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
         WHERE RL_SET_ID = #{rlSetId}
     </update>
+    <update id="updateRule">
+        UPDATE RL
+        SET RL_NM     = #{rlNm},
+            RL_CLS    = #{rlCls},
+            RL_DESCR  = #{rlDescr},
+            RL_SET_ID = #{rlSetId},
+            RL_UPT_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        WHERE RL_ID = #{rlId}
+    </update>
     <delete id="deleteRuleSet">
-        DELETE RL_SET WHERE RL_SET_ID = #{rlSetId}
+        DELETE RL_SET
+        WHERE RL_SET_ID = #{rlSetId}
+    </delete>
+    <delete id="deleteRule">
+        DELETE RL
+        WHERE RL_ID = #{ruleId}
     </delete>
     <select id="selectAllRuleSet" resultType="com.dbpat.springmvc.model.RuleSetPo">
         SELECT
@@ -23,5 +41,40 @@
             RL_SET_ST_TM  AS rlSetStTm,
             RL_SET_UPT_TM AS rlSetUptTm
         FROM RL_SET
+    </select>
+    <select id="selectAllRule" resultType="com.dbpat.springmvc.model.RulePo">
+        SELECT
+            RL_ID     AS rlId,
+            RL_NM     AS rlNm,
+            RL_CLS    AS rlCls,
+            RL_DESCR  AS rlDescr,
+            RL_SET_ID AS rlSetId,
+            RL_ST_TM  AS rlStTm,
+            RL_UPT_TM AS rlUptTm
+        FROM RL
+    </select>
+    <select id="selectAllRuleByRuleSetId" resultType="com.dbpat.springmvc.model.RulePo">
+        SELECT
+            RL_ID     AS rlId,
+            RL_NM     AS rlNm,
+            RL_CLS    AS rlCls,
+            RL_DESCR  AS rlDescr,
+            RL_SET_ID AS rlSetId,
+            RL_ST_TM  AS rlStTm,
+            RL_UPT_TM AS rlUptTm
+        FROM RL
+        WHERE RL_SET_ID = #{ruleSetId}
+    </select>
+    <select id="selectRuleByRuleId" resultType="com.dbpat.springmvc.model.RulePo">
+        SELECT
+            RL_ID     AS rlId,
+            RL_NM     AS rlNm,
+            RL_CLS    AS rlCls,
+            RL_DESCR  AS rlDescr,
+            RL_SET_ID AS rlSetId,
+            RL_ST_TM  AS rlStTm,
+            RL_UPT_TM AS rlUptTm
+        FROM RL
+        WHERE RL_ID = #{ruleId}
     </select>
 </mapper>

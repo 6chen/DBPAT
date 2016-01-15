@@ -1,5 +1,6 @@
 package com.dbpat.springmvc.mapper;
 
+import com.dbpat.springmvc.model.RulePo;
 import com.dbpat.springmvc.model.RuleSetPo;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,15 @@ public interface RuleMpr {
     void deleteRuleSet(String ruleSetId);
 
 //    규칙에 관련된 메소드
+    List<RulePo> selectAllRule();
+
+    List<RulePo> selectAllRuleByRuleSetId(String ruleSetId);
+
+    RulePo selectRuleByRuleId(String ruleId);
+
+    void insertRule(RulePo rulePo);
+
+    void updateRule(RulePo rulePo);
+
+    void deleteRule(String ruleId);
 }
