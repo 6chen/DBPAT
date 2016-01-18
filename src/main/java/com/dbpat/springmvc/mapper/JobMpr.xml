@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.springmvc.mapper.JobMpr">
+    <resultMap id="JobTargetVo" type="com.dbpat.springmvc.model.JobTargetVo" autoMapping="true">
+        <id column="jbId" property="jbId"></id>
+        <id column="execSeq" property="execSeq"></id>
+        <association property="bizAreaPo" javaType="com.dbpat.springmvc.model.BizAreaPo" autoMapping="true">
+            <id column="bizAreaId" property="bizAreaId"></id>
+        </association>
+        <association property="targetPo" javaType="com.dbpat.springmvc.model.TargetPo" autoMapping="true">
+            <id column="bizAreaId" property="bizAreaId"></id>
+            <id column="trgtId" property="trgtId"></id>
+        </association>
+    </resultMap>
+
+    <insert id="insertJob">
+        INSERT INTO JB
+        VALUES (SYS_GUID(), #{jbNm}, #{jbTyp}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
+    </insert>
+    <update id="updateJob">
+        UPDATE JB
+        SET JB_NM     = #{jbNm},
+            JB_TYP    = #{jbTyp},
+            JB_UPT_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        WHERE JB_ID = #{jbId}
+    </update>
+    <delete id="deleteJob">
+        DELETE JB
+        WHERE JB_ID = #{jbId}
+    </delete>
+    <delete id="deleteJobTargetVo">
+        DELETE JB_TRGT_REL
+        WHERE JB_ID = #{jbId}
+          AND EXEC_SEQ = #{execSeq}
+    </delete>
+    <select id="selectAllJobByTyp" resultType="com.dbpat.springmvc.model.JobPo">
+        SELECT
+            JB_ID     AS jbId,
+            JB_NM     AS jbNm,
+            JB_TYP    AS jbTyp,
+            JB_ST_TM  AS jbStTm,
+            JB_UPT_TM AS jbUptTm
+        FROM JB
+        WHERE JB_TYP = #{jbTyp}
+    </select>
+    <select id="selectJobByJbId" resultType="com.dbpat.springmvc.model.JobPo">
+        SELECT
+            JB_ID     AS jbId,
+            JB_NM     AS jbNm,
+            JB_TYP    AS jbTyp,
+            JB_ST_TM  AS jbStTm,
+            JB_UPT_TM AS jbUptTm
+        FROM JB
+        WHERE JB_ID = #{jbId}
+    </select>
+    <select id="selectJobTargetVoByJbId" resultMap="JobTargetVo">
+        SELECT
+            X.JB_ID AS jbId,
+            X.EXEC_SEQ AS execSeq,
+            Z.BIZ_AREA_ID AS bizAreaId,
+            Z.BIZ_AREA_NM AS bizAreaNm,
+            Y.TRGT_ID AS trgtId,
+            Y.TRGT_NM AS trgtNm
+        FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z
+        WHERE X.JB_ID = #{jbId}
+              AND X.TRGT_ID = Y.TRGT_ID
+              AND X.BIZ_AREA_ID = Z.BIZ_AREA_ID
+        ORDER BY X.EXEC_SEQ
+    </select>
+    <!--<select id="selectJobTargetBizVoByJbId" resultType="com.dbpat.springmvc.model.JobTargetBizVo">-->
+        <!--SELECT-->
+            <!--X.JB_ID AS jbId,-->
+            <!--X.EXEC_SEQ AS execSeq,-->
+            <!--Z.BIZ_AREA_NM AS bizAreaNm,-->
+            <!--Y.TRGT_NM AS trgtNm-->
+        <!--FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z-->
+        <!--WHERE X.JB_ID = #{jbId}-->
+              <!--AND X.TRGT_ID = Y.TRGT_ID-->
+              <!--AND X.BIZ_AREA_ID = Z.BIZ_AREA_ID-->
+    <!--</select>-->
+</mapper>
