@@ -14,6 +14,8 @@ public interface BizAreaMpr {
 
     BizAreaPo selectBizAreaById(String bizAreaId);
 
+    List<BizAreaPo>selectAllBizAreaNoAdd(String jbId);
+
     void insertBizArea(BizAreaPo bizAreaPo);
 
     void updateBizArea(BizAreaPo bizAreaPo);

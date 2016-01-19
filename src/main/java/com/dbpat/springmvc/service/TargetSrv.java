@@ -29,6 +29,10 @@ public class TargetSrv {
         return targtMpr.selectOneTrgt(prmtMap);
     }
 
+    public List<TargetPo> findAllTrgtByBizAreaIdNoAdd(Map<String, Object> prmtMap){
+        return targtMpr.selectAllTrgtByBizAreaIdNoAdd(prmtMap);
+    }
+
     public void addTrgtPo(TargetPo targetPo){
         targtMpr.insertTrgtPo(targetPo);
     }

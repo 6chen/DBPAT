@@ -32,7 +32,24 @@
         FROM BIZ_AREA
         WHERE BIZ_AREA_ID = #{bizAreaId}
     </select>
+    <select id="selectAllBizAreaNoAdd" resultType="com.dbpat.springmvc.model.BizAreaPo">
+        SELECT
+            DISTINCT
+            X.BIZ_AREA_ID   AS bizAreaId,
+            BIZ_AREA_NM     AS bizAreaNm,
+            BIZ_AREA_DESCR  AS bizAreaDescr,
+            BIZ_AREA_ST_TM  AS bizAreaStTm,
+            BIZ_AREA_UPT_TM AS bizAreaUptTm
+        FROM BIZ_AREA X, TRGT Y
+        WHERE X.BIZ_AREA_ID = Y.BIZ_AREA_ID (+)
+              AND (X.BIZ_AREA_ID, Y.TRGT_ID) NOT IN (SELECT
+                                                         BIZ_AREA_ID,
+                                                         TRGT_ID
+                                                     FROM JB_TRGT_REL
+                                                     WHERE JB_ID = #{jbId})
+    </select>
     <insert id="insertBizArea">
-        INSERT INTO BIZ_AREA VALUES (sys_guid(), #{bizAreaNm}, #{bizAreaDescr}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
+        INSERT INTO BIZ_AREA
+        VALUES (sys_guid(), #{bizAreaNm}, #{bizAreaDescr}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
     </insert>
 </mapper>

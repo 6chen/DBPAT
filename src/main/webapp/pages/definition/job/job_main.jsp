@@ -135,7 +135,7 @@
 
 	function showJobTargetList(e){
 //		alert($(e).attr("name"));
-		$("#jobTargetAddBtn").attr("name", $(e).attr("name"));
+		$("#showJobTargetAddModalBtn").attr("name", $(e).attr("name"));
 //		$("#jobTargetPartTitle").html("<b>" + $(e).text() + "</b> 작업의 대상");
 		$("#jobTargetList").load("show_job_target_list.action?jbId="+ $(e).attr("name"));
 	}

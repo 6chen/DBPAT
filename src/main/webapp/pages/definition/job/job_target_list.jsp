@@ -60,13 +60,14 @@
 
 <script>
 	function removeJobTargetVo(e) {
+		var jbId = $("#showJobTargetAddModalBtn").attr("name");
 		$.ajax({
 			type: 'get',
 			url: 'remove_job_target.action?jbIdExecSeqStr=' + $(e).attr("name"),
 			success: function (data) {
 				var result = $.parseJSON(data);
 				if (result.success) {
-
+					$("#jobTargetList").load("show_job_target_list.action?jbId=" + jbId);
 				}
 			}
 		})

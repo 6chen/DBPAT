@@ -17,6 +17,15 @@
         INSERT INTO JB
         VALUES (SYS_GUID(), #{jbNm}, #{jbTyp}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
     </insert>
+    <insert id="insertJobTarget">
+        INSERT INTO JB_TRGT_REL
+        VALUES (#{jbId}, (SELECT COUNT(JB_ID) + 1
+                          FROM JB_TRGT_REL
+                          WHERE JB_ID = #{jbId}), #{bizAreaId}, #{trgtId})
+    </insert>
+    <insert id="insertJobRuleSet">
+        INSERT INTO JB_RL_SET_REL VALUES (#{jbId}, #{rlSetId})
+    </insert>
     <update id="updateJob">
         UPDATE JB
         SET JB_NM     = #{jbNm},
@@ -31,7 +40,11 @@
     <delete id="deleteJobTargetVo">
         DELETE JB_TRGT_REL
         WHERE JB_ID = #{jbId}
-          AND EXEC_SEQ = #{execSeq}
+              AND EXEC_SEQ = #{execSeq}
+    </delete>
+    <delete id="deleteJobRuleSet">
+        DELETE JB_RL_SET_REL
+        WHERE JB_ID = #{jbId} AND RL_SET_ID = #{rlSetId}
     </delete>
     <select id="selectAllJobByTyp" resultType="com.dbpat.springmvc.model.JobPo">
         SELECT
@@ -55,27 +68,42 @@
     </select>
     <select id="selectJobTargetVoByJbId" resultMap="JobTargetVo">
         SELECT
-            X.JB_ID AS jbId,
-            X.EXEC_SEQ AS execSeq,
+            X.JB_ID       AS jbId,
+            X.EXEC_SEQ    AS execSeq,
             Z.BIZ_AREA_ID AS bizAreaId,
             Z.BIZ_AREA_NM AS bizAreaNm,
-            Y.TRGT_ID AS trgtId,
-            Y.TRGT_NM AS trgtNm
+            Y.TRGT_ID     AS trgtId,
+            Y.TRGT_NM     AS trgtNm
         FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z
         WHERE X.JB_ID = #{jbId}
               AND X.TRGT_ID = Y.TRGT_ID
               AND X.BIZ_AREA_ID = Z.BIZ_AREA_ID
         ORDER BY X.EXEC_SEQ
     </select>
+    <select id="selectJbRlSetByJbId" resultType="com.dbpat.springmvc.model.JobRuleSetRelPo">
+        SELECT
+            X.RL_SET_ID                     AS rlSetId,
+            X.RL_SET_NM                     AS rlSetNm,
+            DECODE(Y.JB_ID, NULL, 'N', 'Y') AS ckdYn
+        FROM RL_SET X
+            , JB_RL_SET_REL Y
+        WHERE X.RL_SET_ID = Y.RL_SET_ID (+)
+              AND Y.JB_ID (+) = #{jbId}
+    </select>
+    <select id="selectAllJobRuleSetRelPo" resultType="com.dbpat.springmvc.model.JobRuleSetRelPo">
+        SELECT RL_SET_ID AS rlSetId
+        FROM JB_RL_SET_REL
+        WHERE JB_ID = #{jbId}
+    </select>
     <!--<select id="selectJobTargetBizVoByJbId" resultType="com.dbpat.springmvc.model.JobTargetBizVo">-->
-        <!--SELECT-->
-            <!--X.JB_ID AS jbId,-->
-            <!--X.EXEC_SEQ AS execSeq,-->
-            <!--Z.BIZ_AREA_NM AS bizAreaNm,-->
-            <!--Y.TRGT_NM AS trgtNm-->
-        <!--FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z-->
-        <!--WHERE X.JB_ID = #{jbId}-->
-              <!--AND X.TRGT_ID = Y.TRGT_ID-->
-              <!--AND X.BIZ_AREA_ID = Z.BIZ_AREA_ID-->
+    <!--SELECT-->
+    <!--X.JB_ID AS jbId,-->
+    <!--X.EXEC_SEQ AS execSeq,-->
+    <!--Z.BIZ_AREA_NM AS bizAreaNm,-->
+    <!--Y.TRGT_NM AS trgtNm-->
+    <!--FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z-->
+    <!--WHERE X.JB_ID = #{jbId}-->
+    <!--AND X.TRGT_ID = Y.TRGT_ID-->
+    <!--AND X.BIZ_AREA_ID = Z.BIZ_AREA_ID-->
     <!--</select>-->
 </mapper>

@@ -66,4 +66,12 @@
         WHERE BIZ_AREA_ID = #{bizAreaId}
               AND TRGT_ID = #{trgtId}
     </select>
+    <select id="selectAllTrgtByBizAreaIdNoAdd" resultType="com.dbpat.springmvc.model.TargetPo">
+        SELECT *
+        FROM TRGT X
+        WHERE X.BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID NOT IN (SELECT TRGT_ID
+                                  FROM JB_TRGT_REL
+                                  WHERE JB_ID = #{jbId})
+    </select>
 </mapper>

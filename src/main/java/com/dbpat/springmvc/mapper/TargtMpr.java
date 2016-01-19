@@ -15,6 +15,8 @@ public interface TargtMpr {
 
     TargetPo selectOneTrgt(Map<String, Object> prmtMap);
 
+    List<TargetPo> selectAllTrgtByBizAreaIdNoAdd(Map<String, Object> prmtMap);
+
     void insertTrgtPo(TargetPo targetPo);
 
     void updateTrgtPo(TargetPo targetPo);

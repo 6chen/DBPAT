@@ -24,6 +24,10 @@ public class BizAreaSrv {
         return bizAreaMpr.selectBizAreaById(bizAreaId);
     }
 
+    public List<BizAreaPo> findAllBizAreaNoAdd(String jbId){
+        return bizAreaMpr.selectAllBizAreaNoAdd(jbId);
+    }
+
     public void addBizArea(BizAreaPo bizAreaPo){
         bizAreaMpr.insertBizArea(bizAreaPo);
     }
