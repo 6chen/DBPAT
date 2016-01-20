@@ -40,14 +40,26 @@ public class JobCtlr {
 
     //    작업 조회 조건 부분
     @RequestMapping(value = "/show_job_select_method_part", method = RequestMethod.GET)
-    public String showJobSelectMethodPart() {
+    public String showJobSelectMethodPart(ModelMap modelMap) {
+        List<BizAreaPo> bizAreaPoList = bizAreaSrv.findAllBizArea();
+        modelMap.put("bizAreaPoList", bizAreaPoList);
         return "definition/job/job_select_method_part";
     }
 
     @RequestMapping(value = "/show_job_collect_job_list", method = RequestMethod.GET)
-    public String showJobCollectJobList(ModelMap modelMap) {
+    public String showJobCollectJobList(String bizAreaId, String trgtId, ModelMap modelMap) {
         String jbTyp = "01";
-        List<JobPo> jobPoList = jobSrv.findAllJobByTyp(jbTyp);
+        List<JobPo> jobPoList = null;
+
+        if (bizAreaId == null && trgtId == null) {
+            jobPoList = jobSrv.findAllJobByTyp(jbTyp);
+        } else {
+            Map<String, Object> prmtMap = new HashMap<String, Object>();
+            prmtMap.put("bizAreaId", bizAreaId);
+            prmtMap.put("trgtId", trgtId);
+            prmtMap.put("jbTyp", jbTyp);
+            jobPoList = jobSrv.findJbPoByBizIdTrgtId(prmtMap);
+        }
         modelMap.put("jobPoList", jobPoList);
         return "definition/job/job_collect_job_list";
     }
@@ -83,6 +95,13 @@ public class JobCtlr {
         return "{\"success\":true}";
     }
 
+    @RequestMapping(value = "get_target_list_by_biz_area_id", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<TargetPo> getTargetListByBizAreaId(String bizAreaId) {
+        return targetSrv.findAllTrgtByBizAreaId(bizAreaId);
+    }
+
 
     //    수집 작업 부분
     @RequestMapping(value = "/show_job_collect_job_part", method = RequestMethod.GET)
@@ -91,9 +110,19 @@ public class JobCtlr {
     }
 
     @RequestMapping(value = "/show_job_inspect_job_list", method = RequestMethod.GET)
-    public String showJobInspectJobList(ModelMap modelMap) {
+    public String showJobInspectJobList(String bizAreaId, String trgtId, ModelMap modelMap) {
         String jbTyp = "02";
-        List<JobPo> jobPoList = jobSrv.findAllJobByTyp(jbTyp);
+        List<JobPo> jobPoList = null;
+
+        if (bizAreaId == null && trgtId == null) {
+            jobPoList = jobSrv.findAllJobByTyp(jbTyp);
+        } else {
+            Map<String, Object> prmtMap = new HashMap<String, Object>();
+            prmtMap.put("bizAreaId", bizAreaId);
+            prmtMap.put("trgtId", trgtId);
+            prmtMap.put("jbTyp", jbTyp);
+            jobPoList = jobSrv.findJbPoByBizIdTrgtId(prmtMap);
+        }
         modelMap.put("jobPoList", jobPoList);
         return "definition/job/job_inspect_job_list";
     }

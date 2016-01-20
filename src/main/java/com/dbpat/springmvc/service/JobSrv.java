@@ -31,6 +31,10 @@ public class JobSrv {
         return jobMpr.selectJobTargetVoByJbId(jbId);
     }
 
+    public List<JobPo> findJbPoByBizIdTrgtId(Map<String, Object> prmtMap){
+        return jobMpr.selectJbPoByBizIdTrgtId(prmtMap);
+    }
+
     public List<JobRuleSetRelPo> findJbRlSetByJbId(String jbId) {
         return jobMpr.selectJbRlSetByJbId(jbId);
     }

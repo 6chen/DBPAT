@@ -1,11 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: YUSIN
-  Date: 16/1/18
-  Time: 16:14
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title"><b>작업 조회 방식</b></h3>
@@ -25,28 +21,25 @@
 				<a class="btn btn-app" onclick="showNewJobModal()">
 					<i class="fa fa-save"></i> 작업 추가
 				</a>
-				<a class="btn btn-app">
+				<a class="btn btn-app" onclick="showJobListByCondition()">
 					<i class="fa fa-play"></i> 조건별 보기
 				</a>
 			</div>
 			<div class="col-lg-8">
 				<div class="form-group col-lg-6">
 					<label><b>업무영역 명칭 :</b></label>
-					<select class="form-control" onchange="showRuleSetDescr()" id="jobSelectMethodBizSelect">
-						<option selected="selected">선택하세요</option>
-						<%--<c:forEach varStatus="i" var="ruleSetPo" items="${ruleSetPoList}">--%>
-						<%--<option value="${ruleSetPo.rlSetId}" name="${ruleSetPo.rlSetDescr}"> ${ruleSetPo.rlSetNm}</option>--%>
-						<%--</c:forEach>--%>
+					<select class="form-control" onchange="showAllTargetToSelect()" id="jobSelectMethodBizSelect">
+						<option value='0' selected="selected">업무영역 선택하세요</option>
+						<c:forEach varStatus="i" var="bizAreaPo" items="${bizAreaPoList}">
+							<option value="${bizAreaPo.bizAreaId}"> ${bizAreaPo.bizAreaNm}</option>
+						</c:forEach>
 					</select>
 				</div>
 
 				<div class="form-group col-lg-6">
 					<label><b>대상서버 명칭 :</b></label>
 					<select class="form-control" onchange="showRuleSetDescr()" id="jobSelectMethodTargetSelect">
-						<option selected="selected">선택하세요</option>
-						<%--<c:forEach varStatus="i" var="ruleSetPo" items="${ruleSetPoList}">--%>
-						<%--<option value="${ruleSetPo.rlSetId}" name="${ruleSetPo.rlSetDescr}"> ${ruleSetPo.rlSetNm}</option>--%>
-						<%--</c:forEach>--%>
+						<option value='0' selected="selected">먼저 업무영역 선택하세요</option>
 					</select>
 				</div>
 			</div>
@@ -121,5 +114,35 @@
 				}
 			}
 		})
+	}
+
+	function showAllTargetToSelect(e){
+		var selectedBizAreaId = $("#jobSelectMethodBizSelect option:selected").val();
+		$.ajax({
+			type: 'get',
+			url: '/get_target_list_by_biz_area_id.action?bizAreaId=' + selectedBizAreaId,
+			success: function (data) {
+				var selectTag;
+				if (data.length > 0) {
+					$.each(data, function (key, TargetPo) {
+						selectTag = selectTag + "<option value= " + TargetPo.trgtId + ">" + TargetPo.trgtNm + "</option>";
+					});
+				} else {
+					selectTag = "<option value='0'>대상이 없습니다.</option>";
+				}
+				$("#jobSelectMethodTargetSelect").html(selectTag);
+			}
+		})
+	}
+
+	function showJobListByCondition(){
+		var selectedBizAreaId = $("#jobSelectMethodBizSelect option:selected").val();
+		var selectedTargetId = $("#jobSelectMethodTargetSelect option:selected").val();
+		if(selectedBizAreaId == '0' || selectedTargetId =='0') {
+			alert("업무영역 및 대상을 선택한 후에 클릭하세요.");
+		}else{
+			$("#jobCollectJobList").load("show_job_collect_job_list.action?bizAreaId=" + selectedBizAreaId + "&trgtId=" + selectedTargetId);
+			$("#jobInspectJobList").load("show_job_inspect_job_list.action?bizAreaId=" + selectedBizAreaId + "&trgtId=" + selectedTargetId);
+		}
 	}
 </script>

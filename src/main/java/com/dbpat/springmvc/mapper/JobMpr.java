@@ -20,6 +20,8 @@ public interface JobMpr {
 
     List<JobTargetVo> selectJobTargetVoByJbId(String jbId);
 
+    List<JobPo> selectJbPoByBizIdTrgtId(Map<String, Object> prmtMap);
+
     List<JobRuleSetRelPo> selectJbRlSetByJbId(String jbId);
 
     void insertJob(JobPo jobPo);

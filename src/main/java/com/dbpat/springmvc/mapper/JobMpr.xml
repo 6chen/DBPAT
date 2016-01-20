@@ -95,6 +95,19 @@
         FROM JB_RL_SET_REL
         WHERE JB_ID = #{jbId}
     </select>
+    <select id="selectJbPoByBizIdTrgtId" resultType="com.dbpat.springmvc.model.JobPo">
+        SELECT
+            JB_ID     AS jbId,
+            JB_NM     AS jbNm,
+            JB_TYP    AS jbTyp,
+            JB_ST_TM  AS jbStTm,
+            JB_UPT_TM AS jbUptTm
+        FROM JB
+        WHERE JB_TYP = #{jbTyp}
+              AND JB_ID IN (SELECT JB_ID
+                            FROM JB_TRGT_REL
+                            WHERE BIZ_AREA_ID = #{bizAreaId} AND TRGT_ID = #{trgtId})
+    </select>
     <!--<select id="selectJobTargetBizVoByJbId" resultType="com.dbpat.springmvc.model.JobTargetBizVo">-->
     <!--SELECT-->
     <!--X.JB_ID AS jbId,-->
