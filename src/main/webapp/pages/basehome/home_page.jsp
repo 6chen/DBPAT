@@ -94,24 +94,30 @@
 			<ul class="sidebar-menu">
 				<li class="header"><b>DEFINITION</b></li>
 				<!-- Optionally, you can add icons to the links -->
-				<li><a href="#" id="showTargetMainA"><span>Target</span></a></li>
-				<li><a href="#" id="showAuditRuleMainA"><span>Audit Rule</span></a></li>
-				<li><a href="#" id="showJobMainA"><span>Job</span></a></li>
-				<li class="treeview">
-					<a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
-					<ul class="treeview-menu">
-						<li><a href="#">Link in level 2</a></li>
-						<li><a href="#">Link in level 2</a></li>
-					</ul>
-				</li>
-				<li class="header"><b>JOB MANAGEMENT</b></li>
-				<li class="treeview">
-					<a href="#"><span>Collection Job</span> <i class="fa fa-angle-left pull-right"></i></a>
-					<ul class="treeview-menu">
-						<li><a href="#">Schema Collection</a></li>
-						<li><a href="#">SQL Collection</a></li>
-					</ul>
-				</li>
+				<li><a href="#" id="showTargetMain"><span>Target</span></a></li>
+				<li><a href="#" id="showAuditRuleMain"><span>Audit Rule</span></a></li>
+				<li><a href="#" id="showJobMain"><span>Job</span></a></li>
+				<%--<li class="treeview">--%>
+					<%--<a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>--%>
+					<%--<ul class="treeview-menu">--%>
+						<%--<li><a href="#">Link in level 2</a></li>--%>
+						<%--<li><a href="#">Link in level 2</a></li>--%>
+					<%--</ul>--%>
+				<%--</li>--%>
+				<li class="header"><b>EXECUTION</b></li>
+				<li><a href="#" id="showClctJobExecMain"><span>Collect Job</span></a></li>
+				<li><a href="#" id="showIsptJobExecMain"><span>Inspect Job</span></a></li>
+				<%--<li class="treeview">--%>
+					<%--<a href="#"><span>Collection Job</span> <i class="fa fa-angle-left pull-right"></i></a>--%>
+					<%--<ul class="treeview-menu">--%>
+						<%--<li><a href="#">Schema Collection</a></li>--%>
+						<%--<li><a href="#">SQL Collection</a></li>--%>
+					<%--</ul>--%>
+				<%--</li>--%>
+
+				<li class="header"><b>Management</b></li>
+				<li><a href="#" id="showUsrMgrMain"><span>Users</span></a></li>
+				<li><a href="#" id="showDbmsTypeMgrMain"><span>DBMS Type</span></a></li>
 			</ul>
 			<!-- /.sidebar-menu -->
 		</div>
@@ -146,16 +152,24 @@
 		$("#RightPart").load("show_home_contents.action");
 
 		//왼쪽 메뉴바 링크 이벤트들
-		$("#showTargetMainA").click(function () {
+		$("#showTargetMain").click(function () {
 			$("#RightPart").load("show_target_main.action");
 		})
 
-		$("#showAuditRuleMainA").click(function () {
+		$("#showAuditRuleMain").click(function () {
 			$("#RightPart").load("show_audit_rule_main.action");
 		})
 
-		$("#showJobMainA").click(function () {
+		$("#showJobMain").click(function () {
 			$("#RightPart").load("show_job_main.action");
+		})
+
+		$("#showClctJobExecMain").click(function () {
+			$("#RightPart").load("show_clct_job_main.action");
+		})
+
+		$("#showIsptJobExecMain").click(function () {
+			$("#RightPart").load("show_ispt_job_main.action");
 		})
 
 //		$(".sidebar-menu > li[class != 'treeview']").click(function () {

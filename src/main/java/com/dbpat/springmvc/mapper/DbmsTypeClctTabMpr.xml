@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.springmvc.mapper.DbmsTypeClctTabMpr">
+
+    <!--<resultMap id="DbmsTypePerClctTabVoResult" type="com.dbpat.springmvc.model.DbmsTypePerClctTabVo" autoMapping="true">-->
+    <!--<id column="dbmsTypId" property="dbmsTypId"/>-->
+    <!--<id column="seq" property="seq"/>-->
+    <!--<association property="collectTabPo" javaType="com.dbpat.springmvc.model.CollectTabPo" autoMapping="true">-->
+    <!--</association>-->
+    <!--</resultMap>-->
+
+    <resultMap id="DbmsTypeVoResult" type="com.dbpat.springmvc.model.DbmsTypeVo" autoMapping="true">
+        <id column="dbmsTypId" property="dbmsTypId"/>
+        <collection property="dbmsTypePerClctTabVoList" ofType="com.dbpat.springmvc.model.DbmsTypePerClctTabVo"
+                    autoMapping="true">
+            <id column="seq" property="seq"/>
+            <association property="collectTabPo" javaType="com.dbpat.springmvc.model.CollectTabPo" autoMapping="true">
+            </association>
+        </collection>
+    </resultMap>
+
+
+    <!--<select id="selectDbmsTypePerClctTabVoByDbmsTypId"-->
+    <!--resultMap="DbmsTypePerClctTabVoResult">-->
+    <!--SELECT-->
+    <!--DBMS_TYP.DBMS_TYP_ID      AS dbmsTypId,-->
+    <!--DBMS_TYP.DBMS_TYP_NM      AS dbmsTypNm,-->
+    <!--DBMS_TYP.DBMS_VER         AS dbmsVer,-->
+    <!--DBMS_TYP.DBMS_DRIVER      AS dbmsDrv,-->
+    <!--DBMS_TYP_PER_CLCT_TAB.SEQ AS seq,-->
+    <!--CLCT_TAB.CLCT_TAB_ID      AS clctTabId,-->
+    <!--CLCT_TAB.CLCT_TAB_NM      AS clctTabNm,-->
+    <!--CLCT_TAB.EXPORT_SQL       AS exportSql,-->
+    <!--CLCT_TAB.IMPORT_SQL       AS importSql-->
+    <!--FROM DBMS_TYP, DBMS_TYP_PER_CLCT_TAB, CLCT_TAB-->
+    <!--WHERE DBMS_TYP.DBMS_TYP_ID = #{dbmsTypId}-->
+    <!--AND DBMS_TYP.DBMS_TYP_ID = DBMS_TYP_PER_CLCT_TAB.DBMS_TYP_ID-->
+    <!--AND CLCT_TAB.CLCT_TAB_ID = DBMS_TYP_PER_CLCT_TAB.CLCT_TAB_ID-->
+    <!--</select>-->
+    <select id="selectDbmsTypeVoByDbmsTypId" resultMap="DbmsTypeVoResult">
+        SELECT
+            DBMS_TYP.DBMS_TYP_ID      AS dbmsTypId,
+            DBMS_TYP.DBMS_TYP_NM      AS dbmsTypNm,
+            DBMS_TYP.DBMS_VER         AS dbmsVer,
+            DBMS_TYP.DBMS_DRIVER      AS dbmsDrv,
+            DBMS_TYP_PER_CLCT_TAB.SEQ AS seq,
+            CLCT_TAB.CLCT_TAB_ID      AS clctTabId,
+            CLCT_TAB.CLCT_TAB_NM      AS clctTabNm,
+            CLCT_TAB.EXPORT_SQL       AS exportSql,
+            CLCT_TAB.IMPORT_SQL       AS importSql
+        FROM DBMS_TYP, DBMS_TYP_PER_CLCT_TAB, CLCT_TAB
+        WHERE DBMS_TYP.DBMS_TYP_ID = #{dbmsTypId}
+              AND DBMS_TYP.DBMS_TYP_ID = DBMS_TYP_PER_CLCT_TAB.DBMS_TYP_ID
+              AND CLCT_TAB.CLCT_TAB_ID = DBMS_TYP_PER_CLCT_TAB.CLCT_TAB_ID
+        ORDER BY DBMS_TYP.DBMS_TYP_ID,  DBMS_TYP_PER_CLCT_TAB.SEQ
+    </select>
+</mapper>

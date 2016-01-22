@@ -18,10 +18,10 @@
         VALUES (SYS_GUID(), #{jbNm}, #{jbTyp}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
     </insert>
     <insert id="insertJobTarget">
-        INSERT INTO JB_TRGT_REL
-        VALUES (#{jbId}, (SELECT COUNT(JB_ID) + 1
+        INSERT INTO JB_TRGT_REL (JB_ID, BIZ_AREA_ID, TRGT_ID, EXEC_SEQ)
+        VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, (SELECT COUNT(JB_ID) + 1
                           FROM JB_TRGT_REL
-                          WHERE JB_ID = #{jbId}), #{bizAreaId}, #{trgtId})
+                          WHERE JB_ID = #{jbId}))
     </insert>
     <insert id="insertJobRuleSet">
         INSERT INTO JB_RL_SET_REL VALUES (#{jbId}, #{rlSetId})
@@ -108,15 +108,4 @@
                             FROM JB_TRGT_REL
                             WHERE BIZ_AREA_ID = #{bizAreaId} AND TRGT_ID = #{trgtId})
     </select>
-    <!--<select id="selectJobTargetBizVoByJbId" resultType="com.dbpat.springmvc.model.JobTargetBizVo">-->
-    <!--SELECT-->
-    <!--X.JB_ID AS jbId,-->
-    <!--X.EXEC_SEQ AS execSeq,-->
-    <!--Z.BIZ_AREA_NM AS bizAreaNm,-->
-    <!--Y.TRGT_NM AS trgtNm-->
-    <!--FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z-->
-    <!--WHERE X.JB_ID = #{jbId}-->
-    <!--AND X.TRGT_ID = Y.TRGT_ID-->
-    <!--AND X.BIZ_AREA_ID = Z.BIZ_AREA_ID-->
-    <!--</select>-->
 </mapper>

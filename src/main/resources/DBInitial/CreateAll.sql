@@ -1,0 +1,10 @@
+@PartInitia\DBMSTypeInit.sql
+@PartInitia\BizAreaPartInit.sql
+@PartInitia\TargetPartInit.sql
+@PartInitia\JobTrgtRelInit.sql
+@PartInitia\JobInit.sql
+@PartInitia\RuleSetInit.sql
+@PartInitia\RuleInit.sql
+@PartInitia\JobRuleSetRelInit.sql
+@PartInitia\JobExecDtlInit.sql
+@PartInitia\JobExecHistInit.sql

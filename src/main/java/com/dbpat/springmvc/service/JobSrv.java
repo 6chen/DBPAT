@@ -3,7 +3,6 @@ package com.dbpat.springmvc.service;
 import com.dbpat.springmvc.mapper.JobMpr;
 import com.dbpat.springmvc.model.JobPo;
 import com.dbpat.springmvc.model.JobRuleSetRelPo;
-import com.dbpat.springmvc.model.JobTargetBizVo;
 import com.dbpat.springmvc.model.JobTargetVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,18 +30,13 @@ public class JobSrv {
         return jobMpr.selectJobTargetVoByJbId(jbId);
     }
 
-    public List<JobPo> findJbPoByBizIdTrgtId(Map<String, Object> prmtMap){
-        return jobMpr.selectJbPoByBizIdTrgtId(prmtMap);
-    }
-
     public List<JobRuleSetRelPo> findJbRlSetByJbId(String jbId) {
         return jobMpr.selectJbRlSetByJbId(jbId);
     }
 
-//
-//    public List<JobTargetBizVo> findJobTargetBizVoByJbId(String jbId){
-//        return jobMpr.selectJobTargetBizVoByJbId(jbId);
-//    }
+    public List<JobPo> findJbPoByBizIdTrgtId(Map<String, Object> prmtMap){
+        return jobMpr.selectJbPoByBizIdTrgtId(prmtMap);
+    }
 
     public void addJob(JobPo jobPo) {
         jobMpr.insertJob(jobPo);

@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DbmsTypePo {
-    private String dbmsTypId;
-    private String dbmsTypNm;
-    private String dbmsVer;
-    private String dbmsDrv;
+    protected String dbmsTypId;
+    protected String dbmsTypNm;
+    protected String dbmsVer;
+    protected String dbmsDrv;
 
     @Override
     public String toString() {

@@ -16,10 +16,12 @@ public class JobTargetVo extends JobPo {
     @Autowired
     private TargetPo targetPo;
 
+
     @Override
     public String toString() {
         return "JobTargetVo{" +
                 "bizAreaPo=" + bizAreaPo +
+                ", execSeq=" + execSeq +
                 ", targetPo=" + targetPo +
                 '}';
     }

@@ -1,14 +1,16 @@
 CREATE TABLE ORA_TAB_PARTITIONS
- (
-   BIZ_AREA_ID               VARCHAR2(10),
-   TRGT_ID                   VARCHAR2(10),
-   TABLE_NAME                VARCHAR2(30),
-   COMPOSITE                 VARCHAR2(3),
-   PARTITION_NAME            VARCHAR2(30),
-   HIGH_VALUE                LONG,
-   PARTITION_POSITION        NUMBER,
-   TABLESPACE_NAME           VARCHAR2(30),
-   NUM_ROWS                  NUMBER,
-   BLOCKS                    NUMBER,
-   SAMPLE_SIZE               NUMBER
- );
+(
+  JB_ID              VARCHAR2(32) NOT NULL,
+  BIZ_AREA_ID        VARCHAR2(32) NOT NULL,
+  TRGT_ID            VARCHAR2(32) NOT NULL,
+  JB_EXEC_CNT        NUMBER       NOT NULL,
+  TABLE_NAME         VARCHAR2(30),
+  COMPOSITE          VARCHAR2(3),
+  PARTITION_NAME     VARCHAR2(30),
+  HIGH_VALUE         LONG,
+  PARTITION_POSITION NUMBER,
+  TABLESPACE_NAME    VARCHAR2(30),
+  NUM_ROWS           NUMBER,
+  BLOCKS             NUMBER,
+  SAMPLE_SIZE        NUMBER
+);

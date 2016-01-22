@@ -1,4 +1,4 @@
-package com.dbpat.util;
+package com.dbpat.utilBefore;
 
 import com.dbpat.mvc.mapper.DbmsTypePerClctTabMapper;
 import com.dbpat.mvc.mapper.JobTrgtHistMapper;

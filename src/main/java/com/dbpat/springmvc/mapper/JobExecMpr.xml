@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.springmvc.mapper.JobExecMpr">
+
+    <resultMap id="ExecJobVoResult" type="com.dbpat.springmvc.model.ExecJobVo" autoMapping="true">
+        <id column="jbId" property="jbId"/>
+        <collection property="execJobTargetVoList" ofType="com.dbpat.springmvc.model.ExecJobTargetVo"
+                    autoMapping="true">
+            <id column="execSeq" property="execSeq"></id>
+            <association property="bizAreaPo" javaType="com.dbpat.springmvc.model.BizAreaPo" autoMapping="true">
+            </association>
+        </collection>
+    </resultMap>
+    <insert id="insertNewJobWithStTm">
+        INSERT INTO JB_EXEC_HIST (JB_ID, BIZ_AREA_ID, TRGT_ID, JB_EXEC_CNT, JB_EXEC_ED_TM, JB_EXEC_ST_TM)
+        VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, '99991231235959', TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'))
+    </insert>
+    <insert id="insertNewJobExecItmStTm">
+        INSERT INTO JB_EXEC_DTL (JB_ID, BIZ_AREA_ID, TRGT_ID, JB_EXEC_CNT, JB_EXEC_ITM_ID, JB_ITM_EXEC_ED_TM, JB_ITM_EXEC_ST_TM)
+        VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, #{jbExecItmId}, '99991231235959',
+                TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'))
+    </insert>
+    <update id="updateNewJobEdTm">
+        UPDATE JB_EXEC_HIST
+        SET JB_EXEC_ED_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        WHERE JB_ID = #{jbId}
+              AND BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+              AND JB_EXEC_CNT = #{jbExecCnt}
+    </update>
+    <update id="updateNewJobExecItmEdTm">
+        UPDATE JB_EXEC_DTL
+        SET JB_ITM_EXEC_ED_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        WHERE JB_ID = #{jbId}
+              AND BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+              AND JB_EXEC_CNT = #{jbExecCnt}
+              AND JB_EXEC_ITM_ID = #{jbExecItmId}
+    </update>
+
+    <select id="selectExecJobVoByJbId" resultMap="ExecJobVoResult">
+        SELECT
+            JB.JB_ID                 AS jbId,
+            JB.JB_NM                 AS jbNm,
+            JB.JB_TYP                AS jbTyp,
+            JB.JB_ST_TM              AS jbStTm,
+            JB.JB_UPT_TM             AS jbUptTm,
+            JB_TRGT_REL.EXEC_SEQ     AS execSeq,
+            BIZ_AREA.BIZ_AREA_ID     AS bizAreaId,
+            BIZ_AREA.BIZ_AREA_NM     AS bizAreaNm,
+            BIZ_AREA.BIZ_AREA_DESCR  AS bizAreaDescr,
+            BIZ_AREA.BIZ_AREA_ST_TM  AS bizAreaStTm,
+            BIZ_AREA.BIZ_AREA_UPT_TM AS bizAreaUptTm,
+            TRGT.TRGT_ID             AS trgtId,
+            TRGT.TRGT_NM             AS trgtNm,
+            TRGT.TRGT_TYP            AS trgtTyp,
+            TRGT.IP                  AS ip,
+            TRGT.PRT                 AS prt,
+            TRGT.DBMS_TYP_ID         AS dbmsTypId,
+            TRGT.USR_ID              AS usrId,
+            TRGT.PW                  AS pw,
+            TRGT.SID                 AS sid,
+            TRGT.SCHM                AS schm,
+            TRGT.TRGT_ST_TM          AS trgtStTm,
+            TRGT.TRGT_UPT_TM         AS trgtUptTm
+        FROM JB, JB_TRGT_REL, BIZ_AREA, TRGT
+        WHERE JB_TRGT_REL.JB_ID = JB.JB_ID
+              AND JB_TRGT_REL.BIZ_AREA_ID = BIZ_AREA.BIZ_AREA_ID
+              AND JB_TRGT_REL.TRGT_ID = TRGT.TRGT_ID
+              AND JB.JB_ID = #{jbId}
+        ORDER BY JB.JB_ID, JB_TRGT_REL.EXEC_SEQ
+    </select>
+    <select id="selectJobExecHistCnt" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM JB_EXEC_HIST
+        WHERE JB_ID = #{jbId}
+              AND BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+    </select>
+</mapper>

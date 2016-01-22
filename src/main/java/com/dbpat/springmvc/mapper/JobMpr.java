@@ -2,7 +2,6 @@ package com.dbpat.springmvc.mapper;
 
 import com.dbpat.springmvc.model.JobPo;
 import com.dbpat.springmvc.model.JobRuleSetRelPo;
-import com.dbpat.springmvc.model.JobTargetBizVo;
 import com.dbpat.springmvc.model.JobTargetVo;
 import org.springframework.stereotype.Repository;
 
