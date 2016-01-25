@@ -6,11 +6,13 @@
         <id column="jbId" property="jbId"/>
         <collection property="execJobTargetVoList" ofType="com.dbpat.springmvc.model.ExecJobTargetVo"
                     autoMapping="true">
+            <id column="trgtId" property="trgtId"></id>
             <id column="execSeq" property="execSeq"></id>
             <association property="bizAreaPo" javaType="com.dbpat.springmvc.model.BizAreaPo" autoMapping="true">
             </association>
         </collection>
     </resultMap>
+
     <insert id="insertNewJobWithStTm">
         INSERT INTO JB_EXEC_HIST (JB_ID, BIZ_AREA_ID, TRGT_ID, JB_EXEC_CNT, JB_EXEC_ED_TM, JB_EXEC_ST_TM)
         VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, '99991231235959', TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'))
@@ -70,11 +72,102 @@
               AND JB.JB_ID = #{jbId}
         ORDER BY JB.JB_ID, JB_TRGT_REL.EXEC_SEQ
     </select>
-    <select id="selectJobExecHistCnt" resultType="java.lang.Integer">
+    <select id="selectJobExecHistCnt" resultType="integer">
         SELECT COUNT(*)
         FROM JB_EXEC_HIST
         WHERE JB_ID = #{jbId}
               AND BIZ_AREA_ID = #{bizAreaId}
               AND TRGT_ID = #{trgtId}
     </select>
+    <select id="selectJobALlHistByJbId" resultType="com.dbpat.springmvc.model.JobExecHistVo">
+        SELECT
+            JB_ID                                                                   AS jbId,
+            JB_EXEC_CNT                                                             AS jbExecCnt,
+            TO_CHAR(TO_DATE(ST_TM, 'YYYYMMDD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') AS jbExecSt,
+            TO_CHAR(TO_DATE(EN_TM, 'YYYYMMDD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') AS jbExecEd
+        FROM (
+            SELECT
+                JB_ID,
+                JB_EXEC_CNT,
+                MIN(JB_EXEC_ST_TM) ST_TM,
+                MAX(JB_EXEC_ED_TM) EN_TM
+            FROM JB_EXEC_HIST
+            WHERE JB_ID = #{jbId}
+            GROUP BY JB_ID, JB_EXEC_CNT)
+        ORDER BY JB_ID, JB_EXEC_CNT
+    </select>
+    <select id="selectJobPerHistByJbBizTrgtId" resultType="com.dbpat.springmvc.model.JobExecHistVo">
+        SELECT
+            JB_ID                                                                   AS jbId,
+            JB_EXEC_CNT                                                             AS jbExecCnt,
+            TO_CHAR(TO_DATE(ST_TM, 'YYYYMMDD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') AS jbExecSt,
+            TO_CHAR(TO_DATE(EN_TM, 'YYYYMMDD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') AS jbExecEd
+        FROM (
+            SELECT
+                JB_ID,
+                JB_EXEC_CNT,
+                JB_EXEC_ST_TM ST_TM,
+                JB_EXEC_ED_TM EN_TM
+            FROM JB_EXEC_HIST
+            WHERE JB_ID = #{jbId}
+                  AND BIZ_AREA_ID = #{bizAreaId}
+                  AND TRGT_ID = #{trgtId})
+        ORDER BY JB_ID, JB_EXEC_CNT
+    </select>
+    <select id="selectCollectJobExecDetailPo" resultType="com.dbpat.springmvc.model.CollectJobExecDetailPo">
+        SELECT
+            JB_EXEC_DTL.JB_ID                AS jbId,
+            JB_EXEC_DTL.JB_EXEC_CNT          AS jbExecCnt,
+            BIZ_AREA.BIZ_AREA_ID             AS bizAreaId,
+            BIZ_AREA.BIZ_AREA_NM             AS bizAreaNm,
+            TRGT.TRGT_ID                     AS trgtId,
+            TRGT.TRGT_NM                     AS trgtNm,
+            CLCT_TAB.CLCT_TAB_ID             AS clctTabId,
+            CLCT_TAB.CLCT_TAB_NM             AS clctTabNm,
+            TO_CHAR(TO_DATE(JB_EXEC_DTL.JB_ITM_EXEC_ST_TM, 'YYYYMMDD HH24:MI:SS'),
+                    'YYYY-MM-DD HH24:MI:SS') AS jbItmExecStTm,
+            TO_CHAR(TO_DATE(JB_EXEC_DTL.JB_ITM_EXEC_ED_TM, 'YYYYMMDD HH24:MI:SS'),
+                    'YYYY-MM-DD HH24:MI:SS') AS jbItmExecEdTm
+        FROM JB_EXEC_DTL, BIZ_AREA, TRGT, CLCT_TAB, DBMS_TYP_PER_CLCT_TAB
+        WHERE JB_EXEC_DTL.BIZ_AREA_ID = BIZ_AREA.BIZ_AREA_ID
+              AND JB_EXEC_DTL.TRGT_ID = TRGT.TRGT_ID
+              AND JB_EXEC_DTL.JB_EXEC_ITM_ID = CLCT_TAB.CLCT_TAB_ID
+              AND JB_ID = #{jbId}
+              AND JB_EXEC_CNT = #{jbExecCnt}
+              AND TRGT.DBMS_TYP_ID = DBMS_TYP_PER_CLCT_TAB.DBMS_TYP_ID
+              AND CLCT_TAB.CLCT_TAB_ID = DBMS_TYP_PER_CLCT_TAB.CLCT_TAB_ID
+        ORDER BY JB_ID, JB_EXEC_CNT, BIZ_AREA.BIZ_AREA_ID, TRGT.TRGT_ID, DBMS_TYP_PER_CLCT_TAB.SEQ
+    </select>
+    <!--<select id="selectExecJobVoByJbTyp" resultType="com.dbpat.springmvc.model.ExecJobVo">-->
+    <!--SELECT-->
+    <!--JB.JB_ID                 AS jbId,-->
+    <!--JB.JB_NM                 AS jbNm,-->
+    <!--JB.JB_TYP                AS jbTyp,-->
+    <!--JB.JB_ST_TM              AS jbStTm,-->
+    <!--JB.JB_UPT_TM             AS jbUptTm,-->
+    <!--JB_TRGT_REL.EXEC_SEQ     AS execSeq,-->
+    <!--BIZ_AREA.BIZ_AREA_ID     AS bizAreaId,-->
+    <!--BIZ_AREA.BIZ_AREA_NM     AS bizAreaNm,-->
+    <!--BIZ_AREA.BIZ_AREA_DESCR  AS bizAreaDescr,-->
+    <!--BIZ_AREA.BIZ_AREA_ST_TM  AS bizAreaStTm,-->
+    <!--BIZ_AREA.BIZ_AREA_UPT_TM AS bizAreaUptTm,-->
+    <!--TRGT.TRGT_ID             AS trgtId,-->
+    <!--TRGT.TRGT_NM             AS trgtNm,-->
+    <!--TRGT.TRGT_TYP            AS trgtTyp,-->
+    <!--TRGT.IP                  AS ip,-->
+    <!--TRGT.PRT                 AS prt,-->
+    <!--TRGT.DBMS_TYP_ID         AS dbmsTypId,-->
+    <!--TRGT.USR_ID              AS usrId,-->
+    <!--TRGT.PW                  AS pw,-->
+    <!--TRGT.SID                 AS sid,-->
+    <!--TRGT.SCHM                AS schm,-->
+    <!--TRGT.TRGT_ST_TM          AS trgtStTm,-->
+    <!--TRGT.TRGT_UPT_TM         AS trgtUptTm-->
+    <!--FROM JB, JB_TRGT_REL, BIZ_AREA, TRGT-->
+    <!--WHERE JB_TRGT_REL.JB_ID = JB.JB_ID-->
+    <!--AND JB_TRGT_REL.BIZ_AREA_ID = BIZ_AREA.BIZ_AREA_ID-->
+    <!--AND JB_TRGT_REL.TRGT_ID = TRGT.TRGT_ID-->
+    <!--AND JB.JB_TYP = #{jbTyp}-->
+    <!--ORDER BY JB.JB_ID, JB_TRGT_REL.EXEC_SEQ-->
+    <!--</select>-->
 </mapper>

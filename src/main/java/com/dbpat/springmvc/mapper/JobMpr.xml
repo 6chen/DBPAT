@@ -20,8 +20,8 @@
     <insert id="insertJobTarget">
         INSERT INTO JB_TRGT_REL (JB_ID, BIZ_AREA_ID, TRGT_ID, EXEC_SEQ)
         VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, (SELECT COUNT(JB_ID) + 1
-                          FROM JB_TRGT_REL
-                          WHERE JB_ID = #{jbId}))
+                                                   FROM JB_TRGT_REL
+                                                   WHERE JB_ID = #{jbId}))
     </insert>
     <insert id="insertJobRuleSet">
         INSERT INTO JB_RL_SET_REL VALUES (#{jbId}, #{rlSetId})
@@ -73,7 +73,12 @@
             Z.BIZ_AREA_ID AS bizAreaId,
             Z.BIZ_AREA_NM AS bizAreaNm,
             Y.TRGT_ID     AS trgtId,
-            Y.TRGT_NM     AS trgtNm
+            Y.TRGT_NM     AS trgtNm,
+            Y.IP          AS ip,
+            Y.PRT         AS prt,
+            Y.DBMS_TYP_ID AS dbmsTypId,
+            Y.SID         AS sid,
+            Y.SCHM        AS schm
         FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z
         WHERE X.JB_ID = #{jbId}
               AND X.TRGT_ID = Y.TRGT_ID

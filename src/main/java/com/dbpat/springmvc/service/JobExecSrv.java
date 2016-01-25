@@ -32,8 +32,24 @@ public class JobExecSrv {
         return jobExecMpr.selectExecJobVoByJbId(jbId);
     }
 
+//    public List<ExecJobVo> findExecJobVoByJbTyp(String jbTyp){
+//        return jobExecMpr.selectExecJobVoByJbTyp(jbTyp);
+//    }
+
     public DbmsTypeVo findDbmsTypeVoByDbmsTypId(String dbmsTypId) {
         return dbmsTypeClctTabMpr.selectDbmsTypeVoByDbmsTypId(dbmsTypId);
+    }
+
+    public List<JobExecHistVo> findJobALlHistByJbId(String jbId){
+        return jobExecMpr.selectJobALlHistByJbId(jbId);
+    }
+
+    public List<JobExecHistVo> findJobPerHistByJbBizTrgtId(Map<String, Object> prmtMap){
+        return jobExecMpr.selectJobPerHistByJbBizTrgtId(prmtMap);
+    }
+
+    public List<CollectJobExecDetailPo> findCollectJobExecDetailPo(Map<String, Object> prmtMap){
+        return jobExecMpr.selectCollectJobExecDetailPo(prmtMap);
     }
 
     public boolean startCollectJobByJbId(String jbId) {
@@ -54,6 +70,8 @@ public class JobExecSrv {
 
             //작업 실행 이력에서 작업을 실행한 적이 있는지를 조회한 수 값을 저장
             Integer execCnt = jobExecMpr.selectJobExecHistCnt(prmtMap);
+
+            System.out.println(execCnt);
 
             //만약에 처음으로 실행하는 작업이라면 실행 차수를 1로 정의함
             //만약에 처음으로 실행하는 작업이 아니라면 실행 차수를 (실행했던 횟수 + 1)로 정의함

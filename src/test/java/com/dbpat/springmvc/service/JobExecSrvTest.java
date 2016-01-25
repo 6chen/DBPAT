@@ -1,5 +1,6 @@
 package com.dbpat.springmvc.service;
 
+import com.dbpat.springmvc.model.CollectJobExecDetailPo;
 import com.dbpat.springmvc.model.DbmsTypePerClctTabVo;
 import com.dbpat.springmvc.model.DbmsTypeVo;
 import com.dbpat.springmvc.model.ExecJobTargetVo;
@@ -7,7 +8,9 @@ import junit.framework.TestCase;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by YUSIN on 16/1/21.
@@ -28,14 +31,26 @@ public class JobExecSrvTest extends TestCase {
 
     public void testFindDbmsTypePerClctTabVoByDbmsTypId() throws Exception {
         JobExecSrv jobExecSrv = (JobExecSrv) ctx.getBean("jobExecSrv");
-        DbmsTypeVo dbmsTypeVo = jobExecSrv.findDbmsTypeVoByDbmsTypId("329EB5FEE1C6480DA4B95331358091AE");
+//        DbmsTypeVo dbmsTypeVo = jobExecSrv.findDbmsTypeVoByDbmsTypId("329EB5FEE1C6480DA4B95331358091AE");
+//
+//        System.out.println(dbmsTypeVo);
+//
+//        System.out.println(dbmsTypeVo.getDbmsTypePerClctTabVoList().size());
+//
+//        for (DbmsTypePerClctTabVo dbmsTypePerClctTabVo : dbmsTypeVo.getDbmsTypePerClctTabVoList()) {
+//            System.out.println(dbmsTypePerClctTabVo.getSeq() + ": " + dbmsTypePerClctTabVo.getCollectTabPo().getClctTabNm());
+//        }
+        Map<String, Object> prmtMap = new HashMap<String, Object>();
 
-        System.out.println(dbmsTypeVo);
+        prmtMap.put("jbId","C44B62EEB496438181422B5AC586DF36");
+        prmtMap.put("jbExecCnt",2);
 
-        System.out.println(dbmsTypeVo.getDbmsTypePerClctTabVoList().size());
+        List<CollectJobExecDetailPo> collectJobExecDetailPoList = jobExecSrv.findCollectJobExecDetailPo(prmtMap);
 
-        for (DbmsTypePerClctTabVo dbmsTypePerClctTabVo : dbmsTypeVo.getDbmsTypePerClctTabVoList()) {
-            System.out.println(dbmsTypePerClctTabVo.getSeq() + ": " + dbmsTypePerClctTabVo.getCollectTabPo().getClctTabNm());
-        }
+
+        System.out.println(collectJobExecDetailPoList.size());
+        System.out.println(collectJobExecDetailPoList);
+
+
     }
 }
