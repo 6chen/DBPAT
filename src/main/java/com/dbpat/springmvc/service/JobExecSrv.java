@@ -49,6 +49,8 @@ public class JobExecSrv {
     }
 
     public List<CollectJobExecDetailPo> findCollectJobExecDetailPo(Map<String, Object> prmtMap){
+        System.out.println(prmtMap.get("jbId"));
+
         return jobExecMpr.selectCollectJobExecDetailPo(prmtMap);
     }
 

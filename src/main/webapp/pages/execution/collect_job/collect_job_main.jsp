@@ -41,9 +41,7 @@
 													${jobPo.jbNm}
 											</a>
 										</h4>
-										<div class="box-tools">
-											<a href="#" class="btn btn-sm btn-success btn-flat" id="collectJobExecBtn" name="${jobPo.jbId}" onclick="collectJobExec(this)">작업실행</a>
-										</div>
+
 									</div>
 									<div id="collapse${jobPo.jbId}" class="panel-collapse collapse" aria-expanded="true"
 									     style="">
@@ -68,19 +66,5 @@
 		$("#collectJobTargetlist"+ jbId).load("show_clct_job_target_list.action?jbId=" + jbId);
 	}
 
-	function collectJobExec(e){
-		var jbId = $(e).attr("name");
 
-		$.ajax({
-			type: 'get',
-			url: 'collect_job_exec_page.action?jbId=' + jbId,
-			success: function (data) {
-				var result = $.parseJSON(data);
-				if (result.success) {
-					alert("수집 완료")
-					$("#execHist"+jbId).load("show_clct_job_all_hist.action?jbId=" + jbId);
-				}
-			}
-		})
-	}
 </script>

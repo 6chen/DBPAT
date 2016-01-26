@@ -62,6 +62,7 @@ public class ExecJobCtlr {
         prmtMap.put("bizAreaId", bizAreaId);
         prmtMap.put("trgtId", trgtId);
         List<JobExecHistVo> JobExecHistVoList = jobExecSrv.findJobPerHistByJbBizTrgtId(prmtMap);
+        modelMap.put("jbId", jbId);
         modelMap.put("JobExecHistVoList", JobExecHistVoList);
         return "execution/collect_job/collect_job_all_hist";
     }
@@ -77,6 +78,8 @@ public class ExecJobCtlr {
 
     @RequestMapping(value = "/show_clct_job_exec_detail.action", method = RequestMethod.GET)
     public String showClctJobExecDetail(String jbId, Integer jbExecCnt, ModelMap modelMap) {
+
+        System.out.println(jbId);
         Map<String, Object> prmtMap = new HashMap<String, Object>();
         prmtMap.put("jbId", jbId);
         prmtMap.put("jbExecCnt", jbExecCnt);
