@@ -2,6 +2,8 @@ package com.dbpat.springmvc.mapper;
 
 import com.dbpat.springmvc.model.RulePo;
 import com.dbpat.springmvc.model.RuleSetPo;
+import com.dbpat.springmvc.model.RuleSetVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +29,9 @@ public interface RuleMpr {
     List<RulePo> selectAllRuleByRuleSetId(String ruleSetId);
 
     RulePo selectRuleByRuleId(String ruleId);
+
+
+    List<RuleSetVo> selectAllRuleSetVoByJbId(String jbId);
 
     void insertRule(RulePo rulePo);
 

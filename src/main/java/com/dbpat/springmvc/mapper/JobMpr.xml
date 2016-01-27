@@ -113,4 +113,27 @@
                             FROM JB_TRGT_REL
                             WHERE BIZ_AREA_ID = #{bizAreaId} AND TRGT_ID = #{trgtId})
     </select>
+    <select id="selectJobTargetVoByJbIdWithClctChk" resultMap="JobTargetVo">
+        SELECT
+            X.JB_ID                                      AS jbId,
+            X.EXEC_SEQ                                   AS execSeq,
+            Z.BIZ_AREA_ID                                AS bizAreaId,
+            Z.BIZ_AREA_NM                                AS bizAreaNm,
+            Y.TRGT_ID                                    AS trgtId,
+            Y.TRGT_NM                                    AS trgtNm,
+            Y.IP                                         AS ip,
+            Y.PRT                                        AS prt,
+            Y.DBMS_TYP_ID                                AS dbmsTypId,
+            Y.SID                                        AS sid,
+            Y.SCHM                                       AS schm,
+            (SELECT NVL(MAX(JB_EXEC_CNT),0)
+             FROM JB_EXEC_HIST
+             WHERE JB_EXEC_HIST.BIZ_AREA_ID = X.BIZ_AREA_ID
+                   AND JB_EXEC_HIST.TRGT_ID = X.TRGT_ID) AS clctedYn
+        FROM JB_TRGT_REL X, TRGT Y, BIZ_AREA Z
+        WHERE X.JB_ID = #{jbId}
+              AND X.TRGT_ID = Y.TRGT_ID
+              AND X.BIZ_AREA_ID = Z.BIZ_AREA_ID
+        ORDER BY X.EXEC_SEQ
+    </select>
 </mapper>

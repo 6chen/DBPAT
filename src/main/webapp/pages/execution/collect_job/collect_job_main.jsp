@@ -16,9 +16,9 @@
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="box box-solid">
+			<div class="box box-solid box-success">
 				<div class="box-header with-border">
-					<h3 class="box-title"><b>수잡 작업 리스트</b></h3>
+					<h3 class="box-title"><b>수집 작업 리스트</b></h3>
 
 				</div>
 				<!-- /.box-header -->
@@ -33,7 +33,7 @@
 						</c:if>
 						<c:if test="${jobPoList != null && fn:length(jobPoList) > 0}">
 							<c:forEach varStatus="i" var="jobPo" items="${jobPoList}">
-								<div class="panel box box-primary" name="${jobPo.jbId}" id="containPanel${jobPo.jbId}">
+								<div class="panel box box-solid box-default" name="${jobPo.jbId}" id="containPanel${jobPo.jbId}">
 									<div class="box-header with-border">
 										<h4 class="box-title">
 											<a data-toggle="collapse" data-parent="#accordion" href="#collapse${jobPo.jbId}"

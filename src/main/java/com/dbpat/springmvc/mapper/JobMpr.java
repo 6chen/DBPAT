@@ -19,6 +19,8 @@ public interface JobMpr {
 
     List<JobTargetVo> selectJobTargetVoByJbId(String jbId);
 
+    List<JobTargetVo> selectJobTargetVoByJbIdWithClctChk(String jbId);
+
     List<JobPo> selectJbPoByBizIdTrgtId(Map<String, Object> prmtMap);
 
     List<JobRuleSetRelPo> selectJbRlSetByJbId(String jbId);

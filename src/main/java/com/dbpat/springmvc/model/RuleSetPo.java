@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RuleSetPo {
-    private String rlSetId;
-    private String rlSetNm;
-    private String rlSetDescr;
-    private String rlSetStTm;
-    private String rlSetUptTm;
+    protected String rlSetId;
+    protected String rlSetNm;
+    protected String rlSetDescr;
+    protected String rlSetStTm;
+    protected String rlSetUptTm;
 
     @Override
     public String toString() {

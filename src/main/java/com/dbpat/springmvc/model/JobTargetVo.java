@@ -10,12 +10,13 @@ import org.springframework.stereotype.Component;
 public class JobTargetVo extends JobPo {
     private Integer execSeq;
 
+    private Integer clctedYn;
+
     @Autowired
     private BizAreaPo bizAreaPo;
 
     @Autowired
     private TargetPo targetPo;
-
 
     @Override
     public String toString() {
@@ -23,6 +24,7 @@ public class JobTargetVo extends JobPo {
                 "bizAreaPo=" + bizAreaPo +
                 ", execSeq=" + execSeq +
                 ", targetPo=" + targetPo +
+                ", clctedYn=" + clctedYn +
                 '}';
     }
 
@@ -48,5 +50,13 @@ public class JobTargetVo extends JobPo {
 
     public void setTargetPo(TargetPo targetPo) {
         this.targetPo = targetPo;
+    }
+
+    public Integer getClctedYn() {
+        return clctedYn;
+    }
+
+    public void setClctedYn(Integer clctedYn) {
+        this.clctedYn = clctedYn;
     }
 }

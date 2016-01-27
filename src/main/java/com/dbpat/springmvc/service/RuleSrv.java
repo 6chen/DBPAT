@@ -3,6 +3,7 @@ package com.dbpat.springmvc.service;
 import com.dbpat.springmvc.mapper.RuleMpr;
 import com.dbpat.springmvc.model.RulePo;
 import com.dbpat.springmvc.model.RuleSetPo;
+import com.dbpat.springmvc.model.RuleSetVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,11 @@ public class RuleSrv {
         ruleMpr.deleteRuleSet(ruleSetId);
     }
 
-    // 규칙 집합에 관련된 부분
+    public List<RuleSetVo> findAllRuleSetVoByJbId(String jbId){
+        return ruleMpr.selectAllRuleSetVoByJbId(jbId);
+    }
+
+    // 규칙에 관련된 부분
 
     public List<RulePo> findAllRule(){
         return ruleMpr.selectAllRule();

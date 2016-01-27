@@ -30,6 +30,10 @@ public class JobSrv {
         return jobMpr.selectJobTargetVoByJbId(jbId);
     }
 
+    public List<JobTargetVo> findJobTargetVoByJbIdWithClctChk(String jbId){
+        return jobMpr.selectJobTargetVoByJbIdWithClctChk(jbId);
+    }
+
     public List<JobRuleSetRelPo> findJbRlSetByJbId(String jbId) {
         return jobMpr.selectJbRlSetByJbId(jbId);
     }

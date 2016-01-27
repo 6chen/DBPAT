@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dbpat.springmvc.mapper.RuleMpr">
+
+    <resultMap id="RuleSetVoResult" type="com.dbpat.springmvc.model.RuleSetVo" autoMapping="true">
+        <id column="rlSetId" property="rlSetId"></id>
+        <collection property="rulePoList" ofType="com.dbpat.springmvc.model.RulePo"
+                    autoMapping="true">
+        </collection>
+    </resultMap>
+
     <insert id="insertRuleSet">
         INSERT INTO RL_SET
         VALUES (SYS_GUID(), #{rlSetNm}, #{rlSetDescr}, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), NULL)
@@ -76,5 +84,19 @@
             RL_UPT_TM AS rlUptTm
         FROM RL
         WHERE RL_ID = #{ruleId}
+    </select>
+    <select id="selectAllRuleSetVoByJbId" resultMap="RuleSetVoResult">
+        SELECT
+            RL_SET.RL_SET_ID    AS rlSetId,
+            RL_SET.RL_SET_NM    AS rlSetNm,
+            RL_SET.RL_SET_DESCR AS rlSetDescr,
+            RL.RL_ID            AS rlId,
+            RL.RL_NM            AS rlNm,
+            RL.RL_CLS           AS rlCls,
+            RL.RL_DESCR         AS rlDescr
+        FROM JB_RL_SET_REL, RL_SET, RL
+        WHERE JB_ID = #{jbId}
+              AND JB_RL_SET_REL.RL_SET_ID = RL_SET.RL_SET_ID
+              AND RL_SET.RL_SET_ID = RL.RL_SET_ID
     </select>
 </mapper>

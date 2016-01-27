@@ -15,7 +15,7 @@
 
 <div class="row">
 	<div class="col-lg-7">
-		<div class="box box-solid box-default">
+		<div class="box box-solid box-primary">
 			<div class="box-header" style="text-align: center">
 				<h3 class="box-title" style="font-size: 13px"><b>수집작업 대상</b></h3>
 			</div>
