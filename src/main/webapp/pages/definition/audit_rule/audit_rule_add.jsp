@@ -13,11 +13,28 @@
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
+					<label for="newRuleParsYn">파싱검사 여부</label>
+					<div class="radio" id="newRuleParsYn">
+						<label>
+							<input type="radio" name="ruleParsYn" id="optionsRadios1" value="Y" checked="">여
+						</label>
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						<label>
+							<input type="radio" name="ruleParsYn" id="optionsRadios2" value="N">부
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
 					<label for="newRuleClass">규칙 클래스</label>
 					<input type="text" class="form-control" id="newRuleClass" placeholder="Rule Class">
 				</div>
 			</div>
 		</div>
+
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="form-group">
@@ -28,13 +45,13 @@
 			</div>
 		</div>
 		<%--<div class="row">--%>
-			<%--<div class="col-lg-12">--%>
-				<%--<div class="form-group">--%>
-					<%--<label for="newRuleExample">규칙 예시</label>--%>
-					<%--<textarea class="form-control" rows="5" id="newRuleExample"--%>
-					          <%--placeholder="Rule Example" name="newRuleExample"></textarea>--%>
-				<%--</div>--%>
-			<%--</div>--%>
+		<%--<div class="col-lg-12">--%>
+		<%--<div class="form-group">--%>
+		<%--<label for="newRuleExample">규칙 예시</label>--%>
+		<%--<textarea class="form-control" rows="5" id="newRuleExample"--%>
+		<%--placeholder="Rule Example" name="newRuleExample"></textarea>--%>
+		<%--</div>--%>
+		<%--</div>--%>
 		<%--</div>--%>
 	</div>
 	<!-- /.box-body -->
@@ -46,12 +63,15 @@
 
 <script>
 	function addRule() {
+//		alert($("#newRuleParsYn input[name='ruleParsYn']:checked").val());
+
 		$.ajax({
 			type: 'post',
 			url: 'add_new_rule.action',
 			data: {
 				rlNm: $("#newRuleName").val(),
 				rlCls: $("#newRuleClass").val(),
+				rlParsYn: $("#newRuleParsYn input[name='ruleParsYn']:checked").val(),
 				rlDescr: $("#newRuleDescr").val(),
 				rlSetId: $("#ruleSetTagSelect option:selected").val()
 			},

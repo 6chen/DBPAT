@@ -90,6 +90,8 @@
 
 <script>
 	function showAddRuleSetModal() {
+		$("#newRuleSetName").val("");
+		$("#newRuleSetDesc").val("");
 		$("#addRuleSetModal").modal("show");
 	}
 

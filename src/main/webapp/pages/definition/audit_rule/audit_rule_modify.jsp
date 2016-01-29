@@ -14,12 +14,42 @@
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
+					<label for="newRuleParsYn">파싱검사 여부</label>
+
+					<div class="radio" id="newRuleParsYn">
+						<c:if test="${rulePo.rlParsYn == 'Y'}">
+							<label>
+								<input type="radio" name="ruleParsYn" value="Y" checked="">여
+							</label>
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							<label>
+								<input type="radio" name="ruleParsYn" value="N">부
+							</label>
+						</c:if>
+						<c:if test="${rulePo.rlParsYn == 'N'}">
+							<label>
+								<input type="radio" name="ruleParsYn" value="Y">여
+							</label>
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							<label>
+								<input type="radio" name="ruleParsYn" value="N" checked="">부
+							</label>
+						</c:if>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
 					<label for="oldRuleClass">규칙 클래스</label>
 					<input type="text" class="form-control" id="oldRuleClass" placeholder="Rule Class"
 					       value="${rulePo.rlCls}">
 				</div>
 			</div>
 		</div>
+
+
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="form-group">
@@ -29,15 +59,6 @@
 				</div>
 			</div>
 		</div>
-		<%--<div class="row">--%>
-		<%--<div class="col-lg-12">--%>
-		<%--<div class="form-group">--%>
-		<%--<label for="newRuleExample">규칙 예시</label>--%>
-		<%--<textarea class="form-control" rows="5" id="newRuleExample"--%>
-		<%--placeholder="Rule Example" name="newRuleExample"></textarea>--%>
-		<%--</div>--%>
-		<%--</div>--%>
-		<%--</div>--%>
 	</div>
 	<!-- /.box-body -->
 
@@ -57,6 +78,7 @@
 			data: {
 				rlId: $(e).attr("name"),
 				rlNm: $("#oldRuleName").val(),
+				rlParsYn: $("#newRuleParsYn input[name='ruleParsYn']:checked").val(),
 				rlCls: $("#oldRuleClass").val(),
 				rlDescr: $("#oldRuleDescr").val(),
 				rlSetId: $("#ruleSetTagSelect option:selected").val()

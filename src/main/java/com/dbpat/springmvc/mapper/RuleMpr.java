@@ -30,8 +30,11 @@ public interface RuleMpr {
 
     RulePo selectRuleByRuleId(String ruleId);
 
-
     List<RuleSetVo> selectAllRuleSetVoByJbId(String jbId);
+
+    List<RulePo> selectQueryRuleByJbId(String jbId);
+
+    List<RulePo> selectInspectRuleByJbId(String jbId);
 
     void insertRule(RulePo rulePo);
 

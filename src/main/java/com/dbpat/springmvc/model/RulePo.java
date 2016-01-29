@@ -2,14 +2,12 @@ package com.dbpat.springmvc.model;
 
 import org.springframework.stereotype.Component;
 
-/**
- * Created by YUSIN on 16/1/15.
- */
 @Component
 public class RulePo {
     private String rlId;
     private String rlNm;
     private String rlCls;
+    private String rlParsYn;
     private String rlDescr;
     private String rlSetId;
     private String rlStTm;
@@ -18,14 +16,23 @@ public class RulePo {
     @Override
     public String toString() {
         return "RulePo{" +
-                "rlId='" + rlId + '\'' +
+                "rlCls='" + rlCls + '\'' +
+                ", rlId='" + rlId + '\'' +
                 ", rlNm='" + rlNm + '\'' +
-                ", rlCls='" + rlCls + '\'' +
+                ", rlParsYn='" + rlParsYn + '\'' +
                 ", rlDescr='" + rlDescr + '\'' +
                 ", rlSetId='" + rlSetId + '\'' +
                 ", rlStTm='" + rlStTm + '\'' +
                 ", rlUptTm='" + rlUptTm + '\'' +
                 '}';
+    }
+
+    public String getRlParsYn() {
+        return rlParsYn;
+    }
+
+    public void setRlParsYn(String rlParsYn) {
+        this.rlParsYn = rlParsYn;
     }
 
     public String getRlCls() {

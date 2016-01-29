@@ -1,6 +1,5 @@
 package com.dbpat.springmvc.model;
 
-import com.dbpat.util.JobExecI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

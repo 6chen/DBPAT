@@ -5809,10 +5809,10 @@ wysihtml5.dom.observe = function(element, eventNames, handler) {
 };
 ;/**
  * HTML Sanitizer
- * Rewrites the HTML based on given rules
+ * Rewrites the HTML based on given orarules
  *
  * @param {Element|String} elementOrHtml HTML String to be sanitized OR element whose content should be sanitized
- * @param {Object} [rules] List of rules for rewriting the HTML, if there's no rule for an element it will
+ * @param {Object} [orarules] List of orarules for rewriting the HTML, if there's no rule for an element it will
  *    be converted to a "span". Each rule is a key/value pair where key is the tag to convert, and value the
  *    desired substitution.
  * @param {Object} context Document object in which to parse the html, needed to sandbox the parsing
@@ -12618,7 +12618,7 @@ wysihtml5.views.View = Base.extend(
     // --------- editor styles ---------
     dom.copyStyles(TEXT_FORMATTING).from(textareaElement).to(this.element).andTo(this.blurStylesHost);
 
-    // --------- apply standard rules ---------
+    // --------- apply standard orarules ---------
     dom.insertCSS(ADDITIONAL_CSS_RULES).into(this.element.ownerDocument);
 
     // --------- :disabled styles ---------
@@ -13238,7 +13238,7 @@ wysihtml5.views.View = Base.extend(
     handleTables:         true,
     // Tab key inserts tab into text as default behaviour. It can be disabled to regain keyboard navigation
     handleTabKey:         true,
-    // Object which includes parser rules to apply when html gets cleaned
+    // Object which includes parser orarules to apply when html gets cleaned
     // See parser_rules/*.js for examples
     parserRules:          { tags: { br: {}, span: {}, div: {}, p: {} }, classes: {} },
     // Object which includes parser when the user inserts content via copy & paste. If null parserRules will be used instead
@@ -13264,7 +13264,7 @@ wysihtml5.views.View = Base.extend(
     // Classname of container that editor should not touch and pass through
     // Pass false to disable
     uneditableContainerClassname: "wysihtml5-uneditable-container",
-    // Browsers that support copied source handling will get a marking of the origin of the copied source (for determinig code cleanup rules on paste)
+    // Browsers that support copied source handling will get a marking of the origin of the copied source (for determinig code cleanup orarules on paste)
     // Also copied source is based directly on selection - 
     // (very useful for webkit based browsers where copy will otherwise contain a lot of code and styles based on whatever and not actually in selection).
     // If falsy value is passed source override is also disabled

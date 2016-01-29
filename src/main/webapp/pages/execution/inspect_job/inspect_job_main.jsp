@@ -17,7 +17,7 @@
 <section class="content">
 	<%--<div class="container-fluid">--%>
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-lg-2">
 			<div class="box box-solid box-default">
 				<div class="box-header with-border">
 					<h3 class="box-title">검사작업 리스트</h3>
@@ -37,26 +37,24 @@
 				<%--</div>--%>
 			</div>
 		</div>
-		<div class="col-lg-6" >
-
-			<div id="isptJobExecHistPrt">
-				<%--<jsp:include page="/show_ispt_job_exec_hist.action"></jsp:include>--%>
+		<div class="col-lg-10" >
+			<div id="isptJobDetailInfoPrt">
+				<jsp:include page="/show_ispt_job_detail_info.action"></jsp:include>
 			</div>
+
 		</div>
 	</div>
 	<%--</div>--%>
 
 	<div class="container-fluid">
 	<div class="row">
-		<div id="isptJobDetailInfoPrt">
-			<jsp:include page="/show_ispt_job_detail_info.action"></jsp:include>
-		</div>
+
 		<%--<div class="col-lg-3" id="isptJobExecHistPrt">--%>
 			<%--&lt;%&ndash;<jsp:include page="/show_ispt_job_exec_hist.action"></jsp:include>&ndash;%&gt;--%>
 		<%--</div>--%>
 
 		<div id="isptJobExecDetailPrt">
-			<jsp:include page="/show_ispt_job_exec_detail.action"></jsp:include>
+			<%--<jsp:include page="/show_ispt_job_exec_detail.action"></jsp:include>--%>
 		</div>
 	</div>
 	</div>
@@ -67,6 +65,6 @@
 //		alert($(e).attr("name"));
 		var jbId = $(e).attr("name");
 		$("#isptJobDetailInfoPrt").load("/show_ispt_job_detail_info.action?jbId=" + jbId);
-		$("#isptJobExecHistPrt").load("/show_clct_job_all_hist.action?jbId=" + jbId);
+//		$("#isptJobExecHistPrt").load("/show_clct_job_all_hist.action?jbId=" + jbId);
 	}
 </script>

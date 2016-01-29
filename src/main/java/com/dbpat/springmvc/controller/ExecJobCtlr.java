@@ -118,12 +118,15 @@ public class ExecJobCtlr {
 
             List<RuleSetVo> ruleSetVoList = ruleSrv.findAllRuleSetVoByJbId(jbId);
             modelMap.put("ruleSetVoList", ruleSetVoList);
+
+            List<JobExecHistVo> JobExecHistVoList = jobExecSrv.findJobALlHistByJbId(jbId);
+            modelMap.put("JobExecHistVoList", JobExecHistVoList);
         }
         return "execution/inspect_job/inspect_job_detail_info";
     }
 
     @RequestMapping(value = "/show_ispt_job_exec_hist.action", method = RequestMethod.GET)
-    public String showIsptJobExecHist() {
+    public String showIsptJobExecHist(String jbId) {
         return "execution/inspect_job/inspect_job_exec_hist";
     }
 

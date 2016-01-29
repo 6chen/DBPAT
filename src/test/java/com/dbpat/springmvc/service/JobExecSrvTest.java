@@ -48,19 +48,26 @@ public class JobExecSrvTest extends TestCase {
 //        System.out.println(collectJobExecDetailPoList.size());
 //        System.out.println(collectJobExecDetailPoList);
 
-        RuleSrv ruleSrv = (RuleSrv) ctx.getBean("ruleSrv");
+//        RuleSrv ruleSrv = (RuleSrv) ctx.getBean("ruleSrv");
+//
+//        List<RuleSetVo> ruleSetVoList = ruleSrv.findAllRuleSetVoByJbId("7030579008C44AAFB52D79903243DC42");
+//
+//        System.out.println(ruleSetVoList.size());
+//
+//        System.out.println(ruleSetVoList);
+//
+//        for (RuleSetVo ruleSetVo : ruleSetVoList) {
+//            System.out.println(ruleSetVo.getRlSetId());
+//            System.out.println(ruleSetVo.getRlSetNm());
+//            System.out.println(ruleSetVo.getRlSetDescr());
+//            System.out.println(ruleSetVo.getRulePoList());
+//        }
 
-        List<RuleSetVo> ruleSetVoList = ruleSrv.findAllRuleSetVoByJbId("7030579008C44AAFB52D79903243DC42");
 
-        System.out.println(ruleSetVoList.size());
+        JobExecSrv jobExecSrv = (JobExecSrv) ctx.getBean("jobExecSrv");
 
-        System.out.println(ruleSetVoList);
+//        jobExecSrv.startInspectJobByJbId();
 
-        for (RuleSetVo ruleSetVo : ruleSetVoList) {
-            System.out.println(ruleSetVo.getRlSetId());
-            System.out.println(ruleSetVo.getRlSetNm());
-            System.out.println(ruleSetVo.getRlSetDescr());
-            System.out.println(ruleSetVo.getRulePoList());
-        }
+        jobExecSrv.startInspectJobByJbId("51DC1404391B4D18B31A081F9152B042");
     }
 }

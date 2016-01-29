@@ -26,7 +26,7 @@
 		<tr>
 			<th>#</th>
 			<th>규칙 명칭 </th>
-			<th>규칙 클래스</th>
+			<%--<th>규칙 클래스</th>--%>
 			<%--<th></th>--%>
 			<%--<th>규칙 설명</th>--%>
 		</tr>
@@ -36,7 +36,7 @@
 			<tr>
 				<td>${i.index+1}</td>
 				<td><a href="#" name="${rulePo.rlId}" data-toggle="tooltip" data-original-title="Show Detail Info" onclick="showRuleDetail(this)"> ${rulePo.rlNm} </a></td>
-				<td>${rulePo.rlCls}</td>
+				<%--<td>${rulePo.rlCls}</td>--%>
 				<%--<td style="width: 10px;">--%>
 					<%--<button name="${rulePo.rlId}" type="button" class="btn btn-block btn-warning btn-xs"--%>
 					        <%--onclick="showModifyRuleModal(this)">변경--%>
