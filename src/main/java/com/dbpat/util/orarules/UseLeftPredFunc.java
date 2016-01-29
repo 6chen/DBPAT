@@ -1,19 +1,25 @@
 package com.dbpat.util.orarules;
 
-import com.dbpat.util.InspectRule;
 import com.dbpat.util.oraclesql.OracleSqlParser;
+import com.dbpat.util.oraispt.InspectRule;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.xpath.XPath;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by YUSIN on 16/1/6.
  */
-public class UseLeftPredFunc implements InspectRule{
+public class UseLeftPredFunc implements InspectRule {
     @Override
-    public void apply(OracleSqlParser parser, ParseTree tree) {
+    public Integer apply(Map<String, Object> prmtMap) {
+
+        //전달해 온 변수들을 모두 받아온다.
+        OracleSqlParser parser = (OracleSqlParser) prmtMap.get("parser");
+        ParseTree tree = (ParseTree) prmtMap.get("tree");
+
         // WHERE절 안에 있는 모든 조건들을 찾아낸다
         String xpath = "//where_clause//condition_expr";
 
@@ -24,7 +30,7 @@ public class UseLeftPredFunc implements InspectRule{
         // 모든 조건들의 연산자 좌측에 있는 서브 트리를 찾아낸다
         List<ParseTree> lefPredicateNodeList = new ArrayList<ParseTree>();
 
-        for (ParseTree predicateNode : predicateNodeList){
+        for (ParseTree predicateNode : predicateNodeList) {
             lefPredicateNodeList.add(predicateNode.getChild(0).getChild(0));
         }
 
@@ -48,14 +54,16 @@ public class UseLeftPredFunc implements InspectRule{
         List<ParseTree> violateNodeList = new ArrayList<ParseTree>();
 
 
-        for (ParseTree lefPredicateNode : lefPredicateNodeList){
-            for (String funcInspectXpath : funcInspectXpathList){
+        for (ParseTree lefPredicateNode : lefPredicateNodeList) {
+            for (String funcInspectXpath : funcInspectXpathList) {
                 violateNodeList.addAll(XPath.findAll(lefPredicateNode, funcInspectXpath, parser));
             }
         }
 
-        for (ParseTree violateNode : violateNodeList){
-            System.out.println(violateNode.getText());
-        }
+//        for (ParseTree violateNode : violateNodeList) {
+//            System.out.println(violateNode.getText());
+//        }
+
+        return violateNodeList.size();
     }
 }
