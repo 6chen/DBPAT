@@ -57,9 +57,13 @@ public class JobExecSrv {
     }
 
     public List<CollectJobExecDetailPo> findCollectJobExecDetailPo(Map<String, Object> prmtMap) {
-        System.out.println(prmtMap.get("jbId"));
+//        System.out.println(prmtMap.get("jbId"));
 
         return jobExecMpr.selectCollectJobExecDetailPo(prmtMap);
+    }
+
+    public List<OraSqlPo> findSqlPo(Map<String, Object> prmtMap) {
+        return jobExecMpr.selectSqlPo(prmtMap);
     }
 
     public boolean startCollectJobByJbId(String jbId) {
@@ -163,7 +167,7 @@ public class JobExecSrv {
                             //바인드 변수 값을 설정한 후에 배치에 넣어서 나중에 배치 방식으로 디비에게 보내준다.
                             //유저 콜 때문에 발생하는 성능 문제를 해소하기 위함.
                             importStmt.addBatch();
-                            if (++batchRows%200 == 0 ) importStmt.executeBatch();
+                            if (++batchRows % 200 == 0) importStmt.executeBatch();
                         }
                         resultSet.close();
                         exportStmt.close();
@@ -198,18 +202,18 @@ public class JobExecSrv {
         }
 
 
-
         //여기까지 모든 작업 수행완료
         return true;
     }
 
     public boolean startInspectJobByJbId(String jbId) {
 
-        //검사작업은
+        // 입력받은 작업 아이디를 통해서 작업에 관련된 모든 정보를 가져옴
         ExecJobVo inspectJobExecVo = jobExecMpr.selectExecJobVoByJbId(jbId);
 
-        System.out.println(inspectJobExecVo);
+//        System.out.println(inspectJobExecVo);
 
+        //맵을 하나 생성하여 나중에 처리할 때 필요한 값을 저장하여 전달해 주도록 함
         Map<String, Object> prmtMap = new HashMap<String, Object>();
         prmtMap.put("jbId", inspectJobExecVo.getJbId());
 
@@ -219,42 +223,75 @@ public class JobExecSrv {
         List<RulePo> queryProcessRulePoList = ruleMpr.selectQueryRuleByJbId(jbId);
         List<RulePo> parseProcessRulePoList = ruleMpr.selectInspectRuleByJbId(jbId);
 
-        System.out.println("queryProcessRulePoList = " + queryProcessRulePoList);
-        System.out.println("parseProcessRulePoList = " + parseProcessRulePoList);
+//        System.out.println("queryProcessRulePoList = " + queryProcessRulePoList);
+//        System.out.println("parseProcessRulePoList = " + parseProcessRulePoList);
 
+        //검사를 하기 위해 인스펙터를 생성함
         Inspector inspector = new Inspector();
 
-        System.out.println(inspector);
+//        System.out.println(inspector);
 
-        //작업 중에 모든 대상업 가져와서 반복 출력
+        //작업의 모든 대상을 가져와서 반복 출력하면서 인스펙터에게 잔달함
         for (ExecJobTargetVo execJobTargetVo : inspectJobExecVo.getExecJobTargetVoList()) {
             prmtMap.put("bizAreaId", execJobTargetVo.getBizAreaPo().getBizAreaId());
             prmtMap.put("trgtId", execJobTargetVo.getTrgtId());
             prmtMap.put("schema", execJobTargetVo.getSchm());
 
             //작업 실행 이력에서 작업을 실행한 적이 있는지를 조회한 수 값을 저장
-            Integer execCnt = jobExecMpr.selectJobExecHistCnt(prmtMap);
-
-//            System.out.println(execCnt);
-
             //만약에 처음으로 실행하는 작업이라면 실행 차수를 1로 정의함
             //만약에 처음으로 실행하는 작업이 아니라면 실행 차수를 (실행했던 횟수 + 1)로 정의함
+            Integer execCnt = jobExecMpr.selectJobExecHistCnt(prmtMap);
             Integer jbExecCnt = (execCnt == 0) ? 1 : execCnt + 1;
             prmtMap.put("jbExecCnt", jbExecCnt);
 
             //본 작업 대상의 수집 작업의  시작하는 시간을 로깅
 //            jobExecMpr.insertNewJobWithStTm(prmtMap);
 
+            // 쿼리 프로세스 및 파싱 프로세스 작업하는 방식이 따르기 때문에 등록된 규칙집합이 있는지를 따로 체크한 후에
+            // 인스펙스 안에 해당 메서드를 호출함
             if (queryProcessRulePoList != null) {
-                prmtMap.put("queryProcessRulePoList", queryProcessRulePoList);
-//                inspector.setPrmtMap(prmtMap);
-//            inspector.doUseQueryProcess();
+                for (RulePo queryProcessRulePo : queryProcessRulePoList) {
+                    prmtMap.put("queryProcessRulePo", queryProcessRulePo);
+                    inspector.setPrmtMap(prmtMap);
+                    Integer successYn = 0;
+                    //수행 성공 여부 값에 의하여 성공인지 실폐인지를 로그 기록하는 용도다.
+                    //그렇지만 여기서 가져오긴 하지만 쿼리 프로세스가 해당 규칙의 로직 SQL를 수행하여 검사하기 때문에
+                    //수행 이력을 SQL로 바로 기록하기 때문에 여기서 다른 처리를 하지 않는다.
+                    //혹시 나중에 처리할 필요가 있으면 잠시 나둔다.
+                    successYn = inspector.doUseQueryProcess();
+
+                    System.out.println(successYn);
+                }
+//                prmtMap.put("queryProcessRulePoList", queryProcessRulePoList);
             }
 
             if (parseProcessRulePoList != null) {
-                prmtMap.put("parseProcessRulePoList", parseProcessRulePoList);
-//                inspector.setPrmtMap(prmtMap);
-                //            inspector.doUseParseProcess();
+//                prmtMap.put("parseProcessRulePoList", parseProcessRulePoList);
+                //파싱 프로세스의 대상은 SQL이기 때문에 인스팩터에게 수집한 SQL리스트도 같이 전달해 줘야 됨.
+                List<OraSqlPo> oraSqlPoList = jobExecMpr.selectSqlPo(prmtMap);
+
+                //SQL리스트 안에 있는 모든 SQL를 하나씩 꺼내면서 변수 맵에 넣어서 인스펙트 변수맵을 설정한 후에 검사한다.
+                //선정된 모든 검사 규칙 리스트도 같이 넣었기 때문에 SQL하나씩 해당 규칙을 적용할 거이다.
+                for (OraSqlPo oraSqlPo : oraSqlPoList) {
+                    for (RulePo parseProcessRulePo : parseProcessRulePoList) {
+                        prmtMap.put("parseProcessRulePo", parseProcessRulePo);
+                        prmtMap.put("sqlString", oraSqlPo.getSqlText());
+                        inspector.setPrmtMap(prmtMap);
+                        Integer successYn = 0;
+                        successYn = inspector.doUseParseProcess();
+
+                        //결과에 따라 로그를 기록함.
+                        //결과 개수가 0이면 해당 규칙을 준수한 것이다.
+                        //결과 개수가 0보다 크면 해당 규칙을 위배한 항목이 있다는 것이다.
+
+                        System.out.println(oraSqlPo.getSqlText());
+                        System.out.println(parseProcessRulePo.getRlNm());
+                        System.out.println(successYn);
+
+                        System.out.println("======================");
+                    }
+
+                }
             }
 
 

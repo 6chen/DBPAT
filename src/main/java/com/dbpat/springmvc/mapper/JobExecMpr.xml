@@ -163,4 +163,24 @@
               AND JB_EXEC_DTL.JB_EXEC_CNT = #{jbExecCnt}
         ORDER BY Y.JB_ID, Y.EXEC_SEQ, SEQ
     </select>
+    <select id="selectSqlPo" resultType="com.dbpat.springmvc.model.OraSqlPo">
+        SELECT
+            Y.SQL_ID AS sqlId,
+            Y.SQL_TEXT AS sqlText
+        FROM (
+                 SELECT
+                     JB_EXEC_HIST.BIZ_AREA_ID,
+                     JB_EXEC_HIST.TRGT_ID,
+                     MAX(JB_EXEC_ED_TM || ',' || JB_ID || ',' || JB_EXEC_CNT) CON_COL
+                 FROM JB_EXEC_HIST
+                 WHERE JB_EXEC_HIST.BIZ_AREA_ID = #{bizAreaId}
+                       AND JB_EXEC_HIST.TRGT_ID = #{trgtId}
+                 GROUP BY JB_EXEC_HIST.BIZ_AREA_ID, JB_EXEC_HIST.TRGT_ID) X
+            , (SELECT *
+               FROM ORA_SQLAREA) Y
+        WHERE Y.JB_ID = REGEXP_SUBSTR(X.CON_COL, '[0-9A-Z]+', 1, 2)
+              AND Y.BIZ_AREA_ID = X.BIZ_AREA_ID
+              AND Y.TRGT_ID = X.TRGT_ID
+              AND Y.JB_EXEC_CNT = REGEXP_SUBSTR(X.CON_COL, '[0-9A-Z]+', 1, 3)
+    </select>
 </mapper>

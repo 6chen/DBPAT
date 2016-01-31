@@ -1,9 +1,6 @@
 package com.dbpat.springmvc.mapper;
 
-import com.dbpat.springmvc.model.CollectJobExecDetailPo;
-import com.dbpat.springmvc.model.ExecJobVo;
-import com.dbpat.springmvc.model.JobExecHistPo;
-import com.dbpat.springmvc.model.JobExecHistVo;
+import com.dbpat.springmvc.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,6 +22,8 @@ public interface JobExecMpr {
     List<JobExecHistVo> selectJobPerHistByJbBizTrgtId(Map<String, Object> prmtMap);
 
     List<CollectJobExecDetailPo> selectCollectJobExecDetailPo(Map<String, Object> prmtMap);
+
+    List<OraSqlPo> selectSqlPo(Map<String, Object> prmtMap);
 
     void insertNewJobWithStTm(Map<String, Object> prmtMap);
 

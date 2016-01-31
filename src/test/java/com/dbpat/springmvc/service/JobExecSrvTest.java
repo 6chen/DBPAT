@@ -68,6 +68,14 @@ public class JobExecSrvTest extends TestCase {
 
 //        jobExecSrv.startInspectJobByJbId();
 
-        jobExecSrv.startInspectJobByJbId("51DC1404391B4D18B31A081F9152B042");
+        jobExecSrv.startInspectJobByJbId("67D62ADE96AA4641AE57E2BE759B9559");
+
+//        Map<String, Object> prmtMap = new HashMap<String, Object>();
+//        prmtMap.put("bizAreaId","A0D952885C0B42958C2948D77F697C8B");
+//        prmtMap.put("trgtId","EF0DA76A8353447D909F13BA0398A285");
+//        System.out.println(jobExecSrv.findSqlPo(prmtMap));
+
+
+
     }
 }

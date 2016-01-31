@@ -18,7 +18,7 @@
 <%--박스 -> 검사작업 상세 정보 (검사대상/검사규칙집합)--%>
 <div class="box box-primary">
 	<div class="box-header"  style="text-align: center">
-		<h3 class="box-title"><b>검사작업 상세 정보 (검사대상/검사규칙집합)</b></h3>
+		<h3 class="box-title"><b>검사작업 상세 정보</b></h3>
 	</div>
 	<div class="box-body">
 		<%--검사대상 리스트 부분--%>

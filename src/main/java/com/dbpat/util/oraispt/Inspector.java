@@ -16,62 +16,50 @@ public class Inspector {
     private InspectRule inspectRule;
     private Map<String, Object> prmtMap;
 
-    public void doUseQueryProcess() {
-        List<RulePo> queryProcessRulePoList = (List<RulePo>) prmtMap.get("queryProcessRulePoList");
+    public Integer doUseQueryProcess() {
+        RulePo queryProcessRulePo = (RulePo) prmtMap.get("queryProcessRulePo");
 
-        for (RulePo rulePo : queryProcessRulePoList) {
-            try {
-                this.inspectRule = (InspectRule) Class.forName(rulePo.getRlCls()).newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            inspectRule.apply(prmtMap);
+        try {
+            this.inspectRule = (InspectRule) Class.forName(queryProcessRulePo.getRlCls()).newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        return;
+        //검사 검사작업을 수행하여 성공여부를 리턴한다.
+        //0이 리턴되면 실폐이고 1를 리턴하면 성공이다.
+        return inspectRule.apply(prmtMap);
     }
 
-    public void doUseParseProcess() {
-        List<RulePo> parseProcessRulePoList = (List<RulePo>) prmtMap.get("parseProcessRulePoList");
+    public Integer doUseParseProcess() {
+        RulePo parseProcessRulePo = (RulePo) prmtMap.get("parseProcessRulePo");
 
-        // 파싱해햐할  SQL를 모두 가져와서
-        List<String> sqlStringList = new ArrayList<String>();
+        // 파싱해햐할  SQL를 가져와서
+        String sqlString = (String) prmtMap.get("sqlString");
 
-        for (String sqlString : sqlStringList) {
+        prmtMap.put("sqlString", sqlString);
+        try {
+            //파싱하기 위해 필요한 파싱엔진을 가져옴
+            AntlrEngine antlrEngine = new AntlrEngine();
+            antlrEngine.doParsing(sqlString);
+            OracleSqlParser parser = antlrEngine.getParser();
+            ParseTree tree = antlrEngine.getTree();
+            prmtMap.put("parser", parser);
+            prmtMap.put("tree", tree);
 
-            prmtMap.put("sqlString", sqlString);
-            try {
-                //파싱하기 위해 필요한 파싱엔진을 가져옴
-                AntlrEngine antlrEngine = new AntlrEngine();
-                antlrEngine.doParsing(sqlString);
-                OracleSqlParser parser = antlrEngine.getParser();
-                ParseTree tree = antlrEngine.getTree();
-                prmtMap.put("parser", parser);
-                prmtMap.put("tree", tree);
-
-                for (RulePo rulePo : parseProcessRulePoList) {
-                    this.inspectRule = (InspectRule) Class.forName(rulePo.getRlCls()).newInstance();
-                    Integer inspectResult = inspectRule.apply(prmtMap);
-
-                    //결과에 따라 로그를 기록함.
-                    //결과 개수가 0이면 해당 규칙을 준수한 것이다.
-                    //결과 개수가 0보다 크면 해당 규칙을 위배한 항목이 있다는 것이다.
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            this.inspectRule = (InspectRule) Class.forName(parseProcessRulePo.getRlCls()).newInstance();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-        return;
+        return inspectRule.apply(prmtMap);
     }
 
     public InspectRule getInspectRule() {
