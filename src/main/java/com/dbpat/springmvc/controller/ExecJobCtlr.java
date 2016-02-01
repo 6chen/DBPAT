@@ -1,6 +1,5 @@
 package com.dbpat.springmvc.controller;
 
-import com.dbpat.springmvc.mapper.JobMpr;
 import com.dbpat.springmvc.model.*;
 import com.dbpat.springmvc.service.JobExecSrv;
 import com.dbpat.springmvc.service.JobSrv;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,10 +127,23 @@ public class ExecJobCtlr {
         return "execution/inspect_job/inspect_job_exec_hist";
     }
 
-    @RequestMapping(value = "/show_ispt_job_exec_detail.action", method = RequestMethod.GET)
-    public String showIsptJobExecDetail() {
-        return "execution/inspect_job/inspect_job_exec_detail";
+    @RequestMapping(value = "/show_ispt_job_ispt_detail.action", method = RequestMethod.GET)
+    public String showIsptJobIsptDetail(String jbId, String jbExecCnt, ModelMap modelMap) {
+        modelMap.put("jbId", jbId);
+        Map<String, Object> prmtMap = new HashMap<String, Object>();
+        prmtMap.put("jbId", jbId);
+        prmtMap.put("jbExecCnt", jbExecCnt);
+        List<JobIsptDtlVo> jobIsptDtlVoList = jobExecSrv.findViolatedRtl(prmtMap);
+        modelMap.put("jobIsptDtlVoList", jobIsptDtlVoList);
+        return "execution/inspect_job/inspect_job_ispt_detail";
     }
 
+    @RequestMapping(value = "/inspect_job_exec_page", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String inspectJobExecPage(String jbId) {
+        jobExecSrv.startInspectJobByJbId(jbId);
+        return "{\"success\":true}";
+    }
 
 }

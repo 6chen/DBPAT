@@ -54,7 +54,7 @@
 		<%--</div>--%>
 
 		<div id="isptJobExecDetailPrt">
-			<%--<jsp:include page="/show_ispt_job_exec_detail.action"></jsp:include>--%>
+			<%--<jsp:include page="/show_ispt_job_ispt_detail.action"></jsp:include>--%>
 		</div>
 	</div>
 	</div>

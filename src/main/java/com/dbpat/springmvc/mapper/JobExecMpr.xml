@@ -22,6 +22,11 @@
         VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, #{jbExecItmId}, '99991231235959',
                 TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'))
     </insert>
+    <insert id="insertJobIsptDtlStTm">
+        INSERT INTO JB_ISPT_DTL (JB_ID, BIZ_AREA_ID, TRGT_ID, JB_EXEC_CNT, SQL_ID, RL_ID, JB_ISPT_ED_TM, JB_ISPT_ST_TM)
+        VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, #{sqlId}, #{rlId}, '99991231235959',
+                TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'))
+    </insert>
     <update id="updateNewJobEdTm">
         UPDATE JB_EXEC_HIST
         SET JB_EXEC_ED_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
@@ -38,6 +43,17 @@
               AND TRGT_ID = #{trgtId}
               AND JB_EXEC_CNT = #{jbExecCnt}
               AND JB_EXEC_ITM_ID = #{jbExecItmId}
+    </update>
+    <update id="updateJobIsptDtlEdTm">
+        UPDATE JB_ISPT_DTL
+        SET ISPT_RLT      = #{isptRlt},
+            JB_ISPT_ED_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        WHERE JB_ID = #{jbId}
+              AND BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+              AND JB_EXEC_CNT = #{jbExecCnt}
+              AND SQL_ID = #{sqlId}
+              AND RL_ID = #{rlId}
     </update>
 
     <select id="selectExecJobVoByJbId" resultMap="ExecJobVoResult">
@@ -165,22 +181,71 @@
     </select>
     <select id="selectSqlPo" resultType="com.dbpat.springmvc.model.OraSqlPo">
         SELECT
-            Y.SQL_ID AS sqlId,
-            Y.SQL_TEXT AS sqlText
-        FROM (
-                 SELECT
-                     JB_EXEC_HIST.BIZ_AREA_ID,
-                     JB_EXEC_HIST.TRGT_ID,
-                     MAX(JB_EXEC_ED_TM || ',' || JB_ID || ',' || JB_EXEC_CNT) CON_COL
-                 FROM JB_EXEC_HIST
-                 WHERE JB_EXEC_HIST.BIZ_AREA_ID = #{bizAreaId}
-                       AND JB_EXEC_HIST.TRGT_ID = #{trgtId}
-                 GROUP BY JB_EXEC_HIST.BIZ_AREA_ID, JB_EXEC_HIST.TRGT_ID) X
+            Z.SQL_ID   AS sqlId,
+            Z.SQL_TEXT AS sqlText
+        FROM (SELECT
+                  X.BIZ_AREA_ID,
+                  X.TRGT_ID,
+                  MAX(X.JB_EXEC_ED_TM || ',' || X.JB_ID || ',' || X.JB_EXEC_CNT) CON_COL
+              FROM (SELECT
+                        JB_EXEC_HIST.JB_ID,
+                        JB_EXEC_HIST.BIZ_AREA_ID,
+                        JB_EXEC_HIST.TRGT_ID,
+                        JB_EXEC_HIST.JB_EXEC_CNT,
+                        JB_EXEC_HIST.JB_EXEC_ED_TM,
+                        JB_EXEC_HIST.JB_EXEC_ST_TM
+                    FROM JB, JB_EXEC_HIST
+                    WHERE JB.JB_TYP = '01'
+                          AND JB.JB_ID = JB_EXEC_HIST.JB_ID) X
+              WHERE X.BIZ_AREA_ID = #{bizAreaId}
+                    AND X.TRGT_ID = #{trgtId}
+              GROUP BY X.BIZ_AREA_ID, X.TRGT_ID) Y
             , (SELECT *
-               FROM ORA_SQLAREA) Y
-        WHERE Y.JB_ID = REGEXP_SUBSTR(X.CON_COL, '[0-9A-Z]+', 1, 2)
-              AND Y.BIZ_AREA_ID = X.BIZ_AREA_ID
-              AND Y.TRGT_ID = X.TRGT_ID
-              AND Y.JB_EXEC_CNT = REGEXP_SUBSTR(X.CON_COL, '[0-9A-Z]+', 1, 3)
+               FROM ORA_SQLAREA) Z
+        WHERE
+            Z.JB_ID = REGEXP_SUBSTR(Y.CON_COL, '[0-9A-Z]+', 1, 2)
+            AND Z.BIZ_AREA_ID = Y.BIZ_AREA_ID
+            AND Z.TRGT_ID = Y.TRGT_ID AND
+            Z.JB_EXEC_CNT = REGEXP_SUBSTR(Y.CON_COL, '[0-9A-Z]+', 1, 3)
+    </select>
+    <select id="selectViolatedRtl" resultType="com.dbpat.springmvc.model.JobIsptDtlVo">
+        SELECT
+            JB_ISPT_DTL.JB_ID                AS jbId,
+            X.BIZ_AREA_ID                    AS bizAreaId,
+            X.BIZ_AREA_NM                    AS bizAreaNm,
+            X.TRGT_ID                        AS trgtId,
+            X.TRGT_NM                        AS trgtNm,
+            JB_ISPT_DTL.JB_EXEC_CNT          AS jbExecCnt,
+            JB_ISPT_DTL.SQL_ID               AS sqlId,
+            ORA_SQLAREA.SQL_TEXT             AS sqlText,
+            JB_ISPT_DTL.RL_ID                AS rlId,
+            RL.RL_NM                         AS rlNm,
+            JB_ISPT_DTL.ISPT_RLT             AS isptRlt,
+            TO_CHAR(TO_DATE(JB_ISPT_DTL.JB_ISPT_ST_TM, 'YYYYMMDD HH24:MI:SS'),
+                    'YYYY-MM-DD HH24:MI:SS') AS jbIsptStTm,
+            TO_CHAR(TO_DATE(JB_ISPT_DTL.JB_ISPT_ED_TM, 'YYYYMMDD HH24:MI:SS'),
+                    'YYYY-MM-DD HH24:MI:SS') AS jbIsptEdTm
+        FROM (SELECT
+                  JB_TRGT_REL.JB_ID,
+                  JB_TRGT_REL.BIZ_AREA_ID,
+                  BIZ_AREA.BIZ_AREA_NM,
+                  JB_TRGT_REL.TRGT_ID,
+                  TRGT.TRGT_NM,
+                  JB_TRGT_REL.EXEC_SEQ
+              FROM JB_TRGT_REL
+                  , BIZ_AREA
+                  , TRGT
+              WHERE JB_TRGT_REL.JB_ID = #{jbId}
+                    AND JB_TRGT_REL.BIZ_AREA_ID = BIZ_AREA.BIZ_AREA_ID
+                    AND JB_TRGT_REL.TRGT_ID = TRGT.TRGT_ID) X
+            , JB_ISPT_DTL, RL, ORA_SQLAREA
+        WHERE JB_ISPT_DTL.JB_EXEC_CNT = #{jbExecCnt}
+              AND JB_ISPT_DTL.ISPT_RLT > 0   -- 위반 항목들만 보기
+              AND JB_ISPT_DTL.JB_ID = X.JB_ID
+              AND JB_ISPT_DTL.BIZ_AREA_ID = X.BIZ_AREA_ID
+              AND JB_ISPT_DTL.TRGT_ID = X.TRGT_ID
+              AND JB_ISPT_DTL.RL_ID = RL.RL_ID
+              AND JB_ISPT_DTL.SQL_ID = ORA_SQLAREA.SQL_ID
+        ORDER BY X.EXEC_SEQ, JB_ISPT_DTL.JB_ISPT_ST_TM, JB_ISPT_DTL.JB_ISPT_ED_TM
     </select>
 </mapper>

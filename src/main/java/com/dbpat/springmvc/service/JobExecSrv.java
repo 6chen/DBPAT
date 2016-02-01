@@ -66,6 +66,10 @@ public class JobExecSrv {
         return jobExecMpr.selectSqlPo(prmtMap);
     }
 
+    public List<JobIsptDtlVo> findViolatedRtl(Map<String, Object> prmtMap){
+        return jobExecMpr.selectViolatedRtl(prmtMap);
+    }
+
     public boolean startCollectJobByJbId(String jbId) {
         ExecJobVo collectJobExecVo = jobExecMpr.selectExecJobVoByJbId(jbId);
 
@@ -244,13 +248,19 @@ public class JobExecSrv {
             Integer jbExecCnt = (execCnt == 0) ? 1 : execCnt + 1;
             prmtMap.put("jbExecCnt", jbExecCnt);
 
-            //본 작업 대상의 수집 작업의  시작하는 시간을 로깅
-//            jobExecMpr.insertNewJobWithStTm(prmtMap);
+            //본 작업 대상의 검사 작업의  시작하는 시간을 로깅
+            jobExecMpr.insertNewJobWithStTm(prmtMap);
 
             // 쿼리 프로세스 및 파싱 프로세스 작업하는 방식이 따르기 때문에 등록된 규칙집합이 있는지를 따로 체크한 후에
             // 인스펙스 안에 해당 메서드를 호출함
             if (queryProcessRulePoList != null) {
                 for (RulePo queryProcessRulePo : queryProcessRulePoList) {
+
+                    //지금 검사하려고 할 규칙의 규칙 아이디를 가져옴
+//                    prmtMap.put("jbExecItmId", queryProcessRulePo.getRlId());
+                    //규칙에 대해서 검사 작업시작할 때 하는 로깅
+//                    jobExecMpr.insertNewJobExecItmStTm(prmtMap);
+
                     prmtMap.put("queryProcessRulePo", queryProcessRulePo);
                     inspector.setPrmtMap(prmtMap);
                     Integer successYn = 0;
@@ -263,6 +273,8 @@ public class JobExecSrv {
                     System.out.println(successYn);
                 }
 //                prmtMap.put("queryProcessRulePoList", queryProcessRulePoList);
+
+//                prmtMap.remove("queryProcessRulePo");
             }
 
             if (parseProcessRulePoList != null) {
@@ -273,12 +285,18 @@ public class JobExecSrv {
                 //SQL리스트 안에 있는 모든 SQL를 하나씩 꺼내면서 변수 맵에 넣어서 인스펙트 변수맵을 설정한 후에 검사한다.
                 //선정된 모든 검사 규칙 리스트도 같이 넣었기 때문에 SQL하나씩 해당 규칙을 적용할 거이다.
                 for (OraSqlPo oraSqlPo : oraSqlPoList) {
+                    prmtMap.put("sqlId", oraSqlPo.getSqlId());
+                    prmtMap.put("sqlString", oraSqlPo.getSqlText());
                     for (RulePo parseProcessRulePo : parseProcessRulePoList) {
                         prmtMap.put("parseProcessRulePo", parseProcessRulePo);
-                        prmtMap.put("sqlString", oraSqlPo.getSqlText());
+                        prmtMap.put("rlId", parseProcessRulePo.getRlId());
+
+                        jobExecMpr.insertJobIsptDtlStTm(prmtMap);
                         inspector.setPrmtMap(prmtMap);
-                        Integer successYn = 0;
-                        successYn = inspector.doUseParseProcess();
+                        Integer isptRlt = 0;
+                        isptRlt = inspector.doUseParseProcess();
+                        prmtMap.put("isptRlt", isptRlt);
+                        jobExecMpr.updateJobIsptDtlEdTm(prmtMap);
 
                         //결과에 따라 로그를 기록함.
                         //결과 개수가 0이면 해당 규칙을 준수한 것이다.
@@ -286,7 +304,7 @@ public class JobExecSrv {
 
                         System.out.println(oraSqlPo.getSqlText());
                         System.out.println(parseProcessRulePo.getRlNm());
-                        System.out.println(successYn);
+                        System.out.println(isptRlt);
 
                         System.out.println("======================");
                     }
@@ -295,9 +313,8 @@ public class JobExecSrv {
             }
 
 
-            // 여기까지 작업 안에 있는 하나의 대상에 대해서 모든 수집 작업 완료
-            //본 작업 대상의 수집 작업의 종료하는 시간을 로깅
-//            jobExecMpr.updateNewJobEdTm(prmtMap);
+            //본 작업 대상의 검사 작업의 종료하는 시간을 로깅
+            jobExecMpr.updateNewJobEdTm(prmtMap);
         }
 
         //여기까지 모든 작업 수행완료

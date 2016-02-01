@@ -25,6 +25,8 @@ public interface JobExecMpr {
 
     List<OraSqlPo> selectSqlPo(Map<String, Object> prmtMap);
 
+    List<JobIsptDtlVo> selectViolatedRtl(Map<String, Object> prmtMap);
+
     void insertNewJobWithStTm(Map<String, Object> prmtMap);
 
     void updateNewJobEdTm(Map<String, Object> prmtMap);
@@ -32,4 +34,9 @@ public interface JobExecMpr {
     void insertNewJobExecItmStTm(Map<String, Object> prmtMap);
 
     void updateNewJobExecItmEdTm(Map<String, Object> prmtMap);
+
+    void insertJobIsptDtlStTm(Map<String, Object> prmtMap);
+
+    void updateJobIsptDtlEdTm(Map<String, Object> prmtMap);
+
 }
