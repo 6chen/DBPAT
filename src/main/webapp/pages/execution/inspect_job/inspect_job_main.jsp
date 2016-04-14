@@ -17,10 +17,10 @@
 <section class="content">
 	<%--<div class="container-fluid">--%>
 	<div class="row">
-		<div class="col-lg-2">
+		<div class="col-lg-3">
 			<div class="box box-solid box-default">
 				<div class="box-header with-border">
-					<h3 class="box-title">검사작업 리스트</h3>
+					<h3 class="box-title" style="text-align: center">검사작업 리스트</h3>
 				</div>
 				<%--<div class="box-body">--%>
 				<ul class="nav nav-pills nav-stacked">
@@ -37,7 +37,7 @@
 				<%--</div>--%>
 			</div>
 		</div>
-		<div class="col-lg-10" >
+		<div class="col-lg-9" >
 			<div id="isptJobDetailInfoPrt">
 				<jsp:include page="/show_ispt_job_detail_info.action"></jsp:include>
 			</div>

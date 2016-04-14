@@ -127,7 +127,7 @@
 					<%--<jsp:include page="/show_ispt_job_exec_hist.action"></jsp:include>--%>
 					<div class="box box-solid box-warning">
 						<div class="box-header" style="text-align: center">
-							<h3 class="box-title">검사작업 수행 이역</h3>
+							<h3 class="box-title">검사작업 수행 이력</h3>
 						</div>
 						<!-- /.box-header -->
 						<div class="box-body">

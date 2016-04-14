@@ -42,8 +42,8 @@
           <td>${jobIsptDtlVo.bizAreaNm}</td>
           <td>${jobIsptDtlVo.trgtNm}</td>
           <%--<td>${jobIsptDtlVo.sqlId}</td>--%>
-          <td style="width: 50px;">${jobIsptDtlVo.sqlText}</td>
-          <td style="width: 10px;">${jobIsptDtlVo.rlNm}</td>
+          <td style="width: 800px;">${jobIsptDtlVo.sqlText}</td>
+          <td style="width: 100px;">${jobIsptDtlVo.rlNm}</td>
           <td>${jobIsptDtlVo.isptRlt}</td>
           <td>${jobIsptDtlVo.jbIsptEdTm}</td>
           <%--<td>${jobIsptDtlVo.jbIsptStTm}</td>--%>

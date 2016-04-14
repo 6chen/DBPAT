@@ -24,8 +24,9 @@
     </insert>
     <insert id="insertJobIsptDtlStTm">
         INSERT INTO JB_ISPT_DTL (JB_ID, BIZ_AREA_ID, TRGT_ID, JB_EXEC_CNT, SQL_ID, RL_ID, JB_ISPT_ED_TM, JB_ISPT_ST_TM)
-        VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, #{sqlId}, #{rlId}, '99991231235959',
-                TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'))
+        VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, #{sqlId}, #{rlId},
+                to_timestamp('99991231235959', 'YYYY-MM-DD HH24:MI:SS.FF3'),
+                systimestamp)
     </insert>
     <update id="updateNewJobEdTm">
         UPDATE JB_EXEC_HIST
@@ -47,7 +48,7 @@
     <update id="updateJobIsptDtlEdTm">
         UPDATE JB_ISPT_DTL
         SET ISPT_RLT      = #{isptRlt},
-            JB_ISPT_ED_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+            JB_ISPT_ED_TM = systimestamp
         WHERE JB_ID = #{jbId}
               AND BIZ_AREA_ID = #{bizAreaId}
               AND TRGT_ID = #{trgtId}
@@ -210,21 +211,19 @@
     </select>
     <select id="selectViolatedRtl" resultType="com.dbpat.springmvc.model.JobIsptDtlVo">
         SELECT
-            JB_ISPT_DTL.JB_ID                AS jbId,
-            X.BIZ_AREA_ID                    AS bizAreaId,
-            X.BIZ_AREA_NM                    AS bizAreaNm,
-            X.TRGT_ID                        AS trgtId,
-            X.TRGT_NM                        AS trgtNm,
-            JB_ISPT_DTL.JB_EXEC_CNT          AS jbExecCnt,
-            JB_ISPT_DTL.SQL_ID               AS sqlId,
-            ORA_SQLAREA.SQL_TEXT             AS sqlText,
-            JB_ISPT_DTL.RL_ID                AS rlId,
-            RL.RL_NM                         AS rlNm,
-            JB_ISPT_DTL.ISPT_RLT             AS isptRlt,
-            TO_CHAR(TO_DATE(JB_ISPT_DTL.JB_ISPT_ST_TM, 'YYYYMMDD HH24:MI:SS'),
-                    'YYYY-MM-DD HH24:MI:SS') AS jbIsptStTm,
-            TO_CHAR(TO_DATE(JB_ISPT_DTL.JB_ISPT_ED_TM, 'YYYYMMDD HH24:MI:SS'),
-                    'YYYY-MM-DD HH24:MI:SS') AS jbIsptEdTm
+            JB_ISPT_DTL.JB_ID                                         AS jbId,
+            X.BIZ_AREA_ID                                             AS bizAreaId,
+            X.BIZ_AREA_NM                                             AS bizAreaNm,
+            X.TRGT_ID                                                 AS trgtId,
+            X.TRGT_NM                                                 AS trgtNm,
+            JB_ISPT_DTL.JB_EXEC_CNT                                   AS jbExecCnt,
+            JB_ISPT_DTL.SQL_ID                                        AS sqlId,
+            ORA_SQLAREA.SQL_TEXT                                      AS sqlText,
+            JB_ISPT_DTL.RL_ID                                         AS rlId,
+            RL.RL_NM                                                  AS rlNm,
+            JB_ISPT_DTL.ISPT_RLT                                      AS isptRlt,
+            TO_CHAR(JB_ISPT_DTL.JB_ISPT_ST_TM, 'YYYYMMDD HH24:MI:SS') AS jbIsptStTm,
+            TO_CHAR(JB_ISPT_DTL.JB_ISPT_ED_TM, 'YYYYMMDD HH24:MI:SS') AS jbIsptEdTm
         FROM (SELECT
                   JB_TRGT_REL.JB_ID,
                   JB_TRGT_REL.BIZ_AREA_ID,
