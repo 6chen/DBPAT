@@ -37,21 +37,21 @@ public class Inspector {
         RulePo parseProcessRulePo = (RulePo) prmtMap.get("parseProcessRulePo");
 
         // 파싱해햐할  SQL를 가져와서
-        String sqlString = (String) prmtMap.get("sqlString");
+//        String sqlString = (String) prmtMap.get("sqlString");
 
-        prmtMap.put("sqlString", sqlString);
+//        prmtMap.put("sqlString", sqlString);
         try {
-            //파싱하기 위해 필요한 파싱엔진을 가져옴
-            AntlrEngine antlrEngine = new AntlrEngine();
-            antlrEngine.doParsing(sqlString);
-            OracleSqlParser parser = antlrEngine.getParser();
-            ParseTree tree = antlrEngine.getTree();
-            prmtMap.put("parser", parser);
-            prmtMap.put("tree", tree);
+//            //파싱하기 위해 필요한 파싱엔진을 가져옴
+//            AntlrEngine antlrEngine = new AntlrEngine();
+//            antlrEngine.doParsing(sqlString);
+//            OracleSqlParser parser = antlrEngine.getParser();
+//            ParseTree tree = antlrEngine.getTree();
+//            prmtMap.put("parser", parser);
+//            prmtMap.put("tree", tree);
 
             this.inspectRule = (InspectRule) Class.forName(parseProcessRulePo.getRlCls()).newInstance();
-        } catch (IOException e) {
-            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

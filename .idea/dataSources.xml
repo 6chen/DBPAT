@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3347407978">
+  <component name="DataSourceManagerImpl" format="xml" hash="2553836926">
     <data-source source="LOCAL" name="Oracle - dbecrdb@210.110.136.101" uuid="40325153-5251-4fca-a3e4-016c504e0ec8">
+      <driver-ref>oracle</driver-ref>
+      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@//210.110.136.101:1521/dbecrdb</jdbc-url>
+      <vm-options>-Duser.language=en -Duser.country=US</vm-options>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Scott- Oracle - dbecrdb@210.110.136.101" uuid="211022db-b11e-4937-834c-33ad806e4954">
       <driver-ref>oracle</driver-ref>
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@//210.110.136.101:1521/dbecrdb</jdbc-url>

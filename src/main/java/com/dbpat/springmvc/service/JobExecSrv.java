@@ -5,7 +5,10 @@ import com.dbpat.springmvc.mapper.JobExecMpr;
 import com.dbpat.springmvc.mapper.RuleMpr;
 import com.dbpat.springmvc.model.*;
 import com.dbpat.util.InspectJob;
+import com.dbpat.util.oraclesql.AntlrEngine;
+import com.dbpat.util.oraclesql.OracleSqlParser;
 import com.dbpat.util.oraispt.Inspector;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -287,6 +290,22 @@ public class JobExecSrv {
                 for (OraSqlPo oraSqlPo : oraSqlPoList) {
                     prmtMap.put("sqlId", oraSqlPo.getSqlId());
                     prmtMap.put("sqlString", oraSqlPo.getSqlText());
+
+                    //파싱하기 위해 필요한 파싱엔진을 가져옴
+                    AntlrEngine antlrEngine = new AntlrEngine();
+                    String sqlString = (String) prmtMap.get("sqlString");
+                    try {
+                        jobExecMpr.insertJobParsingDtlStTm(prmtMap);
+                        antlrEngine.doParsing(sqlString);
+                        jobExecMpr.updateJobParsingDtlEdTm(prmtMap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    OracleSqlParser parser = antlrEngine.getParser();
+                    ParseTree tree = antlrEngine.getTree();
+                    prmtMap.put("parser", parser);
+                    prmtMap.put("tree", tree);
+
                     for (RulePo parseProcessRulePo : parseProcessRulePoList) {
                         prmtMap.put("parseProcessRulePo", parseProcessRulePo);
                         prmtMap.put("rlId", parseProcessRulePo.getRlId());
@@ -302,11 +321,11 @@ public class JobExecSrv {
                         //결과 개수가 0이면 해당 규칙을 준수한 것이다.
                         //결과 개수가 0보다 크면 해당 규칙을 위배한 항목이 있다는 것이다.
 
-                        System.out.println(oraSqlPo.getSqlText());
-                        System.out.println(parseProcessRulePo.getRlNm());
-                        System.out.println(isptRlt);
-
-                        System.out.println("======================");
+//                        System.out.println(oraSqlPo.getSqlText());
+//                        System.out.println(parseProcessRulePo.getRlNm());
+//                        System.out.println(isptRlt);
+//
+//                        System.out.println("======================");
                     }
 
                 }

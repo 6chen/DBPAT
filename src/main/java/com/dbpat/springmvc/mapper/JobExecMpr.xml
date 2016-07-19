@@ -28,6 +28,12 @@
                 to_timestamp('99991231235959', 'YYYY-MM-DD HH24:MI:SS.FF3'),
                 systimestamp)
     </insert>
+    <insert id="insertJobParsingDtlStTm">
+        INSERT INTO JB_PARSING_DTL (JB_ID, BIZ_AREA_ID, TRGT_ID, JB_EXEC_CNT, SQL_ID, JB_PARSING_ED_TM, JB_PARSING_ST_TM)
+        VALUES (#{jbId}, #{bizAreaId}, #{trgtId}, #{jbExecCnt}, #{sqlId},
+                to_timestamp('99991231235959', 'YYYY-MM-DD HH24:MI:SS.FF3'),
+                systimestamp)
+    </insert>
     <update id="updateNewJobEdTm">
         UPDATE JB_EXEC_HIST
         SET JB_EXEC_ED_TM = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
@@ -55,6 +61,15 @@
               AND JB_EXEC_CNT = #{jbExecCnt}
               AND SQL_ID = #{sqlId}
               AND RL_ID = #{rlId}
+    </update>
+    <update id="updateJobParsingDtlEdTm">
+        UPDATE JB_PARSING_DTL
+        SET JB_PARSING_ED_TM = systimestamp
+        WHERE JB_ID = #{jbId}
+              AND BIZ_AREA_ID = #{bizAreaId}
+              AND TRGT_ID = #{trgtId}
+              AND JB_EXEC_CNT = #{jbExecCnt}
+              AND SQL_ID = #{sqlId}
     </update>
 
     <select id="selectExecJobVoByJbId" resultMap="ExecJobVoResult">

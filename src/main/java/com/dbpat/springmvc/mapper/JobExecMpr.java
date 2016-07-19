@@ -39,4 +39,7 @@ public interface JobExecMpr {
 
     void updateJobIsptDtlEdTm(Map<String, Object> prmtMap);
 
+    void insertJobParsingDtlStTm(Map<String, Object> prmtMap);
+
+    void updateJobParsingDtlEdTm(Map<String, Object> prmtMap);
 }

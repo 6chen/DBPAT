@@ -12,10 +12,8 @@ public class JobIsptDtlPo {
     protected String trgtId;
     protected Integer jbExecCnt;
     protected String sqlId;
-    protected String rlId;
-    protected Integer isptRlt;
-    protected String jbIsptEdTm;
-    protected String jbIsptStTm;
+    protected String jbParsingEdTm;
+    protected String jbParsingStTm;
 
     @Override
     public String toString() {
@@ -25,10 +23,8 @@ public class JobIsptDtlPo {
                 ", trgtId='" + trgtId + '\'' +
                 ", jbExecCnt=" + jbExecCnt +
                 ", sqlId='" + sqlId + '\'' +
-                ", rlId='" + rlId + '\'' +
-                ", isptRlt=" + isptRlt +
-                ", jbIsptEdTm='" + jbIsptEdTm + '\'' +
-                ", jbIsptStTm='" + jbIsptStTm + '\'' +
+                ", jbParsingEdTm='" + jbParsingEdTm + '\'' +
+                ", jbParsingStTm='" + jbParsingStTm + '\'' +
                 '}';
     }
 
@@ -38,14 +34,6 @@ public class JobIsptDtlPo {
 
     public void setBizAreaId(String bizAreaId) {
         this.bizAreaId = bizAreaId;
-    }
-
-    public Integer getIsptRlt() {
-        return isptRlt;
-    }
-
-    public void setIsptRlt(Integer isptRlt) {
-        this.isptRlt = isptRlt;
     }
 
     public Integer getJbExecCnt() {
@@ -64,28 +52,20 @@ public class JobIsptDtlPo {
         this.jbId = jbId;
     }
 
-    public String getJbIsptEdTm() {
-        return jbIsptEdTm;
+    public String getJbParsingEdTm() {
+        return jbParsingEdTm;
     }
 
-    public void setJbIsptEdTm(String jbIsptEdTm) {
-        this.jbIsptEdTm = jbIsptEdTm;
+    public void setJbParsingEdTm(String jbParsingEdTm) {
+        this.jbParsingEdTm = jbParsingEdTm;
     }
 
-    public String getJbIsptStTm() {
-        return jbIsptStTm;
+    public String getJbParsingStTm() {
+        return jbParsingStTm;
     }
 
-    public void setJbIsptStTm(String jbIsptStTm) {
-        this.jbIsptStTm = jbIsptStTm;
-    }
-
-    public String getRlId() {
-        return rlId;
-    }
-
-    public void setRlId(String rlId) {
-        this.rlId = rlId;
+    public void setJbParsingStTm(String jbParsingStTm) {
+        this.jbParsingStTm = jbParsingStTm;
     }
 
     public String getSqlId() {

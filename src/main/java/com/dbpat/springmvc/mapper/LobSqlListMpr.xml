@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dbpat.springmvc.mapper.LobSqlListMpr">
+
+    <!--<resultMap id="BoardResult" type="Board" >-->
+        <!--<result property="sqltext" column="sqltext" jdbcType="CLOB" javaType="java.lang.String" />-->
+    <!--</resultMap>-->
+
+    <select id="selectAllList" resultType="com.dbpat.springmvc.model.LobSqlList">
+        SELECT sqltext as sqlString
+        FROM SQL_LIST
+    </select>
+</mapper>
